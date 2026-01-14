@@ -4,6 +4,7 @@ import { Upload, X, ArrowLeft, Loader } from 'lucide-react';
 import api from '../../services/api';
 import { compressImage } from '../../utils/imageOptimizer';
 import { PropertyCard } from '../../components/PropertyCard';
+import { PropertyDetailsModal } from '../../components/PropertyDetailsModal';
 import type { Property } from '../../types/property';
 
 export const EditProperty = () => {
@@ -11,6 +12,7 @@ export const EditProperty = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    const [showPreviewModal, setShowPreviewModal] = useState(false);
 
     const [formData, setFormData] = useState({
         title: '',
@@ -20,6 +22,8 @@ export const EditProperty = () => {
         status: 'available',
         bedrooms: '',
         bathrooms: '',
+        area_sqm: '',
+        parking_spots: '',
         description: ''
     });
 
@@ -48,6 +52,8 @@ export const EditProperty = () => {
                 status: p.status || 'available',
                 bedrooms: p.bedrooms,
                 bathrooms: p.bathrooms,
+                area_sqm: p.area_sqm || '',
+                parking_spots: p.parking_spots || '',
                 description: p.description
             });
             setFeatures(Array.isArray(p.features) ? p.features : JSON.parse(p.features || '[]'));
@@ -164,12 +170,12 @@ export const EditProperty = () => {
         status: formData.status as any,
         bedrooms: Number(formData.bedrooms) || 0,
         bathrooms: Number(formData.bathrooms) || 0,
+        area_sqm: Number(formData.area_sqm) || 0,
+        parking_spots: Number(formData.parking_spots) || 0,
         description: formData.description,
         amenities: features,
         features: features,
         media: previewMedia.length > 0 ? previewMedia : [{ id: 'placeholder', type: 'image', url: 'https://via.placeholder.com/400x300?text=No+Image' }],
-        area_sqm: 0,
-        parking_spots: 0
     };
 
     if (loading) return <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-[#D4AF37]"><Loader className="animate-spin w-10 h-10" /></div>;
@@ -265,6 +271,26 @@ export const EditProperty = () => {
                                         required
                                         value={formData.bathrooms}
                                         onChange={e => setFormData({ ...formData, bathrooms: e.target.value })}
+                                        className="w-full bg-neutral-900 border border-neutral-700 rounded p-3 focus:border-[#D4AF37] focus:outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-300 mb-2">Area (m²)</label>
+                                    <input
+                                        type="number"
+                                        required
+                                        value={formData.area_sqm}
+                                        onChange={e => setFormData({ ...formData, area_sqm: e.target.value })}
+                                        className="w-full bg-neutral-900 border border-neutral-700 rounded p-3 focus:border-[#D4AF37] focus:outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-300 mb-2">Parking Spots</label>
+                                    <input
+                                        type="number"
+                                        required
+                                        value={formData.parking_spots}
+                                        onChange={e => setFormData({ ...formData, parking_spots: e.target.value })}
                                         className="w-full bg-neutral-900 border border-neutral-700 rounded p-3 focus:border-[#D4AF37] focus:outline-none"
                                     />
                                 </div>
@@ -377,11 +403,22 @@ export const EditProperty = () => {
                             <h3 className="text-xl font-serif text-[#D4AF37] border-b border-neutral-700 pb-2">Live Preview</h3>
                             <div className="bg-gray-100 rounded-xl p-4 shadow-lg border border-neutral-700/50">
                                 <p className="text-xs text-gray-500 mb-2 text-center uppercase tracking-widest">How it looks on the site</p>
-                                <PropertyCard property={previewProperty} />
+                                <PropertyCard
+                                    property={previewProperty}
+                                    onClick={() => setShowPreviewModal(true)}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/* Preview Modal */}
+                {showPreviewModal && (
+                    <PropertyDetailsModal
+                        property={previewProperty}
+                        onClose={() => setShowPreviewModal(false)}
+                    />
+                )}
             </div>
         </div>
     );

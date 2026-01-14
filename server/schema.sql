@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS properties (
   type VARCHAR(50) CHECK (type IN ('short_term', 'long_term', 'sale')),
   bathrooms DECIMAL(3, 1),
   bedrooms INTEGER,
+  area_sqm DECIMAL(10, 2),
+  parking_spots INTEGER,
   location VARCHAR(255),
   features JSONB DEFAULT '[]',
   status VARCHAR(20) DEFAULT 'available' CHECK (status IN ('available', 'sold', 'rented')),

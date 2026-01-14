@@ -5,12 +5,12 @@ export const createProperty = async (req, res) => {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const { title, description, price, type, bathrooms, bedrooms, location, features, status } = req.body;
+        const { title, description, price, type, bathrooms, bedrooms, area_sqm, parking_spots, location, features, status } = req.body;
         // Features might come as a JSON string if sent via FormData
         const parsedFeatures = typeof features === 'string' ? JSON.parse(features) : features;
-        const propResult = await client.query(`INSERT INTO properties (title, description, price, type, bathrooms, bedrooms, location, features, status)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-             RETURNING id`, [title, description, price, type, bathrooms, bedrooms, location, JSON.stringify(parsedFeatures), status || 'available']);
+        const propResult = await client.query(`INSERT INTO properties (title, description, price, type, bathrooms, bedrooms, area_sqm, parking_spots, location, features, status)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+             RETURNING id`, [title, description, price, type, bathrooms, bedrooms, area_sqm || 0, parking_spots || 0, location, JSON.stringify(parsedFeatures), status || 'available']);
         const propertyId = propResult.rows[0].id;
         if (req.files && Array.isArray(req.files)) {
             const files = req.files;
@@ -82,12 +82,12 @@ export const updateProperty = async (req, res) => {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-        const { title, description, price, type, bathrooms, bedrooms, location, features, status, existingImages } = req.body;
+        const { title, description, price, type, bathrooms, bedrooms, area_sqm, parking_spots, location, features, status, existingImages } = req.body;
         const parsedFeatures = typeof features === 'string' ? JSON.parse(features) : features;
         // Update property details
         await client.query(`UPDATE properties 
-             SET title = $1, description = $2, price = $3, type = $4, bathrooms = $5, bedrooms = $6, location = $7, features = $8, status = $9
-             WHERE id = $10`, [title, description, price, type, bathrooms, bedrooms, location, JSON.stringify(parsedFeatures), status || 'available', id]);
+             SET title = $1, description = $2, price = $3, type = $4, bathrooms = $5, bedrooms = $6, area_sqm = $7, parking_spots = $8, location = $9, features = $10, status = $11
+             WHERE id = $12`, [title, description, price, type, bathrooms, bedrooms, area_sqm || 0, parking_spots || 0, location, JSON.stringify(parsedFeatures), status || 'available', id]);
         // Handle Images
         // 1. If existingImages is provided (array of IDs kept), delete others? 
         // For simplicity: We will keep existing images unless explicit delete action from frontend calls a separate endpoint OR we act smart here.

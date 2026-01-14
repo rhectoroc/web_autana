@@ -4,11 +4,13 @@ import { Upload, X, ArrowLeft } from 'lucide-react';
 import api from '../../services/api';
 import { compressImage } from '../../utils/imageOptimizer';
 import { PropertyCard } from '../../components/PropertyCard';
+import { PropertyDetailsModal } from '../../components/PropertyDetailsModal';
 import type { Property } from '../../types/property';
 
 export const CreateProperty = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [showPreviewModal, setShowPreviewModal] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
         location: '',
@@ -16,6 +18,8 @@ export const CreateProperty = () => {
         type: 'sale',
         bedrooms: '',
         bathrooms: '',
+        area_sqm: '',
+        parking_spots: '',
         description: ''
     });
 
@@ -126,6 +130,8 @@ export const CreateProperty = () => {
         type: formData.type as 'sale' | 'rent_short' | 'rent_long',
         bedrooms: Number(formData.bedrooms) || 0,
         bathrooms: Number(formData.bathrooms) || 0,
+        area_sqm: Number(formData.area_sqm) || 0,
+        parking_spots: Number(formData.parking_spots) || 0,
         description: formData.description,
         amenities: features,
         features: features, // Using features for both fields to ensure compatibility
@@ -134,8 +140,6 @@ export const CreateProperty = () => {
             type: 'image',
             url: url
         })) : [{ id: 'placeholder', type: 'image', url: 'https://via.placeholder.com/400x300?text=No+Image' }],
-        area_sqm: 0,
-        parking_spots: 0,
         status: 'available'
     };
 
@@ -226,6 +230,26 @@ export const CreateProperty = () => {
                                         className="w-full bg-neutral-900 border border-neutral-700 rounded p-3 focus:border-[#D4AF37] focus:outline-none"
                                     />
                                 </div>
+                                <div>
+                                    <label className="block text-gray-300 mb-2">Area (m²)</label>
+                                    <input
+                                        type="number"
+                                        required
+                                        value={formData.area_sqm}
+                                        onChange={e => setFormData({ ...formData, area_sqm: e.target.value })}
+                                        className="w-full bg-neutral-900 border border-neutral-700 rounded p-3 focus:border-[#D4AF37] focus:outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-300 mb-2">Parking Spots</label>
+                                    <input
+                                        type="number"
+                                        required
+                                        value={formData.parking_spots}
+                                        onChange={e => setFormData({ ...formData, parking_spots: e.target.value })}
+                                        className="w-full bg-neutral-900 border border-neutral-700 rounded p-3 focus:border-[#D4AF37] focus:outline-none"
+                                    />
+                                </div>
                             </div>
 
                             {/* Description */}
@@ -253,7 +277,7 @@ export const CreateProperty = () => {
                                     {features.map(feat => (
                                         <span key={feat} className="bg-[#D4AF37]/20 text-[#D4AF37] px-3 py-1 rounded-full text-sm flex items-center">
                                             {feat}
-                                            <button type="button" onClick={() => removeFeature(feat)} className="ml-2 hover:text-white"><X className="w-3 h-3" /></button>
+                                            <button onClick={() => removeFeature(feat)} className="ml-2 hover:text-white"><X className="w-3 h-3" /></button>
                                         </span>
                                     ))}
                                 </div>
@@ -322,11 +346,22 @@ export const CreateProperty = () => {
                             <h3 className="text-xl font-serif text-[#D4AF37] border-b border-neutral-700 pb-2">Live Preview</h3>
                             <div className="bg-gray-100 rounded-xl p-4 shadow-lg border border-neutral-700/50">
                                 <p className="text-xs text-gray-500 mb-2 text-center uppercase tracking-widest">How it looks on the site</p>
-                                <PropertyCard property={previewProperty} />
+                                <PropertyCard
+                                    property={previewProperty}
+                                    onClick={() => setShowPreviewModal(true)}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/* Preview Modal */}
+                {showPreviewModal && (
+                    <PropertyDetailsModal
+                        property={previewProperty}
+                        onClose={() => setShowPreviewModal(false)}
+                    />
+                )}
             </div>
         </div>
     );
