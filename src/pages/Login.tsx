@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
 import api from '../services/api';
-import { Lock, Mail } from 'lucide-react';
+import { Lock, Mail, ArrowLeft } from 'lucide-react';
 
 export const Login = () => {
     const [email, setEmail] = useState('');
@@ -58,6 +58,13 @@ export const Login = () => {
                         Sign In
                     </button>
                 </form>
+                <button
+                    onClick={() => navigate('/')}
+                    className="mt-6 w-full flex items-center justify-center text-[#D4AF37]/70 hover:text-[#D4AF37] transition-colors text-sm"
+                >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Autana
+                </button>
             </div>
         </div>
     );
