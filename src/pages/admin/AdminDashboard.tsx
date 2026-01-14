@@ -78,7 +78,7 @@ export const AdminDashboard = () => {
                                         <td className="p-4">
                                             {mainImage ? (
                                                 <img
-                                                    src={`http://localhost:5000${mainImage.image_url}`}
+                                                    src={mainImage.image_url}
                                                     alt={prop.title}
                                                     className="w-16 h-16 object-cover rounded"
                                                 />

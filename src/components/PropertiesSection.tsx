@@ -22,7 +22,7 @@ export const PropertiesSection = () => {
                     id: p.id,
                     media: (p.images || []).map((img: any) => ({
                         id: img.id,
-                        url: `http://localhost:5000${img.image_url}`,
+                        url: img.image_url,
                         type: 'image'
                     })),
                     // Defaults for usage if missing
