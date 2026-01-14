@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { X, MapPin, Bed, Bath, Maximize, Car, Check, Play, Share2, CheckCheck } from 'lucide-react';
+import { X, MapPin, Bed, Bath, Maximize, Car, Check, Share2, CheckCheck } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules';
 import type { Property } from '../types/property';
 import { formatCurrency } from '../utils/format';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 interface PropertyDetailsModalProps {
     property: Property;
@@ -10,7 +15,6 @@ interface PropertyDetailsModalProps {
 }
 
 export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, onClose }) => {
-    const [activeMedia, setActiveMedia] = useState(property.media[0]);
     const [copied, setCopied] = useState(false);
 
     // Prevent background scroll when modal is open
@@ -75,52 +79,40 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                         <div className="flex flex-col lg:flex-row">
 
                             {/* Visuals Column */}
-                            <div className="lg:w-3/5 bg-gray-100 flex flex-col">
-                                {/* Main Media View */}
-                                <div className="relative h-[400px] lg:h-[500px]">
-                                    {activeMedia.type === 'video' ? (
-                                        <video
-                                            src={activeMedia.url}
-                                            className="w-full h-full object-cover"
-                                            controls
-                                            autoPlay
-                                        />
-                                    ) : (
-                                        <img
-                                            src={activeMedia.url}
-                                            alt={property.title}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    )}
-                                    <div className="absolute top-6 left-6">
-                                        <span className="bg-gold-500 text-white px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-sm shadow-md">
-                                            {property.type.replace('_', ' ')}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* Thumbnails Strip */}
-                                <div className="p-4 bg-charcoal">
-                                    <div className="flex space-x-3 overflow-x-auto scrollbar-hide pb-2">
-                                        {property.media.map((media) => (
-                                            <button
-                                                key={media.id}
-                                                onClick={() => setActiveMedia(media)}
-                                                className={`relative flex-shrink-0 w-24 h-16 rounded-md overflow-hidden border-2 transition-all ${activeMedia.id === media.id ? 'border-gold-500 ring-2 ring-gold-500/30' : 'border-transparent opacity-60 hover:opacity-100'}`}
-                                            >
-                                                {media.type === 'video' && (
-                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                                                        <Play className="w-4 h-4 text-white" />
-                                                    </div>
-                                                )}
-                                                <img
-                                                    src={media.type === 'video' ? property.media.find(m => m.type === 'image')?.url : media.url}
-                                                    alt=""
-                                                    className="w-full h-full object-cover"
+                            <div className="lg:w-3/5 bg-gray-100 flex flex-col relative h-[400px] lg:h-[500px]">
+                                <Swiper
+                                    modules={[Pagination, Navigation]}
+                                    speed={700}
+                                    pagination={{ clickable: true, dynamicBullets: true }}
+                                    navigation
+                                    loop={true}
+                                    className="w-full h-full text-white"
+                                >
+                                    {property.media.map((item, index) => (
+                                        <SwiperSlide key={item.id || index} className="w-full h-full bg-black">
+                                            {item.type === 'video' ? (
+                                                <video
+                                                    src={item.url}
+                                                    controls
+                                                    className="w-full h-full object-contain"
                                                 />
-                                            </button>
-                                        ))}
-                                    </div>
+                                            ) : (
+                                                <img
+                                                    src={item.url}
+                                                    alt={`View ${index + 1}`}
+                                                    className="w-full h-full object-contain"
+                                                />
+                                            )}
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+
+                                <div className="absolute top-6 left-6 z-10">
+                                    <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-sm shadow-md text-white ${property.status === 'sold' ? 'bg-red-600' :
+                                        property.type === 'sale' ? 'bg-gold-500' : 'bg-charcoal'
+                                        }`}>
+                                        {property.status === 'sold' ? 'SOLD' : property.type.replace('_', ' ')}
+                                    </span>
                                 </div>
                             </div>
 
@@ -171,7 +163,7 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                                 <div className="space-y-6">
                                     <div>
                                         <h3 className="text-sm font-bold uppercase text-charcoal mb-2 tracking-wider">Description</h3>
-                                        <p className="text-gray-600 text-sm leading-relaxed">
+                                        <p className="text-gray-600 text-sm leading-relaxed text-justify indent-8">
                                             {property.description}
                                         </p>
                                     </div>
