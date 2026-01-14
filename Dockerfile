@@ -6,13 +6,18 @@ WORKDIR /app
 # Install dependencies
 # Copying package files first to leverage Docker cache
 COPY package*.json ./
-RUN npm install
+# Use npm ci for clean, deterministic, and often faster installs
+RUN npm ci
 
 # Copy source code
 COPY . .
 
 # Build the application
-# This runs tsc, vite build, and the server build script
+# Increase memory limit for the build process to avoid OOMKilled (Exit Code 137)
+# Adjust 4096 to be slightly less than your container's total memory limit
+ARG NODE_OPTIONS="--max-old-space-size=4096"
+ENV NODE_OPTIONS=$NODE_OPTIONS
+
 RUN npm run build
 
 # Stage 2: Production
@@ -24,18 +29,20 @@ ENV NODE_ENV=production
 
 # Install only production dependencies
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev && npm cache clean --force
 
 # Copy built artifacts from builder
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/dist-server ./dist-server
 
-# Copy essential static assets/config not caught by build
-# The database initialization script expects schema.sql in /app/server/
+# Copy essential static assets/config
 COPY --from=builder /app/server/schema.sql ./server/schema.sql
-# If you have an uploads folder that needs to persist, you should mount a volume at runtime.
-# Creating the directory here locally so permissions are set correctly if needed
-RUN mkdir -p uploads
+
+# Create uploads directory with correct permissions
+RUN mkdir -p uploads && chown -R node:node uploads
+
+# Switch to non-root user for security
+USER node
 
 # Expose the API port
 EXPOSE 5000
