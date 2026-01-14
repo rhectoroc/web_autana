@@ -16,7 +16,7 @@ interface PropertyCardProps {
 }
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick }) => {
-    const [isPlaying, setIsPlaying] = useState<string | null>(null);
+    const [isPlaying, setIsPlaying] = useState<string | number | null>(null);
 
     const getTypeLabel = (type: Property['type']) => {
         switch (type) {

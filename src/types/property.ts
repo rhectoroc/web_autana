@@ -1,12 +1,20 @@
 export interface Property {
-    id: number;
+    id: string | number;
     title: string;
     location: string;
-    price: string;
-    type: 'short_term' | 'long_term' | 'sale';
+    price: number;
+    type: 'sale' | 'rent_short' | 'rent_long';
     bedrooms: number;
     bathrooms: number;
     description: string;
-    features: string[];
-    images: { id: number; image_url: string; is_main: boolean }[];
+    amenities: string[];
+    features?: string[];
+    media: {
+        id: string | number;
+        type: 'image' | 'video';
+        url: string;
+    }[];
+    area_sqm: number;
+    parking_spots?: number;
+    images?: { id: number; image_url: string; is_main: boolean }[];
 }

@@ -22,7 +22,7 @@ export const AdminDashboard = () => {
         }
     };
 
-    const handleDelete = async (id: number) => {
+    const handleDelete = async (id: string | number) => {
         if (confirm('Are you sure you want to delete this property?')) {
             try {
                 await api.delete(`/properties/${id}`);
@@ -89,10 +89,10 @@ export const AdminDashboard = () => {
                                         <td className="p-4 text-gray-600">${prop.price}</td>
                                         <td className="p-4">
                                             <span className={`px-3 py-1 rounded-full text-xs font-medium ${prop.type === 'sale' ? 'bg-blue-100 text-blue-800' :
-                                                prop.type === 'long_term' ? 'bg-green-100 text-green-800' : 'bg-purple-100 text-purple-800'
+                                                prop.type === 'rent_long' ? 'bg-green-100 text-green-800' : 'bg-purple-100 text-purple-800'
                                                 }`}>
-                                                {prop.type === 'short_term' ? 'Rent (Short)' :
-                                                    prop.type === 'long_term' ? 'Rent (Long)' : 'Sale'}
+                                                {prop.type === 'rent_short' ? 'Rent (Short)' :
+                                                    prop.type === 'rent_long' ? 'Rent (Long)' : 'Sale'}
                                             </span>
                                         </td>
                                         <td className="p-4">
