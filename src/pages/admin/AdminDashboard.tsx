@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Trash2, Home, LogOut } from 'lucide-react';
+import { Plus, Trash2, Home, LogOut, Edit } from 'lucide-react';
 import api from '../../services/api';
 import type { Property } from '../../types/property';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -66,6 +66,7 @@ export const AdminDashboard = () => {
                                 <th className="p-4 font-semibold text-gray-600">Title</th>
                                 <th className="p-4 font-semibold text-gray-600">Price</th>
                                 <th className="p-4 font-semibold text-gray-600">Type</th>
+                                <th className="p-4 font-semibold text-gray-600">Status</th>
                                 <th className="p-4 font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -96,6 +97,21 @@ export const AdminDashboard = () => {
                                             </span>
                                         </td>
                                         <td className="p-4">
+                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${prop.status === 'sold' ? 'bg-red-100 text-red-800' :
+                                                prop.status === 'rented' ? 'bg-blue-100 text-blue-800' :
+                                                    'bg-green-100 text-green-800'
+                                                }`}>
+                                                {(prop.status || 'available').toUpperCase()}
+                                            </span>
+                                        </td>
+                                        <td className="p-4 flex gap-2">
+                                            <Link
+                                                to={`/admin/edit/${prop.id}`}
+                                                className="text-blue-500 hover:text-blue-700 p-2 rounded hover:bg-blue-50 transition-colors"
+                                                title="Edit"
+                                            >
+                                                <Edit className="w-5 h-5" />
+                                            </Link>
                                             <button
                                                 onClick={() => handleDelete(prop.id)}
                                                 className="text-red-500 hover:text-red-700 p-2 rounded hover:bg-red-50 transition-colors cursor-pointer"

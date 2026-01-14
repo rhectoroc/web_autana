@@ -4,6 +4,7 @@ import { PropertyDetails } from './pages/PropertyDetails';
 import { Login } from './pages/Login';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { CreateProperty } from './pages/admin/CreateProperty';
+import { EditProperty } from './pages/admin/EditProperty';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
@@ -25,6 +26,14 @@ function App() {
         element={
           <ProtectedRoute>
             <CreateProperty />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/edit/:id"
+        element={
+          <ProtectedRoute>
+            <EditProperty />
           </ProtectedRoute>
         }
       />

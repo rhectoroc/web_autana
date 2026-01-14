@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import { createProperty, getProperties, deleteProperty } from '../controllers/propertyController.js';
+import { createProperty, getProperties, getPropertyById, updateProperty, deleteProperty } from '../controllers/propertyController.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -19,7 +19,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.get('/', getProperties);
+router.get('/:id', getPropertyById);
 router.post('/', verifyToken, upload.array('images', 12), createProperty);
+router.put('/:id', verifyToken, upload.array('images', 12), updateProperty);
 router.delete('/:id', verifyToken, deleteProperty);
 
 export default router;

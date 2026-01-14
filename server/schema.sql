@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS properties (
   bedrooms INTEGER,
   location VARCHAR(255),
   features JSONB DEFAULT '[]',
+  status VARCHAR(20) DEFAULT 'available' CHECK (status IN ('available', 'sold', 'rented')),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

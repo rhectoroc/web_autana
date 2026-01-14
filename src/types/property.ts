@@ -4,6 +4,7 @@ export interface Property {
     location: string;
     price: number;
     type: 'sale' | 'rent_short' | 'rent_long';
+    status?: 'available' | 'sold' | 'rented';
     bedrooms: number;
     bathrooms: number;
     description: string;

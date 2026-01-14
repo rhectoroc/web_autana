@@ -91,6 +91,14 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                     {getTypeLabel(property.type)}
                 </div>
 
+                {property.status === 'sold' && (
+                    <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                        <span className="text-white text-3xl font-serif font-bold uppercase tracking-widest border-4 border-white px-6 py-2 transform -rotate-12">
+                            SOLD
+                        </span>
+                    </div>
+                )}
+
                 {/* Price Overlay (Bottom Left) */}
                 <div className="absolute bottom-4 left-4 z-10">
                     <div className="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-gold-500/30">

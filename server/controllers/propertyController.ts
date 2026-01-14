@@ -8,15 +8,15 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
     try {
         await client.query('BEGIN');
 
-        const { title, description, price, type, bathrooms, bedrooms, location, features } = req.body;
+        const { title, description, price, type, bathrooms, bedrooms, location, features, status } = req.body;
         // Features might come as a JSON string if sent via FormData
         const parsedFeatures = typeof features === 'string' ? JSON.parse(features) : features;
 
         const propResult = await client.query(
-            `INSERT INTO properties (title, description, price, type, bathrooms, bedrooms, location, features)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            `INSERT INTO properties (title, description, price, type, bathrooms, bedrooms, location, features, status)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
              RETURNING id`,
-            [title, description, price, type, bathrooms, bedrooms, location, JSON.stringify(parsedFeatures)]
+            [title, description, price, type, bathrooms, bedrooms, location, JSON.stringify(parsedFeatures), status || 'available']
         );
 
         const propertyId = propResult.rows[0].id;
@@ -62,6 +62,94 @@ export const getProperties = async (req: Request, res: Response): Promise<void> 
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Error fetching properties' });
+    }
+};
+
+export const getPropertyById = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+    try {
+        const query = `
+            SELECT p.*, 
+                   COALESCE(json_agg(json_build_object('id', i.id, 'image_url', i.image_url, 'is_main', i.is_main)) 
+                   FILTER (WHERE i.id IS NOT NULL), '[]') as images
+            FROM properties p
+            LEFT JOIN images i ON p.id = i.property_id
+            WHERE p.id = $1
+            GROUP BY p.id
+        `;
+        const result = await pool.query(query, [id]);
+
+        if (result.rows.length === 0) {
+            res.status(404).json({ message: 'Property not found' });
+            return;
+        }
+
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error fetching property' });
+    }
+};
+
+export const updateProperty = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+
+        const { title, description, price, type, bathrooms, bedrooms, location, features, status, existingImages } = req.body;
+
+        const parsedFeatures = typeof features === 'string' ? JSON.parse(features) : features;
+
+        // Update property details
+        await client.query(
+            `UPDATE properties 
+             SET title = $1, description = $2, price = $3, type = $4, bathrooms = $5, bedrooms = $6, location = $7, features = $8, status = $9
+             WHERE id = $10`,
+            [title, description, price, type, bathrooms, bedrooms, location, JSON.stringify(parsedFeatures), status || 'available', id]
+        );
+
+        // Handle Images
+        // 1. If existingImages is provided (array of IDs kept), delete others? 
+        // For simplicity: We will keep existing images unless explicit delete action from frontend calls a separate endpoint OR we act smart here.
+        // Actually, easiest flow: 
+        // Frontend sends list of IDs of images to KEEP. We delete those NOT in list.
+        // Then we insert NEW files.
+
+        if (existingImages) {
+            const keepIds = Array.isArray(existingImages) ? existingImages : [existingImages];
+            // Delete images not in keepIds
+            const deleteQuery = `DELETE FROM images WHERE property_id = $1 AND id NOT IN (${keepIds.map((_, i) => '$' + (i + 2)).join(',')}) RETURNING image_url`;
+            const deletedImgs = await client.query(deleteQuery, [id, ...keepIds]);
+
+            // Delete files
+            deletedImgs.rows.forEach(img => {
+                const filePath = path.join(process.cwd(), 'server', img.image_url);
+                if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+            });
+        }
+        // If existingImages is NOT sent or empty string? Be careful not to delete all if not intended. 
+        // Let's assume if it is NOT present, we do nothing to existing. If it is present but empty, we delete all?
+        // Better: Frontend MUST send 'existingImages' as JSON string of ID array if it wants to manage them.
+
+        if (req.files && Array.isArray(req.files)) {
+            const files = req.files as Express.Multer.File[];
+            for (const file of files) {
+                await client.query(
+                    `INSERT INTO images (property_id, image_url, is_main) VALUES ($1, $2, $3)`,
+                    [id, `/uploads/${file.filename}`, false] // Append new images
+                );
+            }
+        }
+
+        await client.query('COMMIT');
+        res.json({ message: 'Property updated successfully' });
+    } catch (err) {
+        await client.query('ROLLBACK');
+        console.error(err);
+        res.status(500).json({ message: 'Error updating property' });
+    } finally {
+        client.release();
     }
 };
 
