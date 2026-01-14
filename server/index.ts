@@ -49,16 +49,21 @@ app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 
 // Serve Static Files (React App)
-// In production, 'dist' will be in the project root.
-// We are in 'dist-server/index.js' (compiled) or 'server/index.ts' (source).
-// We should use process.cwd() or relative path.
 const clientBuildPath = path.join(process.cwd(), 'dist');
 
 if (fs.existsSync(clientBuildPath)) {
+    // Serve static files from 'dist'
     app.use(express.static(clientBuildPath));
 
-    // Handle React routing, return all requests to React app
+    // Handle React routing for HTML requests only
+    // If a request has an extension (like .jpg, .png), and it wasn't caught by express.static, 
+    // we want to return a 404, not the index.html
     app.get(/(.*)/, (req, res) => {
+        const ext = path.extname(req.url);
+        if (ext && ext !== '.html') {
+            res.status(404).send('Not Found');
+            return;
+        }
         res.sendFile(path.join(clientBuildPath, 'index.html'));
     });
 } else {
