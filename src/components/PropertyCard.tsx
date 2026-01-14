@@ -76,6 +76,11 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                                         src={item.url}
                                         alt={property.title}
                                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        onError={(e) => {
+                                            const target = e.target as HTMLImageElement;
+                                            target.onerror = null; // Prevent loop
+                                            target.src = 'https://placehold.co/600x400/1a1a1a/D4AF37?text=Autana+Group';
+                                        }}
                                     />
                                 </div>
                             )}

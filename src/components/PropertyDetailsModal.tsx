@@ -101,6 +101,11 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                                                     src={item.url}
                                                     alt={`View ${index + 1}`}
                                                     className="w-full h-full object-contain"
+                                                    onError={(e) => {
+                                                        const target = e.target as HTMLImageElement;
+                                                        target.onerror = null;
+                                                        target.src = 'https://placehold.co/600x400/1a1a1a/D4AF37?text=Image+Missing';
+                                                    }}
                                                 />
                                             )}
                                         </SwiperSlide>

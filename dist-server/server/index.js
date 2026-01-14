@@ -30,7 +30,12 @@ else {
     console.log(`Uploads dir exists at: ${uploadsDir}`);
 }
 // Static files
+// Static files
 app.use('/uploads', express.static(uploadsDir));
+// If file not found in uploads, return 404 immediately to avoid falling back to index.html
+app.use('/uploads', (req, res) => {
+    res.status(404).send('File not found');
+});
 // Routes
 // Routes
 app.use('/api/auth', authRoutes);

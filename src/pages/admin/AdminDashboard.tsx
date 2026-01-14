@@ -84,6 +84,11 @@ export const AdminDashboard = () => {
                                                     src={mainImage.image_url}
                                                     alt={prop.title}
                                                     className="w-16 h-16 object-cover rounded"
+                                                    onError={(e) => {
+                                                        const target = e.target as HTMLImageElement;
+                                                        target.onerror = null;
+                                                        target.src = 'https://placehold.co/400x400/1a1a1a/D4AF37?text=Image+Missing';
+                                                    }}
                                                 />
                                             ) : (
                                                 <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center text-gray-400">No Img</div>
