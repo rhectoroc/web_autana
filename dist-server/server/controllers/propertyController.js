@@ -89,23 +89,27 @@ export const updateProperty = async (req, res) => {
              SET title = $1, description = $2, price = $3, type = $4, bathrooms = $5, bedrooms = $6, area_sqm = $7, parking_spots = $8, location = $9, features = $10, status = $11
              WHERE id = $12`, [title, description, price, type, bathrooms, bedrooms, area_sqm || 0, parking_spots || 0, location, JSON.stringify(parsedFeatures), status || 'available', id]);
         // Handle Images
-        // 1. If existingImages is provided (array of IDs kept), delete others? 
-        // For simplicity: We will keep existing images unless explicit delete action from frontend calls a separate endpoint OR we act smart here.
-        // Actually, easiest flow: 
-        // Frontend sends list of IDs of images to KEEP. We delete those NOT in list.
-        // Then we insert NEW files.
-        if (existingImages) {
-            const keepIds = Array.isArray(existingImages) ? existingImages : [existingImages];
-            // Delete images not in keepIds
-            const deleteQuery = `DELETE FROM images WHERE property_id = $1 AND id NOT IN (${keepIds.map((_, i) => '$' + (i + 2)).join(',')}) RETURNING image_url`;
-            const deletedImgs = await client.query(deleteQuery, [id, ...keepIds]);
-            // Delete files
-            deletedImgs.rows.forEach(img => {
-                const filePath = path.join(process.cwd(), img.image_url);
-                if (fs.existsSync(filePath))
-                    fs.unlinkSync(filePath);
-            });
+        // existingImages is sent as a JSON string of IDs to keep
+        const keepIds = existingImages ? JSON.parse(existingImages) : [];
+        // Construct delete query
+        let deleteQuery = '';
+        let deleteParams = [id];
+        if (keepIds.length > 0) {
+            // Delete images NOT in the keep list
+            deleteQuery = `DELETE FROM images WHERE property_id = $1 AND id NOT IN (${keepIds.map((_, i) => '$' + (i + 2)).join(',')}) RETURNING image_url`;
+            deleteParams = [id, ...keepIds];
         }
+        else {
+            // If empty, delete ALL images for this property
+            deleteQuery = `DELETE FROM images WHERE property_id = $1 RETURNING image_url`;
+        }
+        const deletedImgs = await client.query(deleteQuery, deleteParams);
+        // Delete files from filesystem
+        deletedImgs.rows.forEach(img => {
+            const filePath = path.join(process.cwd(), img.image_url);
+            if (fs.existsSync(filePath))
+                fs.unlinkSync(filePath);
+        });
         // If existingImages is NOT sent or empty string? Be careful not to delete all if not intended. 
         // Let's assume if it is NOT present, we do nothing to existing. If it is present but empty, we delete all?
         // Better: Frontend MUST send 'existingImages' as JSON string of ID array if it wants to manage them.

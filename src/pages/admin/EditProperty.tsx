@@ -130,12 +130,9 @@ export const EditProperty = () => {
 
         data.append('features', JSON.stringify(features));
 
-        // Append IDs of existing images to keep
-        if (existingImages.length > 0) {
-            existingImages.forEach(img => {
-                data.append('existingImages', String(img.id));
-            });
-        }
+        // Send existing image IDs as JSON array string
+        const keepIds = existingImages.map(img => img.id);
+        data.append('existingImages', JSON.stringify(keepIds));
 
         // Append new images
         newImages.forEach((file) => {
@@ -245,7 +242,7 @@ export const EditProperty = () => {
                                         value={formData.status}
                                         onChange={e => setFormData({ ...formData, status: e.target.value })}
                                         className={`w-full bg-neutral-900 border border-neutral-700 rounded p-3 focus:border-[#D4AF37] focus:outline-none font-bold ${formData.status === 'available' ? 'text-green-500' :
-                                                formData.status === 'sold' ? 'text-red-500' : 'text-blue-500'
+                                            formData.status === 'sold' ? 'text-red-500' : 'text-blue-500'
                                             }`}
                                     >
                                         <option value="available" className="text-green-500">Available</option>
