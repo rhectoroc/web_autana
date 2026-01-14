@@ -124,7 +124,7 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
 
             // Delete files
             deletedImgs.rows.forEach(img => {
-                const filePath = path.join(process.cwd(), 'server', img.image_url);
+                const filePath = path.join(process.cwd(), img.image_url);
                 if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
             });
         }
@@ -168,7 +168,7 @@ export const deleteProperty = async (req: Request, res: Response): Promise<void>
 
         // Delete files from filesystem
         imgResult.rows.forEach(img => {
-            const filePath = path.join(process.cwd(), 'server', img.image_url);
+            const filePath = path.join(process.cwd(), img.image_url);
             if (fs.existsSync(filePath)) {
                 fs.unlinkSync(filePath);
             }

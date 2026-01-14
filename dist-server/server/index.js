@@ -17,12 +17,12 @@ const __dirname = path.dirname(__filename);
 app.use(cors());
 app.use(express.json());
 // Create uploads directory if not exists
-const uploadsDir = path.join(__dirname, 'uploads');
+const uploadsDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 // Static files
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(uploadsDir));
 // Routes
 // Routes
 app.use('/api/auth', authRoutes);
