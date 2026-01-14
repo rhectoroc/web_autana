@@ -9,10 +9,6 @@ export const AdminDashboard = () => {
     const [properties, setProperties] = useState<Property[]>([]);
     const { logout } = useAuthStore();
 
-    useEffect(() => {
-        fetchProperties();
-    }, []);
-
     const fetchProperties = async () => {
         try {
             const res = await api.get('/properties');
@@ -21,6 +17,13 @@ export const AdminDashboard = () => {
             console.error('Failed to fetch properties', err);
         }
     };
+
+    /**
+     * Fetch properties on mount
+     */
+    useEffect(() => {
+        fetchProperties();
+    }, []);
 
     const handleDelete = async (id: string | number) => {
         if (confirm('Are you sure you want to delete this property?')) {

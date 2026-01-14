@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Upload, X, ArrowLeft, Loader } from 'lucide-react';
 import api from '../../services/api';
@@ -36,11 +36,7 @@ export const EditProperty = () => {
     const [newImages, setNewImages] = useState<File[]>([]);
     const [newPreviews, setNewPreviews] = useState<string[]>([]);
 
-    useEffect(() => {
-        fetchProperty();
-    }, [id]);
-
-    const fetchProperty = async () => {
+    const fetchProperty = useCallback(async () => {
         try {
             const res = await api.get(`/properties/${id}`);
             const p = res.data;
@@ -64,7 +60,11 @@ export const EditProperty = () => {
             alert('Failed to load property details');
             navigate('/admin/dashboard');
         }
-    };
+    }, [id, navigate]);
+
+    useEffect(() => {
+        fetchProperty();
+    }, [fetchProperty]);
 
     const handleFeaturesKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && featureInput.trim()) {
@@ -163,8 +163,8 @@ export const EditProperty = () => {
         title: formData.title || 'Property Title',
         location: formData.location || 'Location',
         price: Number(formData.price) || 0,
-        type: formData.type as any,
-        status: formData.status as any,
+        type: formData.type as Property['type'],
+        status: formData.status as Property['status'],
         bedrooms: Number(formData.bedrooms) || 0,
         bathrooms: Number(formData.bathrooms) || 0,
         area_sqm: Number(formData.area_sqm) || 0,

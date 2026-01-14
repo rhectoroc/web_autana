@@ -1,22 +1,40 @@
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
+const heroImages = [
+    '/hero/20240618_065649.jpg',
+    '/hero/20240619_064841.jpg',
+    '/hero/20250514_064439.jpg'
+];
+
 export const Hero = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % heroImages.length);
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []);
+
     return (
         <div className="relative h-screen w-full overflow-hidden">
-            {/* Background Video */}
+            {/* Background Slider */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-black/50 z-10" /> {/* Overlay increased to 50% for better text contrast */}
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    preload="auto"
-                    poster="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2600&auto=format&fit=crop"
-                    className="w-full h-full object-cover"
-                    src="/BeachHome.mp4"
-                />
+                <div className="absolute inset-0 bg-black/50 z-10" /> {/* Overlay */}
+                <AnimatePresence mode='popLayout'>
+                    <motion.img
+                        key={currentIndex}
+                        src={heroImages[currentIndex]}
+                        initial={{ opacity: 0, scale: 1.2 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 2.5, ease: "easeOut" }}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        alt="Hero Background"
+                    />
+                </AnimatePresence>
             </div>
 
             {/* Content */}
