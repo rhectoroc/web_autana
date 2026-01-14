@@ -129,7 +129,7 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
         const deletedImgs = await client.query(deleteQuery, deleteParams);
 
         // Delete files from filesystem
-        deletedImgs.rows.forEach(img => {
+        deletedImgs.rows.forEach((img: any) => {
             const filePath = path.join(process.cwd(), img.image_url);
             if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
         });
@@ -172,7 +172,7 @@ export const deleteProperty = async (req: Request, res: Response): Promise<void>
         await client.query('COMMIT');
 
         // Delete files from filesystem
-        imgResult.rows.forEach(img => {
+        imgResult.rows.forEach((img: any) => {
             const filePath = path.join(process.cwd(), img.image_url);
             if (fs.existsSync(filePath)) {
                 fs.unlinkSync(filePath);

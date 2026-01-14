@@ -1,6 +1,6 @@
-import { useRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { Play } from 'lucide-react';
+import { useRef, useEffect } from 'react';
 
 const galleryItems = [
     {
@@ -46,8 +46,28 @@ const galleryItems = [
 ];
 
 const GalleryItem = ({ item }: { item: typeof galleryItems[0] }) => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const containerRef = useRef(null); // Ref for interaction observer
+    const isInView = useInView(containerRef, { margin: "0px 0px -50px 0px", amount: 0.5 }); // Play when 50% visible
+
+    useEffect(() => {
+        if (item.type === 'video' && videoRef.current) {
+            if (isInView) {
+                const playPromise = videoRef.current.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Auto-play prevented", error);
+                    });
+                }
+            } else {
+                videoRef.current.pause();
+            }
+        }
+    }, [isInView, item.type]);
+
     return (
         <motion.div
+            ref={containerRef}
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-50px" }}
@@ -59,11 +79,12 @@ const GalleryItem = ({ item }: { item: typeof galleryItems[0] }) => {
             {item.type === 'video' ? (
                 <div className="w-full h-full relative">
                     <video
+                        ref={videoRef}
                         src={item.src}
-                        autoPlay
                         muted
                         loop
                         playsInline
+                        preload="metadata" // Only load metadata initially
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                     <div className="absolute top-4 right-4 z-20">
@@ -76,6 +97,7 @@ const GalleryItem = ({ item }: { item: typeof galleryItems[0] }) => {
                 <img
                     src={item.src}
                     alt={item.alt}
+                    loading="lazy" // Lazy load images too
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
             )}

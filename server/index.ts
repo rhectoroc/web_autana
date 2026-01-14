@@ -31,26 +31,7 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // Static files
-app.use('/uploads', (req, res, next) => {
-    console.log(`Request for upload: ${req.url}`);
-    next();
-}, express.static(uploadsDir));
-
-// Debug Endpoint
-app.get('/api/debug-config', (req, res) => {
-    try {
-        const files = fs.readdirSync(uploadsDir);
-        res.json({
-            cwd: process.cwd(),
-            dirname: __dirname,
-            uploadsDir,
-            filesInUploads: files,
-            env: process.env.NODE_ENV
-        });
-    } catch (e: any) {
-        res.json({ error: e.message, stack: e.stack });
-    }
-});
+app.use('/uploads', express.static(uploadsDir));
 
 // Routes
 // Routes

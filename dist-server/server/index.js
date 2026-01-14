@@ -26,26 +26,7 @@ else {
     console.log(`Uploads dir exists at: ${uploadsDir}`);
 }
 // Static files
-app.use('/uploads', (req, res, next) => {
-    console.log(`Request for upload: ${req.url}`);
-    next();
-}, express.static(uploadsDir));
-// Debug Endpoint
-app.get('/api/debug-config', (req, res) => {
-    try {
-        const files = fs.readdirSync(uploadsDir);
-        res.json({
-            cwd: process.cwd(),
-            dirname: __dirname,
-            uploadsDir,
-            filesInUploads: files,
-            env: process.env.NODE_ENV
-        });
-    }
-    catch (e) {
-        res.json({ error: e.message, stack: e.stack });
-    }
-});
+app.use('/uploads', express.static(uploadsDir));
 // Routes
 // Routes
 app.use('/api/auth', authRoutes);
