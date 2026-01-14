@@ -24,11 +24,33 @@ app.use(express.json());
 // Create uploads directory if not exists
 const uploadsDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadsDir)) {
+    console.log(`Creating uploads dir at: ${uploadsDir}`);
     fs.mkdirSync(uploadsDir, { recursive: true });
+} else {
+    console.log(`Uploads dir exists at: ${uploadsDir}`);
 }
 
 // Static files
-app.use('/uploads', express.static(uploadsDir));
+app.use('/uploads', (req, res, next) => {
+    console.log(`Request for upload: ${req.url}`);
+    next();
+}, express.static(uploadsDir));
+
+// Debug Endpoint
+app.get('/api/debug-config', (req, res) => {
+    try {
+        const files = fs.readdirSync(uploadsDir);
+        res.json({
+            cwd: process.cwd(),
+            dirname: __dirname,
+            uploadsDir,
+            filesInUploads: files,
+            env: process.env.NODE_ENV
+        });
+    } catch (e: any) {
+        res.json({ error: e.message, stack: e.stack });
+    }
+});
 
 // Routes
 // Routes

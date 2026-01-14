@@ -34,8 +34,8 @@ COPY --from=builder /app/dist-server ./dist-server
 # The database initialization script expects schema.sql in /app/server/
 COPY --from=builder /app/server/schema.sql ./server/schema.sql
 # If you have an uploads folder that needs to persist, you should mount a volume at runtime.
-# Creating the directory here so permissions are set correctly if needed
-RUN mkdir -p server/uploads
+# Creating the directory here locally so permissions are set correctly if needed
+RUN mkdir -p uploads
 
 # Expose the API port
 EXPOSE 5000
