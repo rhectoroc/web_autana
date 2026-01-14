@@ -16,6 +16,10 @@ const __dirname = path.dirname(__filename);
 // Middleware
 app.use(cors());
 app.use(express.json());
+// Health Check Endpoint for Easypanel/Docker
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 // Create uploads directory if not exists
 const uploadsDir = path.join(process.cwd(), 'uploads');
 if (!fs.existsSync(uploadsDir)) {
