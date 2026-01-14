@@ -6,12 +6,14 @@ export const Hero = () => {
         <div className="relative h-screen w-full overflow-hidden">
             {/* Background Video */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-black/30 z-10" /> {/* Overlay */}
+                <div className="absolute inset-0 bg-black/50 z-10" /> {/* Overlay increased to 50% for better text contrast */}
                 <video
                     autoPlay
                     loop
                     muted
                     playsInline
+                    preload="auto"
+                    poster="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2600&auto=format&fit=crop"
                     className="w-full h-full object-cover"
                     src="/BeachHome.mp4"
                 />
@@ -22,30 +24,30 @@ export const Hero = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 100 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }} // smooth graceful easing
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }} // Faster container entry
                 >
                     <motion.h2
                         initial={{ opacity: 0, letterSpacing: '0.1em' }}
                         animate={{ opacity: 1, letterSpacing: '0.3em' }}
-                        transition={{ duration: 1.5, delay: 0.2 }}
+                        transition={{ duration: 1, delay: 0.1 }}
                         className="text-white font-sans text-sm md:text-base uppercase mb-6"
                     >
                         Redefining Luxury Living
                     </motion.h2>
 
-                    <h1 className="text-5xl md:text-7xl lg:text-9xl font-serif text-white mb-8 tracking-tight flex flex-col items-center">
+                    <h1 className="text-5xl md:text-7xl lg:text-9xl font-serif text-white mb-8 tracking-tight flex flex-col items-center drop-shadow-2xl">
                         <motion.span
-                            initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+                            initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
                             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                            transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
+                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }} // Snappier reveal
                             className="block"
                         >
                             Autana Group
                         </motion.span>
                         <motion.span
-                            initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+                            initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
                             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                            transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
+                            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }} // Snappier reveal
                             className="block text-3xl md:text-5xl lg:text-6xl italic text-gold-400 mt-2 font-light"
                         >
                             República Dominicana
