@@ -27,11 +27,9 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 // Process image
-                const { filename, buffer } = await processImage(file.buffer, file.originalname);
+                const { filename } = await processImage(file.path, file.originalname);
 
-                // Write to disk
-                const uploadPath = path.join(process.cwd(), 'uploads', filename);
-                fs.writeFileSync(uploadPath, buffer);
+                // Note: processImage handles writing to disk now. we do not write buffer.
 
                 // First image is main by default, or user could specify. 
                 // For now, simpler: first uploaded is main.
@@ -177,11 +175,9 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
             const files = req.files as Express.Multer.File[];
             for (const file of files) {
                 // Process image
-                const { filename, buffer } = await processImage(file.buffer, file.originalname);
+                const { filename } = await processImage(file.path, file.originalname);
 
-                // Write to disk
-                const uploadPath = path.join(process.cwd(), 'uploads', filename);
-                fs.writeFileSync(uploadPath, buffer);
+                // Note: processImage handles writing to disk now. we do not write buffer.
 
                 await client.query(
                     `INSERT INTO images (property_id, image_url, is_main) VALUES ($1, $2, $3)`,
