@@ -20,7 +20,7 @@ export const SEO: React.FC<SEOProps> = ({
     const { pathname } = useLocation();
     const siteUrl = 'https://autanagroup.com'; // Replace with actual domain
     const fullUrl = `${siteUrl}${pathname}`;
-    const fullTitle = `${title} | Autana Group`;
+    const fullTitle = title.includes('Autana Group') ? title : `${title} | Autana Group`;
 
     return (
         <Helmet>
