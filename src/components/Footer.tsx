@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from 'lucide-react';
+import { Facebook, Instagram, MessageCircle, Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const Footer = () => {
@@ -19,14 +19,14 @@ export const Footer = () => {
                             Premier real estate services in the Dominican Republic. We curate exclusive lifestyles and investment opportunities.
                         </p>
                         <div className="flex space-x-4">
-                            <a href="#" className="text-gray-400 hover:text-gold-500 transition-colors">
+                            <a href="https://www.instagram.com/autana.group/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors">
                                 <Instagram className="w-5 h-5" />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-gold-500 transition-colors">
+                            <a href="https://www.facebook.com/AutanaGroup" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors">
                                 <Facebook className="w-5 h-5" />
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-gold-500 transition-colors">
-                                <Twitter className="w-5 h-5" />
+                            <a href="https://api.whatsapp.com/send?phone=18293515702&text=Saludos%2C%20necesito%20m%C3%A1s%20informaci%C3%B3n%20sobre%20una%20propiedad." target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors">
+                                <MessageCircle className="w-5 h-5" />
                             </a>
                         </div>
                     </div>
