@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, MapPin, Home, ArrowRight } from 'lucide-react';
+import { Search, MapPin, Home } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface SearchFilters {
