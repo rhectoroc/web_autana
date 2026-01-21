@@ -1,67 +1,169 @@
-import { Wrench, PaintBucket, Briefcase } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { ClipboardCheck, Wrench, PaintBucket, Divide, Check, ArrowRight } from 'lucide-react';
 
 const services = [
     {
-        icon: Briefcase,
-        title: 'Full Administration',
-        description: 'Comprehensive property management tailored to your needs. We handle tenant relations, financial reporting, legal compliance, and day-to-day operations, ensuring your investment yields maximum returns with zero stress.'
+        title: "Property Administration",
+        description: "Comprehensive management for your peace of mind. We handle every administrative detail so you can enjoy the benefits of ownership without the headaches.",
+        icon: ClipboardCheck,
+        features: ["Bill & Utility Payments", "Permit Management", "Financial Reporting", "Legal Compliance"]
     },
     {
+        title: "Maintenance & Care",
+        description: "Preserving the value and beauty of your asset. Our dedicated team ensures your property remains in pristine condition year-round.",
         icon: Wrench,
-        title: 'Property Maintenance',
-        description: 'Preserve the value and beauty of your property with our proactive maintenance programs. From routine inspections to emergency repairs and professional cleaning, we ensure every corner remains pristine.'
+        features: ["Preventive Maintenance", "Gardening & Landscaping", "Pool Cleaning", "Routine Repairs"]
     },
     {
+        title: "Renovations & Design",
+        description: "Transforming spaces to match your vision. From minor updates to complex structural remodeling, we bring expert craftsmanship to every project.",
         icon: PaintBucket,
-        title: 'Remodeling & Renovations',
-        description: 'Unlock your property\'s full potential. Our team of architects and designers delivers high-end remodeling services, creating modern, luxurious spaces that captivate tenants and buyers alike.'
+        features: ["Interior Design", "Structural Remodeling", "Modern Upgrades", "Project supervision"]
     }
 ];
 
+const ServiceCard = ({ service, index }: { service: any, index: number }) => {
+    const ref = useRef<HTMLDivElement>(null);
+
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
+    const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
+
+    const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
+    const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!ref.current) return;
+
+        const rect = ref.current.getBoundingClientRect();
+
+        const width = rect.width;
+        const height = rect.height;
+
+        const mouseXFromCenter = e.clientX - rect.left - width / 2;
+        const mouseYFromCenter = e.clientY - rect.top - height / 2;
+
+        x.set(mouseXFromCenter / width);
+        y.set(mouseYFromCenter / height);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+    };
+
+    return (
+        <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: index * 0.2 }}
+            style={{
+                rotateX,
+                rotateY,
+                transformStyle: "preserve-3d",
+            }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="feature-card relative w-full h-full min-h-[500px] bg-charcoal rounded-2xl p-8 border border-white/10 shadow-2xl group cursor-pointer overflow-hidden"
+        >
+            {/* Background Gradient Effect */}
+            <div
+                className="absolute inset-0 bg-gradient-to-br from-gold-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ transform: "translateZ(-50px)" }}
+            />
+
+            {/* Cone Light Effect */}
+            <motion.div
+                className="absolute inset-0 opacity-0 group-hover:opacity-20 pointer-events-none transition-opacity duration-500"
+                style={{
+                    background: useTransform(
+                        mouseX,
+                        [-0.5, 0.5],
+                        [
+                            "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 60%)",
+                            "radial-gradient(circle at 70% 70%, rgba(255,255,255,0.2) 0%, transparent 60%)"
+                        ]
+                    ),
+                    transform: "translateZ(1px)"
+                }}
+            />
+
+            {/* Content Container */}
+            <div style={{ transform: "translateZ(50px)" }} className="relative z-10 h-full flex flex-col">
+
+                {/* Icon Box */}
+                <div className="w-16 h-16 bg-gradient-to-br from-gold-400 to-gold-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500">
+                    <service.icon className="w-8 h-8 text-charcoal" />
+                </div>
+
+                <h3 className="text-2xl font-serif text-white mb-4 group-hover:text-gold-400 transition-colors duration-300">
+                    {service.title}
+                </h3>
+
+                <p className="text-gray-400 mb-8 leading-relaxed">
+                    {service.description}
+                </p>
+
+                {/* Features List */}
+                <ul className="space-y-3 mt-auto">
+                    {service.features.map((feature: string, i: number) => (
+                        <li key={i} className="flex items-center text-sm text-gray-300">
+                            <span className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center mr-3 border border-white/10 group-hover:border-gold-500/50 transition-colors">
+                                <Check className="w-3 h-3 text-gold-500" />
+                            </span>
+                            {feature}
+                        </li>
+                    ))}
+                </ul>
+
+                <div className="mt-8 pt-6 border-t border-white/10 flex items-center text-gold-500 text-sm font-bold uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300">
+                    Learn More <ArrowRight className="ml-2 w-4 h-4" />
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
 export const ServicesSection = () => {
     return (
-        <section id="services" className="py-24 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <span className="text-gold-500 uppercase tracking-widest text-sm font-semibold">Elevate Your Experience</span>
-                    <h2 className="text-4xl md:text-5xl font-serif text-charcoal mt-2">
-                        Exclusive Services
-                    </h2>
-                    <p className="mt-4 text-gray-500 max-w-2xl mx-auto">
-                        Beyond buying and selling, Autana Group offers a suite of white-glove services designed to maintain, enhance, and manage your luxury real estate assets.
-                    </p>
+        <section className="py-24 bg-charcoal-dark relative overflow-hidden">
+            {/* Background Texture */}
+            <div className="absolute inset-0 bg-[#0F1115]" />
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+                {/* Section Header */}
+                <div className="text-center mb-20 max-w-3xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <span className="text-gold-500 uppercase tracking-[0.2em] text-xs font-bold mb-4 block">
+                            Beyond Real Estate
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">
+                            Property Management & <br /> <span className="text-gold-500 italic">Premium Services</span>
+                        </h2>
+                        <p className="text-gray-400 text-lg leading-relaxed">
+                            We go beyond the transaction. Autana Group provides a full suite of management and maintenance solutions designed to protect and enhance your investment properties.
+                        </p>
+                    </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* 3D Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 perspective-1000">
                     {services.map((service, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.2 }}
-                            className="group p-10 bg-off-white hover:bg-charcoal transition-colors duration-500 rounded-sm border border-transparent hover:border-gold-500/30 shadow-sm hover:shadow-2xl relative overflow-hidden"
-                        >
-                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                                <service.icon className="w-24 h-24 text-gold-500" />
-                            </div>
-
-                            <div className="relative z-10">
-                                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-8 text-gold-500 group-hover:bg-gold-500 group-hover:text-white transition-all duration-500 shadow-md group-hover:scale-110">
-                                    <service.icon className="w-8 h-8" />
-                                </div>
-                                <h3 className="text-2xl font-serif text-charcoal group-hover:text-white mb-4 transition-colors duration-500">
-                                    {service.title}
-                                </h3>
-                                <div className="h-0.5 w-12 bg-gold-500 mb-6 group-hover:w-full transition-all duration-500"></div>
-                                <p className="text-gray-500 group-hover:text-gray-300 leading-relaxed transition-colors duration-500">
-                                    {service.description}
-                                </p>
-                            </div>
-                        </motion.div>
+                        <ServiceCard key={index} service={service} index={index} />
                     ))}
                 </div>
+
             </div>
         </section>
     );

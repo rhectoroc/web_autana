@@ -1,10 +1,4 @@
-import { useState, useEffect } from 'react';
-import { Navbar } from '../components/Navbar';
-import { Hero } from '../components/Hero';
-import { Footer } from '../components/Footer';
-import { PropertiesSection } from '../components/PropertiesSection';
-import { GallerySection } from '../components/GallerySection';
-import { AboutSection } from '../components/AboutSection';
+import { ServicesSection } from '../components/ServicesSection';
 
 export const Home = () => {
     // Scroll to top on mount
@@ -32,6 +26,9 @@ export const Home = () => {
 
             {/* About & Services Section */}
             <AboutSection />
+
+            {/* Property Management Services */}
+            <ServicesSection />
 
             {/* Gallery Section */}
             <GallerySection />
