@@ -6,6 +6,7 @@ import { PropertiesSection } from '../components/PropertiesSection';
 import { GallerySection } from '../components/GallerySection';
 import { AboutSection } from '../components/AboutSection';
 import { ServicesSection } from '../components/ServicesSection';
+import { VideoDivider } from '../components/VideoDivider';
 
 export const Home = () => {
     // Scroll to top on mount
@@ -33,6 +34,9 @@ export const Home = () => {
 
             {/* About & Services Section */}
             <AboutSection />
+
+            {/* Video Experience */}
+            <VideoDivider />
 
             {/* Property Management Services */}
             <ServicesSection />
