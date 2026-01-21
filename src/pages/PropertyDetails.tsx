@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SEO } from '../components/SEO';
 import { useParams, Link } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
@@ -28,6 +29,12 @@ export const PropertyDetails = () => {
 
     return (
         <div className="min-h-screen bg-off-white font-sans text-gray-800">
+            <SEO
+                title={property.title}
+                description={property.description.substring(0, 160)}
+                image={property.media[0]?.url}
+                keywords={`${property.title}, ${property.location}, Real Estate, Punta Cana`}
+            />
             <Navbar />
 
             {/* Hero Media Section */}

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from '../store/useLanguageStore';
+import { SEO } from '../components/SEO';
 import { Navbar } from '../components/Navbar';
 import { Hero } from '../components/Hero';
 import { Footer } from '../components/Footer';
@@ -9,6 +11,8 @@ import { ServicesSection } from '../components/ServicesSection';
 import { VideoDivider } from '../components/VideoDivider';
 
 export const Home = () => {
+    const { t } = useTranslation();
+
     // Scroll to top on mount
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -22,6 +26,10 @@ export const Home = () => {
 
     return (
         <div className="min-h-screen bg-off-white font-sans text-gray-800">
+            <SEO
+                title={t.hero.title}
+                description={t.hero.description}
+            />
             <Navbar />
 
             {/* Hero Section */}
