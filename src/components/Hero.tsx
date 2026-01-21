@@ -5,7 +5,7 @@ import { PropertySearch } from './PropertySearch';
 import { useTranslation } from '../store/useLanguageStore';
 
 const heroImages = [
-    '/hero/20240618_065649_opt.jpg', // Optimized version
+    '/hero/20240618_065649.jpg',
     '/hero/20240619_064841.jpg',
     '/hero/20250514_064439.jpg'
 ];
