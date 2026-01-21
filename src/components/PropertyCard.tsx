@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation } from 'swiper/modules';
+import { Pagination, Navigation, EffectFade } from 'swiper/modules';
 import { Bed, Bath, Car, Maximize, MapPin, Play } from 'lucide-react';
 import type { Property } from '../types/property';
 import { formatCurrency, formatArea } from '../utils/format';
@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import 'swiper/css/effect-fade';
 
 interface PropertyCardProps {
     property: Property;
@@ -82,7 +83,10 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
             {/* Media Carousel */}
             <div className="relative h-64 w-full bg-gray-100">
                 <Swiper
-                    modules={[Pagination, Navigation]}
+                    modules={[Pagination, Navigation, EffectFade]}
+                    effect={'fade'}
+                    fadeEffect={{ crossFade: true }}
+                    speed={600}
                     pagination={{ clickable: true, dynamicBullets: true }}
                     navigation={{
                         nextEl: '.swiper-button-next',
