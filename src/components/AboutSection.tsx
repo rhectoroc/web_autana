@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Home, Calendar, Sun, Building2, CheckCircle } from 'lucide-react';
+import { Home, Calendar, Sun, Building2 } from 'lucide-react';
 
 const services = [
     {
