@@ -3,9 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn } from 'lucide-react';
 
 const galleryImages = [
-    { src: '/gallery/after01.jpg', alt: 'Luxury Afternoon', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/gallery/pool01.jpg', alt: 'Infinity Pool', span: 'md:col-span-1 md:row-span-2' }, // Vertical
-    { src: '/gallery/after02.jpg', alt: 'Evening Vibes', span: 'md:col-span-1 md:row-span-1' },
     { src: '/gallery/beach.jpg', alt: 'Private Beach', span: 'md:col-span-2 md:row-span-1' },
     { src: '/gallery/comunes01.jpg', alt: 'Common Areas', span: 'md:col-span-1 md:row-span-1' },
     { src: '/gallery/beach01.jpg', alt: 'Coastal Living', span: 'md:col-span-1 md:row-span-1' },
@@ -15,8 +12,6 @@ const galleryImages = [
     { src: '/gallery/beach02.jpg', alt: 'Ocean Breeze', span: 'md:col-span-1 md:row-span-1' },
     { src: '/gallery/imagen01.jpg', alt: 'Modern Architecture', span: 'md:col-span-2 md:row-span-1' },
     { src: '/gallery/muelle01.jpg', alt: 'Private Pier', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/gallery/nature01.jpg', alt: 'Nature Trails', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/gallery/paisaje01.jpg', alt: 'Scenic Landscapes', span: 'md:col-span-1 md:row-span-1' },
 ];
 
 export const GallerySection = () => {
