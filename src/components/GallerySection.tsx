@@ -41,7 +41,7 @@ export const GallerySection = () => {
                         transition={{ delay: 0.2 }}
                         className="text-4xl md:text-6xl font-serif mt-4"
                     >
-                        Life at <span className="text-gold-500 italic">Autana</span>
+                        Life at <span className="text-gold-500 italic">Punta Cana</span>
                     </motion.h2>
                 </div>
 
