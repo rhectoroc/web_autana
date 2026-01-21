@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { PropertyCard } from './PropertyCard';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
 import clsx from 'clsx';
@@ -185,11 +185,7 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
                 </div>
             )}
 
-            <div className="mt-12 text-center">
-                <a href="#" className="inline-flex items-center text-charcoal hover:text-gold-500 transition-colors uppercase text-sm font-bold tracking-widest">
-                    View All {tabs.find(t => t.id === activeFilter)?.label} <ArrowRight className="ml-2 w-4 h-4" />
-                </a>
-            </div>
+
             {selectedProperty && (
                 <PropertyDetailsModal
                     property={selectedProperty}
