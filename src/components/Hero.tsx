@@ -48,7 +48,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
                     initial={{ opacity: 0, y: 100 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }} // Faster container entry
-                    className="w-full max-w-5xl"
+                    className="w-full max-w-7xl"
                 >
                     <motion.h2
                         initial={{ opacity: 0, letterSpacing: '0.1em' }}
