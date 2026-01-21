@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, User, Mail, Phone, Home, CheckCircle2 } from 'lucide-react';
+import { useTranslation } from '../store/useLanguageStore';
 
 interface BookingModalProps {
     isOpen: boolean;
@@ -8,6 +9,7 @@ interface BookingModalProps {
 }
 
 export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
+    const { t } = useTranslation();
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -86,9 +88,9 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                         exit={{ opacity: 0, x: 20 }}
                                     >
                                         <div className="text-center mb-8">
-                                            <span className="text-gold-500 font-bold uppercase tracking-widest text-xs mb-2 block">Exclusive Service</span>
-                                            <h2 className="text-3xl font-serif text-charcoal">Schedule a Visit</h2>
-                                            <p className="text-gray-500 mt-2 text-sm">Let us guide you to your next dream property.</p>
+                                            <span className="text-gold-500 font-bold uppercase tracking-widest text-xs mb-2 block">{t.booking.label}</span>
+                                            <h2 className="text-3xl font-serif text-charcoal">{t.booking.title}</h2>
+                                            <p className="text-gray-500 mt-2 text-sm">{t.booking.subtitle}</p>
                                         </div>
 
                                         <form onSubmit={handleSubmit} className="space-y-5">
@@ -100,7 +102,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                 <input
                                                     type="text"
                                                     required
-                                                    placeholder="Full Name"
+                                                    placeholder={t.booking.form.name}
                                                     className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all text-charcoal placeholder-gray-400"
                                                     value={formData.name}
                                                     onChange={e => setFormData({ ...formData, name: e.target.value })}
@@ -116,7 +118,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                     <input
                                                         type="email"
                                                         required
-                                                        placeholder="Email Address"
+                                                        placeholder={t.booking.form.email}
                                                         className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all text-charcoal placeholder-gray-400"
                                                         value={formData.email}
                                                         onChange={e => setFormData({ ...formData, email: e.target.value })}
@@ -129,7 +131,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                     <input
                                                         type="tel"
                                                         required
-                                                        placeholder="Phone Number"
+                                                        placeholder={t.booking.form.phone}
                                                         className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all text-charcoal placeholder-gray-400"
                                                         value={formData.phone}
                                                         onChange={e => setFormData({ ...formData, phone: e.target.value })}
@@ -145,7 +147,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                 <input
                                                     type="text"
                                                     required
-                                                    placeholder="Property of Interest"
+                                                    placeholder={t.booking.form.property}
                                                     className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all text-charcoal placeholder-gray-400"
                                                     value={formData.property}
                                                     onChange={e => setFormData({ ...formData, property: e.target.value })}
@@ -178,7 +180,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                         className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
                                                     />
                                                 ) : (
-                                                    "Confirm Booking"
+                                                    t.booking.form.button
                                                 )}
                                             </button>
                                         </form>
@@ -193,15 +195,15 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                         <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
                                             <CheckCircle2 className="w-10 h-10 text-green-500" />
                                         </div>
-                                        <h3 className="text-2xl font-serif text-charcoal mb-4">Request Sent!</h3>
+                                        <h3 className="text-2xl font-serif text-charcoal mb-4">{t.booking.success.title}</h3>
                                         <p className="text-gray-500 leading-relaxed mb-8">
-                                            Se ha realizado con exito el envio de su solicitud, en breve sera contactado por uno de nuestros agentes.
+                                            {t.booking.success.message}
                                         </p>
                                         <button
                                             onClick={handleClose}
                                             className="bg-charcoal text-white px-8 py-3 rounded-lg uppercase text-sm font-bold tracking-widest hover:bg-gold-500 transition-colors"
                                         >
-                                            Close
+                                            {t.booking.success.close}
                                         </button>
                                     </motion.div>
                                 )}

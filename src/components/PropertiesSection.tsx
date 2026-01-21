@@ -5,6 +5,7 @@ import { PropertyCard } from './PropertyCard';
 import { PropertyDetailsModal } from './PropertyDetailsModal';
 import clsx from 'clsx';
 import api from '../services/api';
+import { useTranslation } from '../store/useLanguageStore';
 
 interface PropertiesSectionProps {
     filters?: {
@@ -19,6 +20,7 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
     const [selectedProperty, setSelectedProperty] = useState<any | null>(null);
     const [properties, setProperties] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const { t } = useTranslation();
 
     // Sync activeFilter with prop filters if present
     useEffect(() => {
@@ -95,10 +97,10 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
     const filteredProperties = properties;
 
     const tabs = [
-        { id: 'all', label: 'All Properties' },
-        { id: 'sale', label: 'For Sale' },
-        { id: 'rent_long', label: 'Long Term Rent' },
-        { id: 'rent_short', label: 'Vacation Rentals' },
+        { id: 'all', label: t.properties.tabs.all },
+        { id: 'sale', label: t.properties.tabs.sale },
+        { id: 'rent_long', label: t.properties.tabs.rent_long },
+        { id: 'rent_short', label: t.properties.tabs.rent_short },
     ];
 
     if (loading) {
@@ -109,9 +111,9 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
         <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-end mb-8">
                 <div>
-                    <span className="text-gold-500 uppercase tracking-widest text-sm font-semibold">Our Collection</span>
+                    <span className="text-gold-500 uppercase tracking-widest text-sm font-semibold">{t.properties.collection}</span>
                     <h2 className="text-4xl md:text-5xl font-serif text-charcoal mt-2">
-                        Featured Properties
+                        {t.properties.featured}
                     </h2>
                 </div>
 
@@ -180,7 +182,7 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
 
             {filteredProperties.length === 0 && (
                 <div className="py-20 text-center">
-                    <p className="text-gray-400 text-lg">No properties found in this category.</p>
+                    <p className="text-gray-400 text-lg">{t.properties.noProps}</p>
                     {/* Optional: Add admin hint if logged in */}
                 </div>
             )}

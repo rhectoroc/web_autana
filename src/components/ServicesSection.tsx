@@ -2,26 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ClipboardCheck, Wrench, PaintBucket, Check } from 'lucide-react';
 
-const services = [
-    {
-        title: "Property Administration",
-        description: "Comprehensive management for your peace of mind. We handle every administrative detail so you can enjoy the benefits of ownership without the headaches.",
-        icon: ClipboardCheck,
-        features: ["Bill & Utility Payments", "Permit Management", "Financial Reporting", "Legal Compliance"]
-    },
-    {
-        title: "Maintenance & Care",
-        description: "Preserving the value and beauty of your asset. Our dedicated team ensures your property remains in pristine condition year-round.",
-        icon: Wrench,
-        features: ["Preventive Maintenance", "Gardening & Landscaping", "Pool Cleaning", "Routine Repairs"]
-    },
-    {
-        title: "Renovations & Design",
-        description: "Transforming spaces to match your vision. From minor updates to complex structural remodeling, we bring expert craftsmanship to every project.",
-        icon: PaintBucket,
-        features: ["Interior Design", "Structural Remodeling", "Modern Upgrades", "Project supervision"]
-    }
-];
+import { useTranslation } from '../store/useLanguageStore';
 
 const ServiceCard = ({ service, index }: { service: any, index: number }) => {
     const ref = useRef<HTMLDivElement>(null);
@@ -128,8 +109,31 @@ const ServiceCard = ({ service, index }: { service: any, index: number }) => {
 };
 
 export const ServicesSection = () => {
+    const { t } = useTranslation();
+
+    const services = [
+        {
+            title: t.services.items.admin.title,
+            description: t.services.items.admin.desc,
+            icon: ClipboardCheck,
+            features: t.services.items.admin.features
+        },
+        {
+            title: t.services.items.maintenance.title,
+            description: t.services.items.maintenance.desc,
+            icon: Wrench,
+            features: t.services.items.maintenance.features
+        },
+        {
+            title: t.services.items.renovations.title,
+            description: t.services.items.renovations.desc,
+            icon: PaintBucket,
+            features: t.services.items.renovations.features
+        }
+    ];
+
     return (
-        <section className="py-24 bg-charcoal-dark relative overflow-hidden">
+        <section id="services" className="py-24 bg-charcoal-dark relative overflow-hidden">
             {/* Background Texture */}
             <div className="absolute inset-0 bg-[#0F1115]" />
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
@@ -144,13 +148,13 @@ export const ServicesSection = () => {
                         viewport={{ once: true }}
                     >
                         <span className="text-gold-500 uppercase tracking-[0.2em] text-xs font-bold mb-4 block">
-                            Beyond Real Estate
+                            {t.services.header}
                         </span>
                         <h2 className="text-4xl md:text-5xl font-serif text-white mb-6">
-                            Property Management & <br /> <span className="text-gold-500 italic">Premium Services</span>
+                            {t.services.title} <br /> <span className="text-gold-500 italic">{t.services.titleHighlight}</span>
                         </h2>
                         <p className="text-gray-400 text-lg leading-relaxed">
-                            We go beyond the transaction. Autana Group provides a full suite of management and maintenance solutions designed to protect and enhance your investment properties.
+                            {t.services.description}
                         </p>
                     </motion.div>
                 </div>

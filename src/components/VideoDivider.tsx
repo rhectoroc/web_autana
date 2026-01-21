@@ -1,8 +1,10 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useTranslation } from '../store/useLanguageStore';
 
 export const VideoDivider = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const { t } = useTranslation();
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start end", "end start"]
@@ -45,7 +47,7 @@ export const VideoDivider = () => {
                         className="backdrop-blur-sm bg-white/5 p-8 border border-white/10 rounded-xl shadow-lg"
                     >
                         <h2 className="text-4xl md:text-6xl font-serif text-white mb-2 tracking-wide drop-shadow-lg">
-                            Autana Group <span className="text-gold-500 italic">Experience</span>
+                            Autana Group <span className="text-gold-500 italic">{t.video.title}</span>
                         </h2>
                         <div className="h-1 w-24 bg-gold-500 mx-auto rounded-full shadow-[0_0_10px_rgba(191,149,63,0.8)]" />
                     </motion.div>

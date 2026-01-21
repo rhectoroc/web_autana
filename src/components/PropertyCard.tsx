@@ -10,6 +10,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
+import { useTranslation } from '../store/useLanguageStore';
 
 interface PropertyCardProps {
     property: Property;
@@ -18,6 +19,7 @@ interface PropertyCardProps {
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick }) => {
     const [isPlaying, setIsPlaying] = useState<string | number | null>(null);
+    const { t } = useTranslation();
 
     // 3D Hover Effect Logic
     const x = useMotionValue(0);
@@ -49,9 +51,9 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
 
     const getTypeLabel = (type: Property['type']) => {
         switch (type) {
-            case 'sale': return 'For Sale';
-            case 'rent_short': return 'Short Rent';
-            case 'rent_long': return 'Long Rent';
+            case 'sale': return t.properties.tabs.sale;
+            case 'rent_short': return t.properties.tabs.rent_short;
+            case 'rent_long': return t.properties.tabs.rent_long;
             default: return type;
         }
     };
@@ -180,11 +182,11 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                 <div className="grid grid-cols-4 gap-2 text-center">
                     <div className="flex flex-col items-center justify-center">
                         <Bed className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                        <span className="text-xs text-gray-600">{property.bedrooms} Beds</span>
+                        <span className="text-xs text-gray-600">{property.bedrooms} {t.properties.details.beds}</span>
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <Bath className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                        <span className="text-xs text-gray-600">{property.bathrooms} Baths</span>
+                        <span className="text-xs text-gray-600">{property.bathrooms} {t.properties.details.baths}</span>
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <Maximize className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
@@ -192,7 +194,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <Car className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                        <span className="text-xs text-gray-600">{property.parking_spots || 0} Pkg</span>
+                        <span className="text-xs text-gray-600">{property.parking_spots || 0} {t.properties.details.parking}</span>
                     </div>
                 </div>
             </div>

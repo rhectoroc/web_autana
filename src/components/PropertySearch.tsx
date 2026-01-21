@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search, MapPin, Home } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '../store/useLanguageStore';
 
 interface SearchFilters {
     q: string;
@@ -13,6 +14,7 @@ interface PropertySearchProps {
 }
 
 export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
+    const { t } = useTranslation();
     const [filters, setFilters] = useState<SearchFilters>({
         q: '',
         location: '',
@@ -45,7 +47,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                     </div>
                     <input
                         type="text"
-                        placeholder="What are you looking for?"
+                        placeholder={t.search.placeholder}
                         className="w-full pl-12 pr-4 py-3 bg-transparent border-none focus:ring-0 text-charcoal placeholder-gray-400 font-medium rounded-full hover:bg-gray-50/50 transition-colors"
                         value={filters.q}
                         onChange={(e) => setFilters(prev => ({ ...prev, q: e.target.value }))}
@@ -61,7 +63,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                     </div>
                     <input
                         type="text"
-                        placeholder="Location (e.g. Punta Cana)"
+                        placeholder={t.search.location}
                         className="w-full pl-12 pr-4 py-3 bg-transparent border-none focus:ring-0 text-charcoal placeholder-gray-400 font-medium rounded-full hover:bg-gray-50/50 transition-colors"
                         value={filters.location}
                         onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
@@ -80,10 +82,10 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                         value={filters.type}
                         onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value as any }))}
                     >
-                        <option value="all">All Types</option>
-                        <option value="sale">Buy</option>
-                        <option value="rent_long">Rent (Long)</option>
-                        <option value="rent_short">Rent (Short)</option>
+                        <option value="all">{t.search.types.all}</option>
+                        <option value="sale">{t.search.types.sale}</option>
+                        <option value="rent_long">{t.search.types.rent_long}</option>
+                        <option value="rent_short">{t.search.types.rent_short}</option>
                     </select>
                 </div>
 
@@ -92,7 +94,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                     type="submit"
                     className="w-full md:w-auto bg-gold-500 hover:bg-gold-600 text-white px-8 py-3 rounded-full font-bold uppercase tracking-wider text-sm transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg hover:scale-105"
                 >
-                    Search
+                    {t.search.searchButton}
                 </button>
             </form>
         </motion.div>

@@ -1,30 +1,32 @@
 import { motion } from 'framer-motion';
 import { Home, Calendar, Sun, Building2 } from 'lucide-react';
-
-const services = [
-    {
-        title: "Property Sales",
-        description: "We offer unique opportunities in real estate sales. Discover your ideal home!",
-        icon: Home
-    },
-    {
-        title: "Long Term Rentals",
-        description: "Stable solutions for those seeking a permanent home.",
-        icon: Calendar
-    },
-    {
-        title: "Vacation Rentals",
-        description: "Unique alternatives for travelers seeking to escape the conventional.",
-        icon: Sun
-    },
-    {
-        title: "Commercial Leases",
-        description: "Our focus is on finding the ideal space that fits your requirements and budget.",
-        icon: Building2
-    }
-];
+import { useTranslation } from '../store/useLanguageStore';
 
 export const AboutSection = () => {
+    const { t } = useTranslation();
+
+    const services = [
+        {
+            title: t.about.services.sales.title,
+            description: t.about.services.sales.desc,
+            icon: Home
+        },
+        {
+            title: t.about.services.rentals.title,
+            description: t.about.services.rentals.desc,
+            icon: Calendar
+        },
+        {
+            title: t.about.services.vacation.title,
+            description: t.about.services.vacation.desc,
+            icon: Sun
+        },
+        {
+            title: t.about.services.commercial.title,
+            description: t.about.services.commercial.desc,
+            icon: Building2
+        }
+    ];
     return (
         <section id="about" className="py-24 bg-white relative overflow-hidden">
             {/* Background Decor */}
@@ -52,8 +54,8 @@ export const AboutSection = () => {
 
                             {/* Experience Badge - Moved to Top Left */}
                             <div className="absolute top-8 left-8 bg-white/95 backdrop-blur shadow-lg p-6 rounded-lg border-l-4 border-gold-500 max-w-xs">
-                                <span className="text-4xl font-bold text-charcoal block mb-1">+10</span>
-                                <span className="text-sm text-gray-600 uppercase tracking-wider font-semibold">Years of experience backing and trust</span>
+                                <span className="text-4xl font-bold text-charcoal block mb-1">{t.about.badge.years}</span>
+                                <span className="text-sm text-gray-600 uppercase tracking-wider font-semibold">{t.about.badge.text}</span>
                             </div>
                         </div>
 
@@ -76,20 +78,20 @@ export const AboutSection = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         >
-                            <span className="text-gold-500 uppercase tracking-widest text-sm font-bold mb-4 block">About Us</span>
+                            <span className="text-gold-500 uppercase tracking-widest text-sm font-bold mb-4 block">{t.about.label}</span>
                             <h2 className="text-4xl md:text-5xl font-serif text-charcoal mb-8 leading-tight">
-                                Autana Group <span className="text-gold-500 italic">Real Estate Services</span>
+                                Autana Group <span className="text-gold-500 italic">{t.about.title}</span>
                             </h2>
 
                             <div className="space-y-6 text-gray-600 leading-relaxed text-lg">
                                 <p>
-                                    We are proud to be your trusted partner in the real estate market. With over 10 years of experience, our commitment and deep knowledge of the sector are the backing you need.
+                                    {t.about.p1}
                                 </p>
                                 <p>
-                                    We know that your property is a valuable investment. Therefore, we not only offer expert advice on the purchase, sale, or rental of properties, but we also provide a comprehensive service designed to enhance and preserve their value in the long term.
+                                    {t.about.p2}
                                 </p>
                                 <p className="font-medium text-charcoal border-l-2 border-gold-500 pl-4 italic">
-                                    In every step, our dedication to excellence, transparency, and customer satisfaction is non-negotiable. Let us demonstrate why we are the ideal choice for all your real estate and maintenance needs.
+                                    {t.about.p3}
                                 </p>
                             </div>
                         </motion.div>

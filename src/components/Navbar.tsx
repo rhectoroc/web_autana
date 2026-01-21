@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookingModal } from './BookingModal';
+import { useTranslation } from '../store/useLanguageStore';
+import { Globe } from 'lucide-react';
 
 export const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+    const { t, language, toggleLanguage } = useTranslation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -19,10 +22,10 @@ export const Navbar = () => {
     }, []);
 
     const navLinks = [
-        { name: 'Properties', href: '#properties' },
-        { name: 'Services', href: '#services' },
-        { name: 'Gallery', href: '#gallery' },
-        { name: 'About Us', href: '#about' },
+        { name: t.navbar.properties, href: '#properties' },
+        { name: t.navbar.services, href: '#services' },
+        { name: t.navbar.gallery, href: '#gallery' },
+        { name: t.navbar.about, href: '#about' },
     ];
 
     return (
@@ -66,13 +69,25 @@ export const Navbar = () => {
                         {/* Right Actions */}
                         <div className="hidden md:flex items-center space-x-6">
 
+                            {/* Language Toggle */}
+                            <button
+                                onClick={toggleLanguage}
+                                className={clsx(
+                                    "flex items-center gap-1 text-xs font-bold uppercase tracking-widest transition-colors duration-300",
+                                    isScrolled ? "text-charcoal hover:text-gold-500" : "text-white hover:text-gold-400"
+                                )}
+                            >
+                                <Globe className="w-4 h-4" />
+                                <span>{language === 'en' ? 'ES' : 'EN'}</span>
+                            </button>
+
                             <Link
                                 to="/login"
                                 className={clsx(
                                     "transition-colors duration-300",
                                     isScrolled ? "text-charcoal hover:text-gold-500" : "text-white hover:text-gold-400"
                                 )}
-                                title="Admin Sign In"
+                                title={t.navbar.adminSignIn}
                             >
                                 <User className="w-5 h-5" />
                             </Link>
@@ -80,7 +95,7 @@ export const Navbar = () => {
                                 onClick={() => setIsBookingModalOpen(true)}
                                 className="bg-gold-500 hover:bg-gold-600 text-white px-6 py-2.5 rounded-sm uppercase text-xs font-bold tracking-widest transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/20"
                             >
-                                Book Now
+                                {t.navbar.bookNow}
                             </button>
                         </div>
 
@@ -119,7 +134,18 @@ export const Navbar = () => {
                                         {link.name}
                                     </a>
                                 ))}
-                                <div className="pt-4 px-3">
+                                <div className="pt-4 px-3 flex flex-col gap-4">
+                                    <button
+                                        onClick={() => {
+                                            toggleLanguage();
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="flex items-center gap-2 text-charcoal font-medium"
+                                    >
+                                        <Globe className="w-5 h-5 text-gold-500" />
+                                        <span>{language === 'en' ? 'Cambiar a Español' : 'Switch to English'}</span>
+                                    </button>
+
                                     <button
                                         onClick={() => {
                                             setIsMobileMenuOpen(false);
@@ -127,7 +153,7 @@ export const Navbar = () => {
                                         }}
                                         className="w-full bg-gold-500 text-white px-6 py-3 uppercase text-sm font-bold tracking-widest"
                                     >
-                                        Book Now
+                                        {t.navbar.bookNow}
                                     </button>
                                 </div>
                             </div>

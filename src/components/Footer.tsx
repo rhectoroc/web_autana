@@ -1,7 +1,9 @@
 import { Facebook, Instagram, MessageCircle, Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from '../store/useLanguageStore';
 
 export const Footer = () => {
+    const { t } = useTranslation();
     return (
         <footer className="bg-charcoal text-white pt-20 pb-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,7 +18,7 @@ export const Footer = () => {
                             />
                         </a>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                            Premier real estate services in the Dominican Republic. We curate exclusive lifestyles and investment opportunities.
+                            {t.footer.about}
                         </p>
                         <div className="flex space-x-4">
                             <a href="https://www.instagram.com/autana.group/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors">
@@ -48,7 +50,7 @@ export const Footer = () => {
 
                     {/* Contact */}
                     <div>
-                        <h4 className="font-serif text-lg mb-6 text-gold-500">Contact</h4>
+                        <h4 className="font-serif text-lg mb-6 text-gold-500">{t.footer.contact}</h4>
                         <ul className="space-y-4 text-sm text-gray-400">
                             <li className="flex items-start">
                                 <MapPin className="w-5 h-5 mr-3 text-gold-500 flex-shrink-0" />
@@ -67,17 +69,17 @@ export const Footer = () => {
 
                     {/* Newsletter */}
                     <div>
-                        <h4 className="font-serif text-lg mb-6 text-gold-500">Newsletter</h4>
-                        <p className="text-gray-400 text-sm mb-4">Subscribe for the latest updates and exclusive offers.</p>
+                        <h4 className="font-serif text-lg mb-6 text-gold-500">{t.footer.newsletter.title}</h4>
+                        <p className="text-gray-400 text-sm mb-4">{t.footer.newsletter.text}</p>
                         <div className="flex flex-col space-y-3">
                             <input
                                 type="email"
-                                placeholder="Your email address"
+                                placeholder={t.footer.newsletter.placeholder}
                                 className="bg-white/10 border border-white/20 text-white placeholder-gray-500 px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors"
                                 aria-label="Email address"
                             />
                             <button className="bg-gold-500 hover:bg-gold-600 text-white px-4 py-3 uppercase text-xs font-bold tracking-widest transition-colors">
-                                Subscribe
+                                {t.footer.newsletter.button}
                             </button>
                         </div>
                     </div>
@@ -86,19 +88,19 @@ export const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
                     <div className="flex flex-col md:flex-row items-center gap-4">
-                        <p>&copy; {new Date().getFullYear()} Autana Group RD. All rights reserved.</p>
+                        <p>&copy; {new Date().getFullYear()} {t.footer.rights}</p>
                         <div className="flex space-x-6">
-                            <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-                            <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+                            <Link to="/privacy" className="hover:text-white transition-colors">{t.footer.privacy}</Link>
+                            <Link to="/terms" className="hover:text-white transition-colors">{t.footer.terms}</Link>
                         </div>
                     </div>
                     <div className="mt-4 md:mt-0 text-center md:text-right">
                         <p>
-                            Developed by{' '}
+                            {t.footer.developer}{' '}
                             <a href="http://adrielssystems.com" target="_blank" rel="noopener noreferrer" className="text-gold-500 hover:text-white transition-colors">
                                 Adriel's Systems
                             </a>{' '}
-                            | The Engine of Your Global Software Solutions
+                            | {t.footer.slogan}
                         </p>
                     </div>
                 </div>

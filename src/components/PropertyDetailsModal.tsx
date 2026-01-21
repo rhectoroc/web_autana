@@ -8,6 +8,7 @@ import { formatCurrency } from '../utils/format';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { useTranslation } from '../store/useLanguageStore';
 
 interface PropertyDetailsModalProps {
     property: Property;
@@ -15,6 +16,7 @@ interface PropertyDetailsModalProps {
 }
 
 export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, onClose }) => {
+    const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
 
     // Prevent background scroll when modal is open
@@ -146,12 +148,12 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                                     <div className="flex flex-col items-center">
                                         <Bed className="w-5 h-5 text-gold-500 mb-1" />
                                         <span className="font-bold text-gray-800">{property.bedrooms}</span>
-                                        <span className="text-[10px] uppercase text-gray-500">Beds</span>
+                                        <span className="text-[10px] uppercase text-gray-500">{t.properties.details.beds}</span>
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <Bath className="w-5 h-5 text-gold-500 mb-1" />
                                         <span className="font-bold text-gray-800">{property.bathrooms}</span>
-                                        <span className="text-[10px] uppercase text-gray-500">Baths</span>
+                                        <span className="text-[10px] uppercase text-gray-500">{t.properties.details.baths}</span>
                                     </div>
                                     <div className="flex flex-col items-center">
                                         <Maximize className="w-5 h-5 text-gold-500 mb-1" />
@@ -161,7 +163,7 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                                     <div className="flex flex-col items-center">
                                         <Car className="w-5 h-5 text-gold-500 mb-1" />
                                         <span className="font-bold text-gray-800">{property.parking_spots}</span>
-                                        <span className="text-[10px] uppercase text-gray-500">Pkg</span>
+                                        <span className="text-[10px] uppercase text-gray-500">{t.properties.details.parking}</span>
                                     </div>
                                 </div>
 

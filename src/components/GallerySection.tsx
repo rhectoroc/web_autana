@@ -2,20 +2,23 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn } from 'lucide-react';
 
-const galleryImages = [
-    { src: '/gallery/beach.jpg', alt: 'Private Beach', span: 'md:col-span-2 md:row-span-1' },
-    { src: '/gallery/comunes01.jpg', alt: 'Common Areas', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/gallery/beach01.jpg', alt: 'Coastal Living', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/gallery/tenis.jpg', alt: 'Sports Complex', span: 'md:col-span-1 md:row-span-2' }, // Vertical
-    { src: '/gallery/after03.jpg', alt: 'Sunset Views', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/gallery/fauna.jpg', alt: 'Local Wildlife', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/gallery/beach02.jpg', alt: 'Ocean Breeze', span: 'md:col-span-1 md:row-span-1' },
-    { src: '/gallery/imagen01.jpg', alt: 'Modern Architecture', span: 'md:col-span-2 md:row-span-1' },
-    { src: '/gallery/muelle01.jpg', alt: 'Private Pier', span: 'md:col-span-1 md:row-span-1' },
-];
+import { useTranslation } from '../store/useLanguageStore';
 
 export const GallerySection = () => {
     const [selectedId, setSelectedId] = useState<string | null>(null);
+    const { t } = useTranslation();
+
+    const galleryImages = [
+        { src: '/gallery/beach.jpg', alt: t.gallery.images.beach, span: 'md:col-span-2 md:row-span-1' },
+        { src: '/gallery/comunes01.jpg', alt: t.gallery.images.common, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/beach01.jpg', alt: t.gallery.images.coastal, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/tenis.jpg', alt: t.gallery.images.sports, span: 'md:col-span-1 md:row-span-2' },
+        { src: '/gallery/after03.jpg', alt: t.gallery.images.sunset, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/fauna.jpg', alt: t.gallery.images.wildlife, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/beach02.jpg', alt: t.gallery.images.ocean, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/imagen01.jpg', alt: t.gallery.images.arch, span: 'md:col-span-2 md:row-span-1' },
+        { src: '/gallery/muelle01.jpg', alt: t.gallery.images.pier, span: 'md:col-span-1 md:row-span-1' },
+    ];
 
     return (
         <section id="gallery" className="py-24 bg-charcoal text-white relative overflow-hidden">
@@ -32,7 +35,7 @@ export const GallerySection = () => {
                         viewport={{ once: true }}
                         className="text-gold-500 uppercase tracking-[0.3em] text-xs font-bold"
                     >
-                        Visual Journey
+                        {t.gallery.label}
                     </motion.span>
                     <motion.h2
                         initial={{ opacity: 0, y: 30 }}
@@ -41,7 +44,7 @@ export const GallerySection = () => {
                         transition={{ delay: 0.2 }}
                         className="text-4xl md:text-6xl font-serif mt-4"
                     >
-                        Life at <span className="text-gold-500 italic">Punta Cana</span>
+                        {t.gallery.title} <span className="text-gold-500 italic">{t.gallery.highlight}</span>
                     </motion.h2>
                 </div>
 

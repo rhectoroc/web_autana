@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { PropertySearch } from './PropertySearch';
+import { useTranslation } from '../store/useLanguageStore';
 
 const heroImages = [
     '/hero/20240618_065649.jpg',
@@ -15,6 +16,7 @@ interface HeroProps {
 
 export const Hero = ({ onSearch }: HeroProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -56,7 +58,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
                         transition={{ duration: 1, delay: 0.1 }}
                         className="text-white font-sans text-sm md:text-base uppercase mb-6"
                     >
-                        Redefining Luxury Living
+                        {t.hero.subtitle}
                     </motion.h2>
 
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 tracking-tight flex flex-col items-center drop-shadow-2xl">
@@ -81,7 +83,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
                             }}
                             className="block text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#bf953f] bg-[length:200%_auto]"
                         >
-                            Autana Group
+                            {t.hero.title}
                         </motion.span>
                     </h1>
 
@@ -91,7 +93,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
                         transition={{ duration: 1, delay: 0.6 }}
                         className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto font-light mb-10"
                     >
-                        Experience the pinnacle of exclusivity in the Caribbean's most prestigious destinations.
+                        {t.hero.description}
                     </motion.p>
 
                     {/* Search Bar */}
@@ -108,7 +110,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
                 onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
             >
                 <div className="flex flex-col items-center">
-                    <span className="text-[10px] uppercase tracking-widest mb-2 opacity-80">Scroll</span>
+                    <span className="text-[10px] uppercase tracking-widest mb-2 opacity-80">{t.hero.scroll}</span>
                     <ChevronDown className="w-6 h-6 animate-bounce" />
                 </div>
             </motion.div>
