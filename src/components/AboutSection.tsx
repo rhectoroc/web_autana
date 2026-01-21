@@ -3,23 +3,23 @@ import { Home, Calendar, Sun, Building2 } from 'lucide-react';
 
 const services = [
     {
-        title: "Venta de propiedades",
-        description: "Ofrecemos oportunidades únicas en venta de inmuebles. ¡Descubre tu hogar ideal!",
+        title: "Property Sales",
+        description: "We offer unique opportunities in real estate sales. Discover your ideal home!",
         icon: Home
     },
     {
-        title: "Rentas de largo plazo",
-        description: "Tenemos soluciones estables para quienes buscan un hogar permanente.",
+        title: "Long Term Rentals",
+        description: "Stable solutions for those seeking a permanent home.",
         icon: Calendar
     },
     {
-        title: "Rentas vacacionales",
-        description: "Alternativas únicas para los viajeros que buscan escapar de lo convencional.",
+        title: "Vacation Rentals",
+        description: "Unique alternatives for travelers seeking to escape the conventional.",
         icon: Sun
     },
     {
-        title: "Arrendamientos comerciales",
-        description: "Nuestro enfoque se centra en encontrar el espacio ideal que se ajuste a tus requerimientos y presupuesto.",
+        title: "Commercial Leases",
+        description: "Our focus is on finding the ideal space that fits your requirements and budget.",
         icon: Building2
     }
 ];
@@ -31,7 +31,7 @@ export const AboutSection = () => {
             <div className="absolute top-0 right-0 w-1/3 h-full bg-gray-50 skew-x-12 transform origin-top translate-x-32 z-0" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start mb-16">
 
                     {/* Image Column */}
                     <motion.div
@@ -50,10 +50,10 @@ export const AboutSection = () => {
                             {/* Overlay Gradient */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
 
-                            {/* Experience Badge */}
-                            <div className="absolute bottom-8 left-8 bg-white/95 backdrop-blur shadow-lg p-6 rounded-lg border-l-4 border-gold-500 max-w-xs">
+                            {/* Experience Badge - Moved to Top Left */}
+                            <div className="absolute top-8 left-8 bg-white/95 backdrop-blur shadow-lg p-6 rounded-lg border-l-4 border-gold-500 max-w-xs">
                                 <span className="text-4xl font-bold text-charcoal block mb-1">+10</span>
-                                <span className="text-sm text-gray-600 uppercase tracking-wider font-semibold">Años de experiencia respaldo y confianza</span>
+                                <span className="text-sm text-gray-600 uppercase tracking-wider font-semibold">Years of experience backing and trust</span>
                             </div>
                         </div>
 
@@ -76,44 +76,44 @@ export const AboutSection = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         >
-                            <span className="text-gold-500 uppercase tracking-widest text-sm font-bold mb-4 block">Sobre Nosotros</span>
+                            <span className="text-gold-500 uppercase tracking-widest text-sm font-bold mb-4 block">About Us</span>
                             <h2 className="text-4xl md:text-5xl font-serif text-charcoal mb-8 leading-tight">
-                                Su socio de confianza en el <span className="text-gold-500 italic">mercado inmobiliario</span>
+                                Autana Group <span className="text-gold-500 italic">Real Estate Services</span>
                             </h2>
 
                             <div className="space-y-6 text-gray-600 leading-relaxed text-lg">
                                 <p>
-                                    Nos enorgullece ser su socio de confianza en el mercado inmobiliario. Con más de 10 años de experiencia, nuestro compromiso y profundo conocimiento del sector son el respaldo que usted necesita.
+                                    We are proud to be your trusted partner in the real estate market. With over 10 years of experience, our commitment and deep knowledge of the sector are the backing you need.
                                 </p>
                                 <p>
-                                    Sabemos que su propiedad es una inversión valiosa. Por ello, no solo le ofrecemos asesoramiento experto en la compra, venta o alquiler de inmuebles, sino que también brindamos un servicio integral diseñado para realzar y preservar su valor a largo plazo.
+                                    We know that your property is a valuable investment. Therefore, we not only offer expert advice on the purchase, sale, or rental of properties, but we also provide a comprehensive service designed to enhance and preserve their value in the long term.
                                 </p>
                                 <p className="font-medium text-charcoal border-l-2 border-gold-500 pl-4 italic">
-                                    En cada paso, nuestra dedicación a la excelencia, la transparencia y la satisfacción del cliente es innegociable.
+                                    In every step, our dedication to excellence, transparency, and customer satisfaction is non-negotiable. Let us demonstrate why we are the ideal choice for all your real estate and maintenance needs.
                                 </p>
                             </div>
                         </motion.div>
-
-                        {/* Services Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-                            {services.map((service, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.4 + (index * 0.1) }}
-                                    className="bg-gray-50 p-6 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gold-100 group"
-                                >
-                                    <div className="bg-white p-3 rounded-full w-fit shadow-sm mb-4 group-hover:bg-gold-500 transition-colors duration-300">
-                                        <service.icon className="w-6 h-6 text-gold-500 group-hover:text-white transition-colors duration-300" />
-                                    </div>
-                                    <h3 className="font-serif text-charcoal text-lg font-bold mb-2 group-hover:text-gold-500 transition-colors">{service.title}</h3>
-                                    <p className="text-sm text-gray-500 leading-relaxed">{service.description}</p>
-                                </motion.div>
-                            ))}
-                        </div>
                     </div>
+                </div>
+
+                {/* Services Grid - Single Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {services.map((service, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.4 + (index * 0.1) }}
+                            className="bg-gray-50 p-6 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gold-100 group text-center lg:text-left"
+                        >
+                            <div className="bg-white p-3 rounded-full w-fit shadow-sm mb-4 mx-auto lg:mx-0 group-hover:bg-gold-500 transition-colors duration-300">
+                                <service.icon className="w-6 h-6 text-gold-500 group-hover:text-white transition-colors duration-300" />
+                            </div>
+                            <h3 className="font-serif text-charcoal text-lg font-bold mb-2 group-hover:text-gold-500 transition-colors">{service.title}</h3>
+                            <p className="text-sm text-gray-500 leading-relaxed">{service.description}</p>
+                        </motion.div>
+                    ))}
                 </div>
             </div>
         </section>
