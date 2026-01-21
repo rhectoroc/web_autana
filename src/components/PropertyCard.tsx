@@ -22,11 +22,12 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
-    const mouseXSpring = useSpring(x);
-    const mouseYSpring = useSpring(y);
+    const springConfig = { stiffness: 100, damping: 30, mass: 0.5 };
+    const mouseXSpring = useSpring(x, springConfig);
+    const mouseYSpring = useSpring(y, springConfig);
 
-    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
-    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -63,7 +64,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
 
     return (
         <motion.div
-            className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gold-400/50"
+            className="group relative bg-white rounded-xl overflow-hidden shadow-sm transition-all duration-300 border border-transparent hover:border-gold-400/50"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{
@@ -71,8 +72,12 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                 rotateY,
                 transformStyle: "preserve-3d",
             }}
-            initial={{ scale: 1 }}
-            whileHover={{ scale: 1.02 }}
+            initial={{ scale: 1, zIndex: 0 }}
+            whileHover={{
+                scale: 1.05,
+                zIndex: 50,
+                boxShadow: "0px 20px 40px rgba(0,0,0,0.2)"
+            }}
         >
             {/* Media Carousel */}
             <div className="relative h-64 w-full bg-gray-100">
