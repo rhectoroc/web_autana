@@ -34,7 +34,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.4 }}
-            className="w-full max-w-4xl mx-auto mt-12 px-4"
+            className="w-full max-w-6xl mx-auto mt-12 px-4"
         >
             <form onSubmit={handleSubmit} className="bg-white/95 backdrop-blur-md p-2 rounded-full shadow-2xl border border-white/20 flex flex-col md:flex-row items-center gap-2">
 
