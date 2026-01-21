@@ -119,6 +119,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                                     <img
                                         src={item.url}
                                         alt={property.title}
+                                        loading="lazy"
                                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                                         onError={(e) => {
                                             const target = e.target as HTMLImageElement;
