@@ -26,6 +26,8 @@ FROM node:20-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
+# Increase memory limit for the production process
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 # Install only production dependencies
 COPY package*.json ./

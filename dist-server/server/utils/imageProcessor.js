@@ -1,6 +1,9 @@
 import sharp from 'sharp';
 import path from 'path';
 import fs from 'fs';
+// Optimize sharp for limited memory environments
+sharp.cache(false);
+sharp.concurrency(1);
 export const processImage = async (buffer, originalName) => {
     // Generate new filename with .jpg extension
     const nameWithoutExt = path.parse(originalName).name;

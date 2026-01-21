@@ -2,6 +2,10 @@ import sharp from 'sharp';
 import path from 'path';
 import fs from 'fs';
 
+// Optimize sharp for limited memory environments
+sharp.cache(false);
+sharp.concurrency(1);
+
 interface ProcessedImage {
     filename: string;
     buffer: Buffer;
