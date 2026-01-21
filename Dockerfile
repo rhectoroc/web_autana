@@ -37,6 +37,7 @@ COPY --from=builder /app/dist-server ./dist-server
 
 # Copy essential static assets/config
 COPY --from=builder /app/server/schema.sql ./server/schema.sql
+COPY --from=builder /app/public ./public
 
 # Create uploads directory with correct permissions
 RUN mkdir -p uploads && chown -R node:node uploads
