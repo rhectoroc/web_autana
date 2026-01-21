@@ -31,15 +31,19 @@ export const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Quick Links */}
-                    <div>
-                        <h4 className="font-serif text-lg mb-6 text-gold-500">Explore</h4>
-                        <ul className="space-y-4 text-sm text-gray-400">
-                            <li><a href="#" className="hover:text-white transition-colors">Properties for Sale</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Vacation Rentals</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">New Developments</a></li>
-                            <li><a href="#" className="hover:text-white transition-colors">Property Management</a></li>
-                        </ul>
+                    {/* Location */}
+                    <div className="h-[200px] w-full rounded-lg overflow-hidden border border-white/10 shadow-lg">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d60529.69176161271!2d-68.40698242187501!3d18.57053538805561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ea8eb625607b32d%3A0x6295383556ba0062!2sPunta%20Cana%2C%20Dominican%20Republic!5e0!3m2!1sen!2sus!4v1705850000000!5m2!1sen!2sus"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                            className="grayscale hover:grayscale-0 transition-all duration-700 opacity-70 hover:opacity-100"
+                            title="Punta Cana Location"
+                        />
                     </div>
 
                     {/* Contact */}
