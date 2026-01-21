@@ -4,7 +4,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 import { Bed, Bath, Car, Maximize, MapPin, Play } from 'lucide-react';
 import type { Property } from '../types/property';
 import { formatCurrency, formatArea } from '../utils/format';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import clsx from 'clsx';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -17,6 +17,33 @@ interface PropertyCardProps {
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick }) => {
     const [isPlaying, setIsPlaying] = useState<string | number | null>(null);
+
+    // 3D Hover Effect Logic
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    const mouseXSpring = useSpring(x);
+    const mouseYSpring = useSpring(y);
+
+    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
+    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const xPct = mouseX / width - 0.5;
+        const yPct = mouseY / height - 0.5;
+        x.set(xPct);
+        y.set(yPct);
+    };
+
+    const handleMouseLeave = () => {
+        x.set(0);
+        y.set(0);
+    };
 
     const getTypeLabel = (type: Property['type']) => {
         switch (type) {
@@ -37,7 +64,15 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
     return (
         <motion.div
             className="group relative bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gold-400/50"
-            whileHover={{ y: -5 }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{
+                rotateX,
+                rotateY,
+                transformStyle: "preserve-3d",
+            }}
+            initial={{ scale: 1 }}
+            whileHover={{ scale: 1.02 }}
         >
             {/* Media Carousel */}
             <div className="relative h-64 w-full bg-gray-100">
