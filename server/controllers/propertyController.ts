@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { pool } from '../config/db.js';
 import fs from 'fs';
 import path from 'path';
+import { processImage } from '../utils/imageProcessor.js';
 
 export const createProperty = async (req: Request, res: Response): Promise<void> => {
     const client = await pool.connect();
@@ -25,12 +26,19 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
             const files = req.files as Express.Multer.File[];
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
+                // Process image
+                const { filename, buffer } = await processImage(file.buffer, file.originalname);
+
+                // Write to disk
+                const uploadPath = path.join(process.cwd(), 'uploads', filename);
+                fs.writeFileSync(uploadPath, buffer);
+
                 // First image is main by default, or user could specify. 
                 // For now, simpler: first uploaded is main.
                 const isMain = i === 0;
                 await client.query(
                     `INSERT INTO images (property_id, image_url, is_main) VALUES ($1, $2, $3)`,
-                    [propertyId, `/uploads/${file.filename}`, isMain]
+                    [propertyId, `/uploads/${filename}`, isMain]
                 );
             }
         }
@@ -168,9 +176,16 @@ export const updateProperty = async (req: Request, res: Response): Promise<void>
         if (req.files && Array.isArray(req.files)) {
             const files = req.files as Express.Multer.File[];
             for (const file of files) {
+                // Process image
+                const { filename, buffer } = await processImage(file.buffer, file.originalname);
+
+                // Write to disk
+                const uploadPath = path.join(process.cwd(), 'uploads', filename);
+                fs.writeFileSync(uploadPath, buffer);
+
                 await client.query(
                     `INSERT INTO images (property_id, image_url, is_main) VALUES ($1, $2, $3)`,
-                    [id, `/uploads/${file.filename}`, false] // Append new images
+                    [id, `/uploads/${filename}`, false] // Append new images
                 );
             }
         }

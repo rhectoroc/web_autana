@@ -1,6 +1,7 @@
 import { pool } from '../config/db.js';
 import fs from 'fs';
 import path from 'path';
+import { processImage } from '../utils/imageProcessor.js';
 export const createProperty = async (req, res) => {
     const client = await pool.connect();
     try {
@@ -16,10 +17,15 @@ export const createProperty = async (req, res) => {
             const files = req.files;
             for (let i = 0; i < files.length; i++) {
                 const file = files[i];
+                // Process image
+                const { filename, buffer } = await processImage(file.buffer, file.originalname);
+                // Write to disk
+                const uploadPath = path.join(process.cwd(), 'uploads', filename);
+                fs.writeFileSync(uploadPath, buffer);
                 // First image is main by default, or user could specify. 
                 // For now, simpler: first uploaded is main.
                 const isMain = i === 0;
-                await client.query(`INSERT INTO images (property_id, image_url, is_main) VALUES ($1, $2, $3)`, [propertyId, `/uploads/${file.filename}`, isMain]);
+                await client.query(`INSERT INTO images (property_id, image_url, is_main) VALUES ($1, $2, $3)`, [propertyId, `/uploads/${filename}`, isMain]);
             }
         }
         await client.query('COMMIT');
@@ -36,16 +42,37 @@ export const createProperty = async (req, res) => {
 };
 export const getProperties = async (req, res) => {
     try {
-        const query = `
+        const { type, location, q } = req.query;
+        let queryText = `
             SELECT p.*, 
                    COALESCE(json_agg(json_build_object('id', i.id, 'image_url', i.image_url, 'is_main', i.is_main)) 
                    FILTER (WHERE i.id IS NOT NULL), '[]') as images
             FROM properties p
             LEFT JOIN images i ON p.id = i.property_id
-            GROUP BY p.id
-            ORDER BY p.created_at DESC
         `;
-        const result = await pool.query(query);
+        const conditions = [];
+        const params = [];
+        let paramIndex = 1;
+        if (type && type !== 'all') {
+            conditions.push(`p.type = $${paramIndex}`);
+            params.push(type);
+            paramIndex++;
+        }
+        if (location) {
+            conditions.push(`p.location ILIKE $${paramIndex}`);
+            params.push(`%${location}%`);
+            paramIndex++;
+        }
+        if (q) {
+            conditions.push(`(p.title ILIKE $${paramIndex} OR p.description ILIKE $${paramIndex})`);
+            params.push(`%${q}%`);
+            paramIndex++;
+        }
+        if (conditions.length > 0) {
+            queryText += ` WHERE ${conditions.join(' AND ')}`;
+        }
+        queryText += ` GROUP BY p.id ORDER BY p.created_at DESC`;
+        const result = await pool.query(queryText, params);
         res.json(result.rows);
     }
     catch (err) {
@@ -116,7 +143,12 @@ export const updateProperty = async (req, res) => {
         if (req.files && Array.isArray(req.files)) {
             const files = req.files;
             for (const file of files) {
-                await client.query(`INSERT INTO images (property_id, image_url, is_main) VALUES ($1, $2, $3)`, [id, `/uploads/${file.filename}`, false] // Append new images
+                // Process image
+                const { filename, buffer } = await processImage(file.buffer, file.originalname);
+                // Write to disk
+                const uploadPath = path.join(process.cwd(), 'uploads', filename);
+                fs.writeFileSync(uploadPath, buffer);
+                await client.query(`INSERT INTO images (property_id, image_url, is_main) VALUES ($1, $2, $3)`, [id, `/uploads/${filename}`, false] // Append new images
                 );
             }
         }
