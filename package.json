@@ -13,6 +13,7 @@
     "server": "tsx server/index.ts"
   },
   "dependencies": {
+    "@types/react-helmet-async": "^1.0.1",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
@@ -26,10 +27,17 @@
     "pg": "^8.16.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^7.12.0",
     "swiper": "^12.0.3",
     "tailwind-merge": "^3.4.0",
     "zustand": "^5.0.10"
+  },
+  "overrides": {
+    "react-helmet-async": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
