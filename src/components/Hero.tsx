@@ -61,10 +61,25 @@ export const Hero = ({ onSearch }: HeroProps) => {
 
                     <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 tracking-tight flex flex-col items-center drop-shadow-2xl">
                         <motion.span
-                            initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-                            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }} // Snappier reveal
-                            className="block"
+                            initial={{
+                                opacity: 0,
+                                y: 40,
+                                filter: 'blur(10px)',
+                                backgroundPosition: '0% 50%'
+                            }}
+                            animate={{
+                                opacity: 1,
+                                y: 0,
+                                filter: 'blur(0px)',
+                                backgroundPosition: ['0% 50%', '200% 50%']
+                            }}
+                            transition={{
+                                opacity: { duration: 0.8, delay: 0.2, ease: "easeOut" },
+                                y: { duration: 0.8, delay: 0.2, ease: "easeOut" },
+                                filter: { duration: 0.8, delay: 0.2, ease: "easeOut" },
+                                backgroundPosition: { duration: 8, repeat: Infinity, ease: "linear" }
+                            }}
+                            className="block text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#bf953f] bg-[length:200%_auto]"
                         >
                             Autana Group
                         </motion.span>
