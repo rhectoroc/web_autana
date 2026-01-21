@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { PropertySearch } from './PropertySearch';
 
 const heroImages = [
     '/hero/20240618_065649.jpg',
@@ -8,7 +9,11 @@ const heroImages = [
     '/hero/20250514_064439.jpg'
 ];
 
-export const Hero = () => {
+interface HeroProps {
+    onSearch?: (filters: any) => void;
+}
+
+export const Hero = ({ onSearch }: HeroProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
@@ -22,7 +27,7 @@ export const Hero = () => {
         <div className="relative h-screen w-full overflow-hidden">
             {/* Background Slider */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-black/50 z-10" /> {/* Overlay */}
+                <div className="absolute inset-0 bg-black/40 z-10" /> {/* Overlay */}
                 <AnimatePresence mode='popLayout'>
                     <motion.img
                         key={currentIndex}
@@ -43,6 +48,7 @@ export const Hero = () => {
                     initial={{ opacity: 0, y: 100 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }} // Faster container entry
+                    className="w-full max-w-5xl"
                 >
                     <motion.h2
                         initial={{ opacity: 0, letterSpacing: '0.1em' }}
@@ -53,7 +59,7 @@ export const Hero = () => {
                         Redefining Luxury Living
                     </motion.h2>
 
-                    <h1 className="text-5xl md:text-7xl lg:text-9xl font-serif text-white mb-8 tracking-tight flex flex-col items-center drop-shadow-2xl">
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 tracking-tight flex flex-col items-center drop-shadow-2xl">
                         <motion.span
                             initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
                             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -62,35 +68,20 @@ export const Hero = () => {
                         >
                             Autana Group
                         </motion.span>
-                        <motion.span
-                            initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-                            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }} // Snappier reveal
-                            className="block text-3xl md:text-5xl lg:text-6xl italic text-gold-400 mt-2 font-light"
-                        >
-                            República Dominicana
-                        </motion.span>
                     </h1>
 
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 1 }}
-                        className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto font-light mb-12"
+                        transition={{ duration: 1, delay: 0.6 }}
+                        className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto font-light mb-10"
                     >
                         Experience the pinnacle of exclusivity in the Caribbean's most prestigious destinations.
                     </motion.p>
 
-                    <motion.button
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 1.2 }}
-                        whileHover={{ scale: 1.05, backgroundColor: '#D4AF37', color: '#fff' }}
-                        whileTap={{ scale: 0.95 }}
-                        className="bg-white text-charcoal px-10 py-4 uppercase text-sm font-bold tracking-widest transition-all duration-300 shadow-xl"
-                    >
-                        View Properties
-                    </motion.button>
+                    {/* Search Bar */}
+                    {onSearch && <PropertySearch onSearch={onSearch} />}
+
                 </motion.div>
             </div>
             {/* Scroll Indicator */}

@@ -6,16 +6,61 @@ import { PropertyDetailsModal } from './PropertyDetailsModal';
 import clsx from 'clsx';
 import api from '../services/api';
 
-export const PropertiesSection = () => {
+interface PropertiesSectionProps {
+    filters?: {
+        q: string;
+        location: string;
+        type: 'all' | 'sale' | 'rent_long' | 'rent_short';
+    } | null;
+}
+
+export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
     const [activeFilter, setActiveFilter] = useState<'all' | 'sale' | 'rent_long' | 'rent_short'>('all');
     const [selectedProperty, setSelectedProperty] = useState<any | null>(null);
     const [properties, setProperties] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // Sync activeFilter with prop filters if present
+    useEffect(() => {
+        if (filters?.type) {
+            setActiveFilter(filters.type);
+        }
+    }, [filters]);
+
     useEffect(() => {
         const fetchProperties = async () => {
+            setLoading(true);
             try {
-                const res = await api.get('/properties');
+                // Construct query params
+                const params: any = {};
+                if (filters) {
+                    if (filters.q) params.q = filters.q;
+                    if (filters.location) params.location = filters.location;
+                    if (filters.type && filters.type !== 'all') params.type = filters.type;
+                }
+
+                // If we are filtering using the local tabs (and no global search is active OR the global search type matches the tab),
+                // we might want to ensure consistency. 
+                // BUT, simplify: The API call should reflect the CURRENT state the user expects.
+                // If filters prop changed, we used it. If user clicks tab, we use that.
+                // However, fetching happens on mount or when dependencies change.
+
+                // Better approach: 
+                // 1. Initial load: fetch all.
+                // 2. If 'filters' prop updates -> params = filters -> activeFilter updates -> fetch.
+                // 3. If 'activeFilter' updates (user clicks tab) -> params.type = activeFilter -> fetch.
+                // 
+                // To avoid conflicts, let's merge them.
+
+                if (activeFilter !== 'all') params.type = activeFilter;
+
+                // If filters prop exists, it overrides or augments.
+                // actually, if user just searched "Punta Cana" (type: all), but then clicks "Sale", we want "Punta Cana" + "Sale".
+                if (filters?.q) params.q = filters.q;
+                if (filters?.location) params.location = filters.location;
+
+                const res = await api.get('/properties', { params });
+
                 // Map API data to PropertyCard format
                 const mapped = res.data.map((p: any) => ({
                     ...p,
@@ -38,11 +83,16 @@ export const PropertiesSection = () => {
             }
         };
         fetchProperties();
-    }, []);
+    }, [filters, activeFilter]);
 
-    const filteredProperties = activeFilter === 'all'
-        ? properties
-        : properties.filter(p => p.type === activeFilter);
+    // Client-side filtering is no longer needed if API handles it, 
+    // BUT if API returns everything (e.g. no params), we still might want client filtering?
+    // Current API design: returns everything if no params.
+    // So if params are sent, we get filtered list.
+    // If we use activeFilter to param, we get filtered list.
+    // So 'filteredProperties' is just 'properties'.
+
+    const filteredProperties = properties;
 
     const tabs = [
         { id: 'all', label: 'All Properties' },

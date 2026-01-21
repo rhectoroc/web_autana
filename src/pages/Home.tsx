@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar } from '../components/Navbar';
 import { Hero } from '../components/Hero';
 import { Footer } from '../components/Footer';
@@ -12,16 +12,22 @@ export const Home = () => {
         window.scrollTo(0, 0);
     }, []);
 
+    const [searchFilters, setSearchFilters] = useState<any>(null);
+
+    const handleSearch = (filters: any) => {
+        setSearchFilters(filters);
+    };
+
     return (
         <div className="min-h-screen bg-off-white font-sans text-gray-800">
             <Navbar />
 
             {/* Hero Section */}
-            <Hero />
+            <Hero onSearch={handleSearch} />
 
             {/* Featured Properties Section */}
             <section id="properties" className="py-24 px-4 sm:px-6 lg:px-8 bg-off-white">
-                <PropertiesSection />
+                <PropertiesSection filters={searchFilters} />
             </section>
 
             {/* Services Section */}

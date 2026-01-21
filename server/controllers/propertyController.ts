@@ -48,16 +48,44 @@ export const createProperty = async (req: Request, res: Response): Promise<void>
 
 export const getProperties = async (req: Request, res: Response): Promise<void> => {
     try {
-        const query = `
+        const { type, location, q } = req.query;
+        let queryText = `
             SELECT p.*, 
                    COALESCE(json_agg(json_build_object('id', i.id, 'image_url', i.image_url, 'is_main', i.is_main)) 
                    FILTER (WHERE i.id IS NOT NULL), '[]') as images
             FROM properties p
             LEFT JOIN images i ON p.id = i.property_id
-            GROUP BY p.id
-            ORDER BY p.created_at DESC
         `;
-        const result = await pool.query(query);
+
+        const conditions: string[] = [];
+        const params: any[] = [];
+        let paramIndex = 1;
+
+        if (type && type !== 'all') {
+            conditions.push(`p.type = $${paramIndex}`);
+            params.push(type);
+            paramIndex++;
+        }
+
+        if (location) {
+            conditions.push(`p.location ILIKE $${paramIndex}`);
+            params.push(`%${location}%`);
+            paramIndex++;
+        }
+
+        if (q) {
+            conditions.push(`(p.title ILIKE $${paramIndex} OR p.description ILIKE $${paramIndex})`);
+            params.push(`%${q}%`);
+            paramIndex++;
+        }
+
+        if (conditions.length > 0) {
+            queryText += ` WHERE ${conditions.join(' AND ')}`;
+        }
+
+        queryText += ` GROUP BY p.id ORDER BY p.created_at DESC`;
+
+        const result = await pool.query(queryText, params);
         res.json(result.rows);
     } catch (err) {
         console.error(err);
