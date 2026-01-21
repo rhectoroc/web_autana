@@ -60,13 +60,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                        className="fixed z-[70] w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden"
-                        style={{
-                            top: "50%",
-                            left: "50%",
-                            transform: "translate(-50%, -50%)",
-                            margin: 0
-                        }}
+                        className="fixed z-[70] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden m-0"
                     >
                         {/* Gold Accent Line */}
                         <div className="h-2 w-full bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400" />
@@ -79,7 +73,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                             <X className="w-5 h-5" />
                         </button>
 
-                        <div className="p-8 relative">
+                        <div className="p-6 md:p-8 relative">
                             {/* Decorative Background Elements */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/5 rounded-full -translate-y-1/2 translate-x-1/3 blur-2xl pointer-events-none" />
 

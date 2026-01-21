@@ -32,12 +32,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const register = async (req: Request, res: Response): Promise<void> => {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const result = await pool.query(
             'INSERT INTO users (email, password_hash, role) VALUES ($1, $2, $3) RETURNING id, email, role',
-            [email, hashedPassword, role || 'admin']
+            [email, hashedPassword, 'user']
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
