@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Search, User } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -62,12 +62,7 @@ export const Navbar = () => {
 
                     {/* Right Actions */}
                     <div className="hidden md:flex items-center space-x-6">
-                        <button className={clsx(
-                            "transition-colors duration-300",
-                            isScrolled ? "text-charcoal hover:text-gold-500" : "text-white hover:text-gold-400"
-                        )}>
-                            <Search className="w-5 h-5" />
-                        </button>
+
                         <Link
                             to="/login"
                             className={clsx(

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ClipboardCheck, Wrench, PaintBucket, Check, ArrowRight } from 'lucide-react';
+import { ClipboardCheck, Wrench, PaintBucket, Check } from 'lucide-react';
 
 const services = [
     {
@@ -121,9 +121,7 @@ const ServiceCard = ({ service, index }: { service: any, index: number }) => {
                     ))}
                 </ul>
 
-                <div className="mt-8 pt-6 border-t border-white/10 flex items-center text-gold-500 text-sm font-bold uppercase tracking-widest group-hover:translate-x-2 transition-transform duration-300">
-                    Learn More <ArrowRight className="ml-2 w-4 h-4" />
-                </div>
+
             </div>
         </motion.div>
     );

@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const Footer = () => {
     return (
@@ -80,10 +81,21 @@ export const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-                    <p>&copy; {new Date().getFullYear()} Autana Group RD. All rights reserved.</p>
-                    <div className="flex space-x-6 mt-4 md:mt-0">
-                        <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-                        <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                    <div className="flex flex-col md:flex-row items-center gap-4">
+                        <p>&copy; {new Date().getFullYear()} Autana Group RD. All rights reserved.</p>
+                        <div className="flex space-x-6">
+                            <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                            <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+                        </div>
+                    </div>
+                    <div className="mt-4 md:mt-0 text-center md:text-right">
+                        <p>
+                            Developed by{' '}
+                            <a href="http://adrielssystems.com" target="_blank" rel="noopener noreferrer" className="text-gold-500 hover:text-white transition-colors">
+                                Adriel's Systems
+                            </a>{' '}
+                            | The Engine of Your Global Software Solutions
+                        </p>
                     </div>
                 </div>
             </div>
