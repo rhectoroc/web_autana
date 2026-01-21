@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ClipboardCheck, Wrench, PaintBucket, Divide, Check, ArrowRight } from 'lucide-react';
+import { ClipboardCheck, Wrench, PaintBucket, Check, ArrowRight } from 'lucide-react';
 
 const services = [
     {
