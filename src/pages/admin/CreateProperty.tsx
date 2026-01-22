@@ -151,7 +151,7 @@ export const CreateProperty = () => {
     }
 
     return (
-        <div className="min-h-screen bg-neutral-900 text-white font-sans p-8">
+        <div className="min-h-screen bg-neutral-900 text-white font-sans p-4 md:p-8">
             <div className="max-w-7xl mx-auto">
                 <button
                     onClick={() => navigate('/admin/dashboard')}
@@ -166,7 +166,7 @@ export const CreateProperty = () => {
                 <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
                     {/* LEFT COLUMN: FORM */}
                     <div className="xl:col-span-2">
-                        <form onSubmit={handleSubmit} className="space-y-8 bg-neutral-800/50 p-8 rounded-xl border border-neutral-700">
+                        <form onSubmit={handleSubmit} className="space-y-8 bg-neutral-800/50 p-4 md:p-8 rounded-xl border border-neutral-700">
                             {/* Basic Info */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>

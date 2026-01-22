@@ -27,7 +27,7 @@ export const translations = {
             }
         },
         properties: {
-            collection: "Our Collection",
+            collection: "Our Properties",
             featured: "Featured Properties",
             tabs: {
                 all: "All Properties",
