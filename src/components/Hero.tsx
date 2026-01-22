@@ -19,11 +19,14 @@ export const Hero = ({ onSearch }: HeroProps) => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        // Preload next images
-        heroImages.forEach((src) => {
-            const img = new Image();
-            img.src = src;
-        });
+        // Efficient Image Preloading: Only preload on desktop/tablet to save data on mobile
+        const isMobile = window.innerWidth < 768;
+        if (!isMobile) {
+            heroImages.forEach((src) => {
+                const img = new Image();
+                img.src = src;
+            });
+        }
 
         const timer = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % heroImages.length);
@@ -67,7 +70,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
                         {t.hero.subtitle}
                     </motion.h2>
 
-                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 tracking-tight flex flex-col items-center drop-shadow-2xl">
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 tracking-tight flex flex-col items-center drop-shadow-2xl">
                         <motion.span
                             initial={{
                                 opacity: 0,

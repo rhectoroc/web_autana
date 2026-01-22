@@ -73,7 +73,7 @@ export const Navbar = () => {
                             <button
                                 onClick={toggleLanguage}
                                 className={clsx(
-                                    "flex items-center gap-1 text-xs font-bold uppercase tracking-widest transition-colors duration-300",
+                                    "flex items-center gap-1 text-xs font-bold uppercase tracking-widest transition-colors duration-300 p-2",
                                     isScrolled ? "text-charcoal hover:text-gold-500" : "text-white hover:text-gold-400"
                                 )}
                             >
@@ -84,7 +84,7 @@ export const Navbar = () => {
                             <Link
                                 to="/login"
                                 className={clsx(
-                                    "transition-colors duration-300",
+                                    "transition-colors duration-300 p-2",
                                     isScrolled ? "text-charcoal hover:text-gold-500" : "text-white hover:text-gold-400"
                                 )}
                                 title={t.navbar.adminSignIn}

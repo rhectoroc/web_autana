@@ -179,22 +179,22 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                 <div className="h-px w-full bg-gray-100 my-4 group-hover:bg-gold-100 transition-colors" />
 
                 {/* Features */}
-                <div className="grid grid-cols-4 gap-2 text-center">
+                <div className="grid grid-cols-4 gap-1 text-center">
                     <div className="flex flex-col items-center justify-center">
                         <Bed className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                        <span className="text-xs text-gray-600">{property.bedrooms} {t.properties.details.beds}</span>
+                        <span className="text-xs text-gray-600 truncate w-full">{property.bedrooms} {t.properties.details.beds}</span>
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <Bath className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                        <span className="text-xs text-gray-600">{property.bathrooms} {t.properties.details.baths}</span>
+                        <span className="text-xs text-gray-600 truncate w-full">{property.bathrooms} {t.properties.details.baths}</span>
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <Maximize className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                        <span className="text-xs text-gray-600">{formatArea(property.area_sqm)}</span>
+                        <span className="text-xs text-gray-600 truncate w-full">{formatArea(property.area_sqm)}</span>
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <Car className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                        <span className="text-xs text-gray-600">{property.parking_spots || 0} {t.properties.details.parking}</span>
+                        <span className="text-xs text-gray-600 truncate w-full">{property.parking_spots || 0} {t.properties.details.parking}</span>
                     </div>
                 </div>
             </div>
