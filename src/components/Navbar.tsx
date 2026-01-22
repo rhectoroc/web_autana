@@ -128,23 +128,34 @@ export const Navbar = () => {
                                     <a
                                         key={link.name}
                                         href={link.href}
-                                        className="block px-3 py-4 text-base font-serif text-charcoal hover:bg-gray-50 hover:text-gold-500 border-b border-gray-100"
+                                        className="block px-3 py-4 text-center text-base font-serif text-charcoal hover:bg-gray-50 hover:text-gold-500 border-b border-gray-100"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         {link.name}
                                     </a>
                                 ))}
                                 <div className="pt-4 px-3 flex flex-col gap-4">
-                                    <button
-                                        onClick={() => {
-                                            toggleLanguage();
-                                            setIsMobileMenuOpen(false);
-                                        }}
-                                        className="flex items-center gap-2 text-charcoal font-medium"
-                                    >
-                                        <Globe className="w-5 h-5 text-gold-500" />
-                                        <span>{language === 'en' ? 'Cambiar a Español' : 'Switch to English'}</span>
-                                    </button>
+                                    <div className="flex items-center justify-center gap-8">
+                                        <button
+                                            onClick={() => {
+                                                toggleLanguage();
+                                                setIsMobileMenuOpen(false);
+                                            }}
+                                            className="flex items-center gap-2 text-charcoal font-medium hover:text-gold-500 transition-colors"
+                                            aria-label="Toggle Language"
+                                        >
+                                            <Globe className="w-6 h-6" />
+                                        </button>
+
+                                        <Link
+                                            to="/login"
+                                            className="flex items-center gap-2 text-charcoal font-medium hover:text-gold-500 transition-colors"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                            aria-label="Sign In"
+                                        >
+                                            <User className="w-6 h-6" />
+                                        </Link>
+                                    </div>
 
                                     <button
                                         onClick={() => {
