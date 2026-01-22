@@ -39,7 +39,8 @@ export const VideoDivider = () => {
                 </video>
 
                 {/* Overlay Content - Removed dark background for clarity */}
-                <div className="absolute inset-0 flex items-center justify-center text-center">
+                {/* Overlay Content - Moved to top */}
+                <div className="absolute inset-0 flex items-start justify-center text-center pt-16 md:pt-24">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}

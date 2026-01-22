@@ -33,7 +33,7 @@ export const Navbar = () => {
             <nav
                 className={clsx(
                     'fixed w-full z-50 transition-all duration-500 ease-in-out',
-                    isScrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-4' : 'bg-transparent py-6'
+                    isScrolled ? 'bg-white/95 backdrop-blur-md shadow-md py-3' : 'bg-transparent py-4'
                 )}
             >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -45,7 +45,7 @@ export const Navbar = () => {
                                 <img
                                     src="/logo/logoOriginal.png"
                                     alt="Autana Group"
-                                    className="h-20 w-auto object-contain transition-all duration-300"
+                                    className="h-14 w-auto object-contain transition-all duration-300"
                                 />
                             </a>
                         </div>
@@ -160,7 +160,7 @@ export const Navbar = () => {
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </nav>
+            </nav >
 
             <BookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
         </>
