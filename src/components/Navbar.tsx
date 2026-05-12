@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Menu, X, Lock } from 'lucide-react';
+
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookingModal } from './BookingModal';
