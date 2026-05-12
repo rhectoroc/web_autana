@@ -4,7 +4,7 @@ import { Pagination, Navigation, EffectFade } from 'swiper/modules';
 import { Bed, Bath, Car, Maximize, MapPin, Play } from 'lucide-react';
 import type { Property } from '../types/property';
 import { formatCurrency, formatArea, getMediaUrl } from '../utils/format';
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -202,7 +202,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
 
                     <div className="relative z-10 mt-auto">
                         <button className="w-full bg-[#D4AF37] hover:bg-[#E5C158] text-black font-bold py-3 rounded-lg transition-all transform active:scale-95 flex items-center justify-center gap-2 group/btn shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-                            {t.properties.details.viewDetails || 'View Details'}
+                            {t.properties.details.beds ? (t.language === 'en' ? 'View Details' : 'Ver Detalles') : 'View Details'}
                             <Maximize className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                         </button>
                     </div>
