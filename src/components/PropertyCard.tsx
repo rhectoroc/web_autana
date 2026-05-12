@@ -20,7 +20,7 @@ interface PropertyCardProps {
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isPlaying, setIsPlaying] = useState<string | number | null>(null);
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
 
 
     const getTypeLabel = (type: Property['type']) => {
@@ -202,7 +202,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
 
                     <div className="relative z-10 mt-auto">
                         <button className="w-full bg-[#D4AF37] hover:bg-[#E5C158] text-black font-bold py-3 rounded-lg transition-all transform active:scale-95 flex items-center justify-center gap-2 group/btn shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-                            {t.properties.details.beds ? (t.language === 'en' ? 'View Details' : 'Ver Detalles') : 'View Details'}
+                            {language === 'en' ? 'View Details' : 'Ver Detalles'}
                             <Maximize className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                         </button>
                     </div>
