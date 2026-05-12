@@ -81,16 +81,16 @@ export const Navbar = () => {
                                 <span>{language === 'en' ? 'ES' : 'EN'}</span>
                             </button>
 
-                            <Link
-                                to="/login"
+                            <a
+                                href="https://autana-app.91xjh2.easypanel.host/login"
                                 className={clsx(
                                     "transition-colors duration-300 p-2",
                                     isScrolled ? "text-charcoal hover:text-gold-500" : "text-white hover:text-gold-400"
                                 )}
-                                title={t.navbar.adminSignIn}
+                                aria-label="Sign In"
                             >
-                                <User className="w-5 h-5" />
-                            </Link>
+                                <Lock className="w-5 h-5" />
+                            </a>
                             <button
                                 onClick={() => setIsBookingModalOpen(true)}
                                 className="bg-gold-500 hover:bg-gold-600 text-white px-6 py-2.5 rounded-sm uppercase text-xs font-bold tracking-widest transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/20"
@@ -147,14 +147,15 @@ export const Navbar = () => {
                                             <Globe className="w-6 h-6" />
                                         </button>
 
-                                        <Link
-                                            to="/login"
+                                        <a
+                                            href="https://autana-app.91xjh2.easypanel.host/login"
                                             className="flex items-center gap-2 text-charcoal font-medium hover:text-gold-500 transition-colors"
                                             onClick={() => setIsMobileMenuOpen(false)}
                                             aria-label="Sign In"
                                         >
-                                            <User className="w-6 h-6" />
-                                        </Link>
+                                            <Lock className="w-5 h-5" />
+                                            <span>Sign In</span>
+                                        </a>
                                     </div>
 
                                     <button
