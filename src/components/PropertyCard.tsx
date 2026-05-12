@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation, EffectFade } from 'swiper/modules';
 import { Bed, Bath, Car, Maximize, MapPin, Play } from 'lucide-react';
 import type { Property } from '../types/property';
-import { formatCurrency, formatArea } from '../utils/format';
+import { formatCurrency, formatArea, getMediaUrl } from '../utils/format';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import clsx from 'clsx';
 import 'swiper/css';
@@ -101,10 +101,10 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                             {item.type === 'video' ? (
                                 <div className="relative h-full w-full">
                                     <video
-                                        src={item.url}
+                                        src={getMediaUrl(item.url)}
                                         className="h-full w-full object-cover"
                                         controls={isPlaying === item.id}
-                                        poster={property.media.find(m => m.type === 'image')?.url}
+                                        poster={getMediaUrl(property.media.find(m => m.type === 'image')?.url || '')}
                                         onPlay={() => setIsPlaying(item.id)}
                                         onPause={() => setIsPlaying(null)}
                                     />
@@ -119,7 +119,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                             ) : (
                                 <div onClick={onClick} className="block h-full w-full cursor-pointer">
                                     <img
-                                        src={item.url}
+                                        src={getMediaUrl(item.url)}
                                         alt={property.title}
                                         loading="lazy"
                                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
