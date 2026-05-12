@@ -1,54 +1,26 @@
-# Stage 1: Builder
+# Stage 1: Build
 FROM node:20-alpine AS builder
-
 WORKDIR /app
-
-# Install dependencies
-# Copying package files first to leverage Docker cache
 COPY package*.json ./
-# Use npm ci for clean, deterministic, and often faster installs
 RUN npm ci
-
-# Copy source code
 COPY . .
-
-# Build the application
-# Increase memory limit for the build process to avoid OOMKilled (Exit Code 137)
-# Adjust 4096 to be slightly less than your container's total memory limit
-ARG NODE_OPTIONS="--max-old-space-size=4096"
-ENV NODE_OPTIONS=$NODE_OPTIONS
-
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 RUN npm run build
 
-# Stage 2: Production
-FROM node:20-alpine
+# Stage 2: Serve with NGINX
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-WORKDIR /app
+# Add custom nginx config to handle SPA routing
+RUN echo 'server { \
+    listen 80; \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html index.htm; \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
 
-ENV NODE_ENV=production
-# Increase memory limit for the production process
-ENV NODE_OPTIONS="--max-old-space-size=4096"
-
-# Install only production dependencies
-COPY package*.json ./
-RUN npm ci --omit=dev && npm cache clean --force
-
-# Copy built artifacts from builder
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/dist-server ./dist-server
-
-# Copy essential static assets/config
-COPY --from=builder /app/server/schema.sql ./server/schema.sql
-COPY --from=builder /app/public ./public
-
-# Create uploads directory with correct permissions
-RUN mkdir -p uploads && chown -R node:node uploads
-
-# Switch to non-root user for security
-USER node
-
-# Expose the API port
-EXPOSE 5000
-
-# Start command
-CMD ["npm", "start"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
