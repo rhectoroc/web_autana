@@ -10,13 +10,20 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Log connection intent (without exposing password)
+if (process.env.DATABASE_URL) {
+    console.log('Database connection: Attempting to connect via DATABASE_URL');
+} else {
+    console.log('Database connection: No DATABASE_URL found, falling back to individual DB_* variables');
+    console.log(`Targeting Host: ${process.env.DB_HOST || 'autana_db'}`);
+}
+
 export const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    // Provide fallback only if DATABASE_URL is not set (local dev without url)
     ...(process.env.DATABASE_URL ? {} : {
         user: process.env.DB_USER || 'postgres',
-        host: process.env.DB_HOST || 'localhost',
-        database: process.env.DB_NAME || 'autana_db',
+        host: process.env.DB_HOST || 'autana_db', // Default to internal Docker name
+        database: process.env.DB_NAME || 'autana',
         password: process.env.DB_PASSWORD || 'password',
         port: parseInt(process.env.DB_PORT || '5432'),
     })
