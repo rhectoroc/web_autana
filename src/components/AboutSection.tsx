@@ -1,9 +1,11 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Home, Calendar, Sun, Building2 } from 'lucide-react';
 import { useTranslation } from '../store/useLanguageStore';
 
 export const AboutSection = () => {
     const { t } = useTranslation();
+    const [isHovered, setIsHovered] = useState(false);
 
     const services = [
         {
@@ -43,20 +45,115 @@ export const AboutSection = () => {
                         transition={{ duration: 0.8 }}
                         className="relative"
                     >
-                        <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                            <img
-                                src="/AboutUs.PNG"
+                        <div
+                            className="relative rounded-2xl overflow-hidden shadow-2xl cursor-pointer"
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
+                        >
+                            {/* Image */}
+                            <motion.img
+                                src="/AboutUsNew.svg"
                                 alt="Autana Group Team"
-                                className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
+                                className="w-full h-auto object-cover"
+                                animate={{ scale: isHovered ? 1.07 : 1 }}
+                                transition={{ duration: 0.7, ease: 'easeOut' }}
                             />
-                            {/* Overlay Gradient */}
+
+                            {/* Base Gradient */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
 
-                            {/* Experience Badge - Moved to Top Left */}
-                            <div className="absolute top-8 left-8 bg-white/95 backdrop-blur shadow-lg p-6 rounded-lg border-l-4 border-gold-500 max-w-xs">
-                                <span className="text-4xl font-bold text-charcoal block mb-1">{t.about.badge.years}</span>
-                                <span className="text-sm text-gray-600 uppercase tracking-wider font-semibold">{t.about.badge.text}</span>
-                            </div>
+                            {/* ── Image Overlay Reveal — Centered Card ── */}
+                            <AnimatePresence>
+                                {isHovered && (
+                                    /* Dim backdrop covering the whole image */
+                                    <motion.div
+                                        className="absolute inset-0 flex items-center justify-center"
+                                        style={{ background: 'rgba(0,0,0,0.25)' }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        transition={{ duration: 0.35, ease: 'easeOut' }}
+                                    >
+                                        {/* Glassmorphism card — centered rectangle */}
+                                        <motion.div
+                                            className="flex flex-col items-center justify-center px-12 py-14 mx-8"
+                                            style={{
+                                                backdropFilter: 'blur(24px)',
+                                                WebkitBackdropFilter: 'blur(24px)',
+                                                background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
+                                                border: '1px solid rgba(255,255,255,0.3)',
+                                                borderRadius: '30px',
+                                                boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+                                                minWidth: '300px',
+                                                maxWidth: '85%',
+                                            }}
+                                            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 30, scale: 0.95 }}
+                                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                                        >
+                                            {/* + 10 — The Hero Number */}
+                                            <motion.div
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 0.9 }}
+                                                transition={{ duration: 0.5, delay: 0.2 }}
+                                            >
+                                                <h2 
+                                                    style={{
+                                                        fontFamily: '"Playfair Display", serif',
+                                                        fontSize: 'clamp(4rem, 8vw, 6rem)',
+                                                        fontWeight: 700,
+                                                        lineHeight: 1,
+                                                        background: 'linear-gradient(180deg, #FFFFFF 0%, #D4AF37 100%)',
+                                                        WebkitBackgroundClip: 'text',
+                                                        WebkitTextFillColor: 'transparent',
+                                                        filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))',
+                                                        marginBottom: '0.5rem'
+                                                    }}
+                                                >
+                                                    {t.about.overlay.number}
+                                                </h2>
+                                            </motion.div>
+
+                                            {/* Tagline — "Years of Experience & Trust" / "Años de Experiencia y Confianza" */}
+                                            <motion.p
+                                                style={{
+                                                    fontFamily: '"Inter", sans-serif',
+                                                    fontSize: 'clamp(0.7rem, 1.2vw, 0.85rem)',
+                                                    fontWeight: 500,
+                                                    textAlign: 'center',
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '0.4em',
+                                                    color: 'rgba(255,255,255,0.85)',
+                                                    maxWidth: '80%',
+                                                    lineHeight: 1.6
+                                                }}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: 10 }}
+                                                transition={{ duration: 0.5, delay: 0.4 }}
+                                            >
+                                                {t.about.overlay.tagline}
+                                            </motion.p>
+
+                                            {/* Golden line inferior — Ultra-thin & Glow */}
+                                            <motion.div
+                                                style={{
+                                                    height: '1px',
+                                                    width: '30%',
+                                                    background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+                                                    marginTop: '2.5rem',
+                                                }}
+                                                initial={{ scaleX: 0, opacity: 0 }}
+                                                animate={{ scaleX: 1, opacity: 1 }}
+                                                exit={{ scaleX: 0, opacity: 0 }}
+                                                transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+                                            />
+                                        </motion.div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
 
                         {/* Decorative Dot Grid */}

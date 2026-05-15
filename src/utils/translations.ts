@@ -73,6 +73,10 @@ export const translations = {
                     title: "Commercial Leases",
                     desc: "Our focus is on finding the ideal space that fits your requirements and budget."
                 }
+            },
+            overlay: {
+                number: "+ 10",
+                tagline: "Years of Experience & Trust"
             }
         },
         video: {
@@ -236,6 +240,10 @@ export const translations = {
                     title: "Locales Comerciales",
                     desc: "Nos enfocamos en encontrar el espacio ideal que se ajuste a sus requerimientos y presupuesto."
                 }
+            },
+            overlay: {
+                number: "+ 10",
+                tagline: "Años de Experiencia y Confianza"
             }
         },
         video: {
