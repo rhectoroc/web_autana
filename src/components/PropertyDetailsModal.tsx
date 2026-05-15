@@ -18,6 +18,8 @@ interface PropertyDetailsModalProps {
 export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ property, onClose }) => {
     const { t, language } = useTranslation();
     const [copied, setCopied] = useState(false);
+    const [swiperInstance, setSwiperInstance] = useState<any>(null);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const displayTitle = (language === 'en' && property.title_en) ? property.title_en : property.title;
     const displayDescription = (language === 'en' && property.description_en) ? property.description_en : property.description;
@@ -87,10 +89,12 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                             <div className="lg:w-3/5 bg-gray-100 flex flex-col relative h-[400px] lg:h-[500px]">
                                 <Swiper
                                     modules={[Pagination, Navigation]}
+                                    onSwiper={setSwiperInstance}
+                                    onSlideChange={(swiper) => setActiveIndex(swiper.activeIndex)}
                                     speed={700}
                                     pagination={{ clickable: true, dynamicBullets: true }}
                                     navigation
-                                    loop={true}
+                                    loop={false}
                                     className="w-full h-full text-white"
                                 >
                                     {property.media.map((item, index) => (
@@ -116,6 +120,37 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
+
+                                {/* Thumbnails Gallery (The empty space) */}
+                                <div className="bg-white p-4 border-t border-gray-100 overflow-x-auto scrollbar-hide">
+                                    <div className="flex gap-2 min-w-max">
+                                        {property.media.map((item, idx) => (
+                                            <button
+                                                key={item.id || idx}
+                                                onClick={() => swiperInstance?.slideTo(idx)}
+                                                className={`relative w-20 h-14 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                                                    activeIndex === idx ? 'border-gold-500 scale-105 shadow-lg' : 'border-transparent opacity-60 hover:opacity-100'
+                                                }`}
+                                            >
+                                                <img
+                                                    src={item.type === 'video' 
+                                                        ? property.media.find(m => m.type === 'image')?.url 
+                                                        : getMediaUrl(item.url)
+                                                    }
+                                                    className="w-full h-full object-cover"
+                                                    alt={`Thumb ${idx}`}
+                                                />
+                                                {item.type === 'video' && (
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                                                        <div className="w-6 h-6 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                                            <div className="w-0 h-0 border-t-[4px] border-t-transparent border-l-[7px] border-l-white border-b-[4px] border-b-transparent ml-0.5" />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
 
                                 <div className="absolute top-6 left-6 z-10">
                                     <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-sm shadow-md text-white ${property.status === 'sold' ? 'bg-red-600' :

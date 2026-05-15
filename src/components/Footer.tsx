@@ -73,6 +73,8 @@ export const Footer = () => {
                         <p className="text-gray-400 text-sm mb-4">{t.footer.newsletter.text}</p>
                         <div className="flex flex-col space-y-3">
                             <input
+                                id="newsletter-email"
+                                name="email"
                                 type="email"
                                 placeholder={t.footer.newsletter.placeholder}
                                 className="bg-white/10 border border-white/20 text-white placeholder-gray-500 px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors"

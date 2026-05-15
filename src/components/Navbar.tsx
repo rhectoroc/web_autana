@@ -118,57 +118,78 @@ export const Navbar = () => {
                 <AnimatePresence>
                     {isMobileMenuOpen && (
                         <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="md:hidden bg-white border-t border-gray-100 overflow-hidden"
+                            initial={{ opacity: 0, x: '100%' }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: '100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            className="fixed inset-0 z-[60] bg-charcoal/95 backdrop-blur-2xl md:hidden flex flex-col pt-24 px-8 pb-12"
                         >
-                            <div className="px-4 pt-2 pb-6 space-y-1">
-                                {navLinks.map((link) => (
-                                    <a
+                            <div className="flex flex-col gap-8 text-center">
+                                {navLinks.map((link, i) => (
+                                    <motion.a
                                         key={link.name}
                                         href={link.href}
-                                        className="block px-3 py-4 text-center text-base font-serif text-charcoal hover:bg-gray-50 hover:text-gold-500 border-b border-gray-100"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.1 * i }}
+                                        className="text-3xl font-serif text-white hover:text-gold-500 transition-colors"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         {link.name}
-                                    </a>
+                                    </motion.a>
                                 ))}
-                                <div className="pt-4 px-3 flex flex-col gap-4">
-                                    <div className="flex items-center justify-center gap-8">
-                                        <button
-                                            onClick={() => {
-                                                toggleLanguage();
-                                                setIsMobileMenuOpen(false);
-                                            }}
-                                            className="flex items-center gap-2 text-charcoal font-medium hover:text-gold-500 transition-colors"
-                                            aria-label="Toggle Language"
-                                        >
-                                            <Globe className="w-6 h-6" />
-                                        </button>
-
-                                        <a
-                                            href="https://autana-app.91xjh2.easypanel.host/login"
-                                            className="flex items-center gap-2 text-charcoal font-medium hover:text-gold-500 transition-colors"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                            aria-label="Sign In"
-                                        >
-                                            <Lock className="w-5 h-5" />
-                                            <span>Sign In</span>
-                                        </a>
-                                    </div>
-
-                                    <button
-                                        onClick={() => {
-                                            setIsMobileMenuOpen(false);
-                                            setIsBookingModalOpen(true);
-                                        }}
-                                        className="w-full bg-gold-500 text-white px-6 py-3 uppercase text-sm font-bold tracking-widest"
-                                    >
-                                        {t.navbar.bookNow}
-                                    </button>
-                                </div>
                             </div>
+
+                            <div className="mt-auto space-y-8">
+                                <div className="flex items-center justify-center gap-12">
+                                    <motion.button
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.5 }}
+                                        onClick={() => {
+                                            toggleLanguage();
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="flex flex-col items-center gap-2 text-gold-500"
+                                    >
+                                        <Globe className="w-8 h-8" />
+                                        <span className="text-[10px] font-bold uppercase tracking-[0.2em]">{language === 'en' ? 'ESPAÑOL' : 'ENGLISH'}</span>
+                                    </motion.button>
+
+                                    <motion.a
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.6 }}
+                                        href="https://autana-app.91xjh2.easypanel.host/login"
+                                        className="flex flex-col items-center gap-2 text-white"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        <Lock className="w-8 h-8" />
+                                        <span className="text-[10px] font-bold uppercase tracking-[0.2em]">ADMIN</span>
+                                    </motion.a>
+                                </div>
+
+                                <motion.button
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.7 }}
+                                    onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        setIsBookingModalOpen(true);
+                                    }}
+                                    className="w-full bg-gold-500 text-white py-5 rounded-full uppercase text-xs font-bold tracking-[0.2em] shadow-[0_10px_30px_rgba(212,175,55,0.3)]"
+                                >
+                                    {t.navbar.bookNow}
+                                </motion.button>
+                            </div>
+
+                            {/* Close Button Inside Menu */}
+                            <button 
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="absolute top-6 right-6 p-2 text-white/50 hover:text-white transition-colors"
+                            >
+                                <X className="w-10 h-10" />
+                            </button>
                         </motion.div>
                     )}
                 </AnimatePresence>

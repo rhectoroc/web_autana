@@ -35,48 +35,47 @@ export const Hero = ({ onSearch }: HeroProps) => {
     }, []);
 
     return (
-        <div className="relative h-screen w-full overflow-hidden">
+        <div className="relative h-screen h-[100dvh] w-full overflow-hidden">
             {/* Background Slider */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-black/40 z-10" /> {/* Overlay */}
+                <div className="absolute inset-0 bg-black/50 z-10" /> {/* Slightly darker overlay for better mobile contrast */}
                 <AnimatePresence mode='popLayout'>
                     <motion.img
                         key={currentIndex}
                         src={heroImages[currentIndex]}
-                        initial={{ opacity: 0, scale: 1.2 }}
+                        initial={{ opacity: 0, scale: 1.1 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 2.5, ease: "easeOut" }}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
                         alt="Hero Background"
                     />
                 </AnimatePresence>
             </div>
 
             {/* Content */}
-            <div className="relative z-20 h-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
+            <div className="relative z-20 h-full flex flex-col justify-center items-center text-center px-6 sm:px-8">
                 <motion.div
-                    initial={{ opacity: 0, y: 100 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }} // Faster container entry
-                    className="w-full max-w-7xl"
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="w-full max-w-7xl pt-10 md:pt-0"
                 >
                     <motion.h2
                         initial={{ opacity: 0, letterSpacing: '0.1em' }}
-                        animate={{ opacity: 1, letterSpacing: '0.3em' }}
+                        animate={{ opacity: 1, letterSpacing: window.innerWidth < 768 ? '0.2em' : '0.4em' }}
                         transition={{ duration: 1, delay: 0.1 }}
-                        className="text-white font-sans text-sm md:text-base uppercase mb-6"
+                        className="text-gold-400 font-sans text-[10px] md:text-base uppercase mb-4 md:mb-6 tracking-[0.2em] md:tracking-[0.4em] font-bold"
                     >
                         {t.hero.subtitle}
                     </motion.h2>
 
-                    <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-serif text-white mb-8 tracking-tight flex flex-col items-center drop-shadow-2xl">
+                    <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-white mb-6 md:mb-8 tracking-tight drop-shadow-2xl">
                         <motion.span
                             initial={{
                                 opacity: 0,
-                                y: 40,
-                                filter: 'blur(10px)',
-                                backgroundPosition: '0% 50%'
+                                y: 20,
+                                filter: 'blur(8px)',
                             }}
                             animate={{
                                 opacity: 1,
@@ -85,12 +84,12 @@ export const Hero = ({ onSearch }: HeroProps) => {
                                 backgroundPosition: ['0% 50%', '200% 50%']
                             }}
                             transition={{
-                                opacity: { duration: 0.8, delay: 0.2, ease: "easeOut" },
-                                y: { duration: 0.8, delay: 0.2, ease: "easeOut" },
-                                filter: { duration: 0.8, delay: 0.2, ease: "easeOut" },
+                                opacity: { duration: 0.8, delay: 0.2 },
+                                y: { duration: 0.8, delay: 0.2 },
+                                filter: { duration: 0.8, delay: 0.2 },
                                 backgroundPosition: { duration: 8, repeat: Infinity, ease: "linear" }
                             }}
-                            className="block text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#bf953f] bg-[length:200%_auto]"
+                            className="block text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#bf953f] bg-[length:200%_auto] leading-[1.1]"
                         >
                             {t.hero.title}
                         </motion.span>
@@ -100,29 +99,32 @@ export const Hero = ({ onSearch }: HeroProps) => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 1, delay: 0.6 }}
-                        className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto font-light mb-10"
+                        className="text-gray-300 text-sm md:text-xl max-w-xl md:max-w-2xl mx-auto font-light mb-8 md:mb-12 leading-relaxed"
                     >
                         {t.hero.description}
                     </motion.p>
 
-                    {/* Search Bar */}
-                    {onSearch && <PropertySearch onSearch={onSearch} />}
+                    {/* Search Bar Container - Added extra padding for mobile thumb reach */}
+                    <div className="w-full max-w-5xl mx-auto px-2 md:px-0">
+                        {onSearch && <PropertySearch onSearch={onSearch} />}
+                    </div>
 
                 </motion.div>
             </div>
-            {/* Scroll Indicator */}
+
+            {/* Scroll Indicator - Hidden on very small screens to avoid overlap */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1, y: [0, 10, 0] }}
                 transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-                className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20 text-white cursor-pointer"
+                className="absolute bottom-6 md:bottom-10 left-1/2 transform -translate-x-1/2 z-20 text-white cursor-pointer hidden sm:block"
                 onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
             >
                 <div className="flex flex-col items-center">
-                    <span className="text-[10px] uppercase tracking-widest mb-2 opacity-80">{t.hero.scroll}</span>
-                    <ChevronDown className="w-6 h-6 animate-bounce" />
+                    <span className="text-[10px] uppercase tracking-widest mb-2 opacity-60 font-medium">{t.hero.scroll}</span>
+                    <ChevronDown className="w-5 h-5 text-gold-500 animate-bounce" />
                 </div>
             </motion.div>
-        </div >
+        </div>
     );
 };

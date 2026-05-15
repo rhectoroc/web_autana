@@ -115,6 +115,8 @@ export const FloatingChatbot: React.FC = () => {
                         {/* Input Area */}
                         <form onSubmit={handleSend} className="p-4 bg-black/40 border-t border-white/5 flex gap-2">
                             <input
+                                id="chatbot-message"
+                                name="chat_message"
                                 type="text"
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}

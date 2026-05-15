@@ -100,6 +100,8 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                     <User className="w-5 h-5" />
                                                 </div>
                                                 <input
+                                                    id="booking-name"
+                                                    name="name"
                                                     type="text"
                                                     required
                                                     placeholder={t.booking.form.name}
@@ -116,6 +118,8 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                         <Mail className="w-5 h-5" />
                                                     </div>
                                                     <input
+                                                        id="booking-email"
+                                                        name="email"
                                                         type="email"
                                                         required
                                                         placeholder={t.booking.form.email}
@@ -129,6 +133,8 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                         <Phone className="w-5 h-5" />
                                                     </div>
                                                     <input
+                                                        id="booking-phone"
+                                                        name="phone"
                                                         type="tel"
                                                         required
                                                         placeholder={t.booking.form.phone}
@@ -145,6 +151,8 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                     <Home className="w-5 h-5" />
                                                 </div>
                                                 <input
+                                                    id="booking-property"
+                                                    name="property"
                                                     type="text"
                                                     required
                                                     placeholder={t.booking.form.property}
@@ -160,6 +168,8 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                     <Calendar className="w-5 h-5" />
                                                 </div>
                                                 <input
+                                                    id="booking-date"
+                                                    name="date"
                                                     type="date"
                                                     required
                                                     className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all text-charcoal placeholder-gray-400 text-sm"
