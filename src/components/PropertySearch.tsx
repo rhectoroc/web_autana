@@ -6,7 +6,7 @@ import { useTranslation } from '../store/useLanguageStore';
 interface SearchFilters {
     q: string;
     location: string;
-    type: 'all' | 'sale' | 'rent_long' | 'rent_short';
+    type: 'all' | 'sale' | 'rent_long' | 'rent_short' | 'luxury';
 }
 
 interface PropertySearchProps {
@@ -86,6 +86,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                     >
                         <option value="all">{t.search.types.all}</option>
                         <option value="sale">{t.search.types.sale}</option>
+                        <option value="luxury">{t.search.types.luxury}</option>
                         <option value="rent_long">{t.search.types.rent_long}</option>
                         <option value="rent_short">{t.search.types.rent_short}</option>
                     </select>

@@ -11,12 +11,12 @@ interface PropertiesSectionProps {
     filters?: {
         q: string;
         location: string;
-        type: 'all' | 'sale' | 'rent_long' | 'rent_short';
+        type: 'all' | 'sale' | 'rent_long' | 'rent_short' | 'luxury';
     } | null;
 }
 
 export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
-    const [activeFilter, setActiveFilter] = useState<'all' | 'sale' | 'rent_long' | 'rent_short'>('all');
+    const [activeFilter, setActiveFilter] = useState<'all' | 'sale' | 'rent_long' | 'rent_short' | 'luxury'>('all');
     const [selectedProperty, setSelectedProperty] = useState<any | null>(null);
     const [properties, setProperties] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -93,6 +93,7 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
     const tabs = [
         { id: 'all', label: t.properties.tabs.all },
         { id: 'sale', label: t.properties.tabs.sale },
+        { id: 'luxury', label: t.properties.tabs.luxury },
         { id: 'rent_long', label: t.properties.tabs.rent_long },
         { id: 'rent_short', label: t.properties.tabs.rent_short },
     ];

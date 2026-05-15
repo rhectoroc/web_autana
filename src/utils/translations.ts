@@ -12,7 +12,7 @@ export const translations = {
         hero: {
             subtitle: "Redefining Luxury Living",
             title: "Autana Group",
-            description: "Experience the pinnacle of exclusivity in the Caribbean's most prestigious destinations.",
+            description: "Experience the pinnacle of exclusivity in Punta Cana. The Caribbean's most prestigious destination, world-renowned for its white sand beaches and turquoise waters.",
             scroll: "Scroll"
         },
         search: {
@@ -175,7 +175,7 @@ export const translations = {
         hero: {
             subtitle: "Redefiniendo el Lujo",
             title: "Autana Group",
-            description: "Experimenta la cúspide de la exclusividad en los destinos más prestigiosos del Caribe.",
+            description: "Experimenta la cúspide de la exclusividad en Punta Cana. El destino más prestigioso del Caribe, famoso por sus playas de arena blanca y aguas turquesas.",
             scroll: "Desplazar"
         },
         search: {
