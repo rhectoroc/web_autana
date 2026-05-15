@@ -205,7 +205,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                     <div className="relative z-10" onClick={onClick}>
                         <div className="flex items-center justify-between mb-4">
                             <span className="text-[#D4AF37] font-serif text-lg font-bold">{formatCurrency(property.price)}</span>
-                            <span className="bg-[#D4AF37]/10 text-[#D4AF37] text-[10px] px-2 py-1 rounded-full uppercase tracking-widest border border-[#D4AF37]/20">
+                            <span className="bg-[#D4AF37]/10 text-[#D4AF37] text-[10px] px-2 py-1 rounded-full uppercase tracking-widest border border-[#D4AF37]/20 md:mr-0 mr-12">
                                 {getTypeLabel(property.type)}
                             </span>
                         </div>

@@ -81,16 +81,6 @@ export const Navbar = () => {
                                 <span>{language === 'en' ? 'ES' : 'EN'}</span>
                             </button>
 
-                            <a
-                                href="https://autana-app.91xjh2.easypanel.host/login"
-                                className={clsx(
-                                    "transition-colors duration-300 p-2",
-                                    isScrolled ? "text-charcoal hover:text-gold-500" : "text-white hover:text-gold-400"
-                                )}
-                                aria-label="Sign In"
-                            >
-                                <Lock className="w-5 h-5" />
-                            </a>
                             <button
                                 onClick={() => setIsBookingModalOpen(true)}
                                 className="bg-gold-500 hover:bg-gold-600 text-white px-6 py-2.5 rounded-sm uppercase text-xs font-bold tracking-widest transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/20"
@@ -156,17 +146,6 @@ export const Navbar = () => {
                                         <span className="text-[10px] font-bold uppercase tracking-[0.2em]">{language === 'en' ? 'ESPAÑOL' : 'ENGLISH'}</span>
                                     </motion.button>
 
-                                    <motion.a
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ delay: 0.6 }}
-                                        href="https://autana-app.91xjh2.easypanel.host/login"
-                                        className="flex flex-col items-center gap-2 text-white"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        <Lock className="w-8 h-8" />
-                                        <span className="text-[10px] font-bold uppercase tracking-[0.2em]">ADMIN</span>
-                                    </motion.a>
                                 </div>
 
                                 <motion.button
