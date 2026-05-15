@@ -64,18 +64,12 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
                 const res = await api.get('/properties', { params });
 
                 // Map API data to PropertyCard format
+                // The backend already sends 'media' array, so we don't need to re-map p.images
                 const mapped = res.data.map((p: any) => ({
                     ...p,
-                    id: p.id,
-                    media: (p.images || []).map((img: any) => ({
-                        id: img.id,
-                        url: img.image_url,
-                        type: 'image'
-                    })),
-                    // Defaults for usage if missing
+                    // Ensure backward compatibility if some fields are missing
                     area_sqm: p.area_sqm || 0,
                     parking_spots: p.parking_spots || 0,
-                    type: p.type
                 }));
                 setProperties(mapped);
             } catch (err) {
