@@ -99,23 +99,14 @@ export const Hero = ({ onSearch }: HeroProps) => {
                         </motion.span>
                     </h1>
 
-                    {/* Optimized Typewriter with Mask Reveal (Cheaper than 150+ spans) */}
+                    {/* Optimized Typewriter with Clip Path Reveal */}
                     <motion.div
                         className="relative text-gray-300 text-sm md:text-xl max-w-xl md:max-w-2xl mx-auto font-light mb-8 md:mb-12 leading-relaxed"
+                        initial={{ clipPath: 'inset(0 100% 0 0)' }}
+                        animate={{ clipPath: 'inset(0 0% 0 0)' }}
+                        transition={{ duration: 2, delay: 1, ease: "easeInOut" }}
                     >
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 1, delay: 0.8 }}
-                        >
-                            {t.hero.description}
-                        </motion.p>
-                        <motion.div
-                            initial={{ x: '0%' }}
-                            animate={{ x: '100%' }}
-                            transition={{ duration: 2, delay: 1, ease: "easeInOut" }}
-                            className="absolute inset-0 bg-charcoal z-10 pointer-events-none mix-blend-multiply md:hidden"
-                        />
+                        <p>{t.hero.description}</p>
                     </motion.div>
 
                     {/* Search Bar Container - Added extra padding for mobile thumb reach */}
