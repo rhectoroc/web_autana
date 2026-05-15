@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Lock } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
