@@ -45,7 +45,6 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
     };
 
     return (
-    return (
         <div 
             className="group relative h-[450px] w-full [perspective:1000px]"
             onMouseEnter={() => setIsFlipped(true)}
