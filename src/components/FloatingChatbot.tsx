@@ -118,7 +118,7 @@ export const FloatingChatbot: React.FC = () => {
                                 id="chatbot-message"
                                 name="chat_message"
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 placeholder="Escriba su consulta..."

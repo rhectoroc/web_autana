@@ -95,14 +95,27 @@ export const Hero = ({ onSearch }: HeroProps) => {
                         </motion.span>
                     </h1>
 
-                    <motion.p
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 0.6 }}
-                        className="text-gray-300 text-sm md:text-xl max-w-xl md:max-w-2xl mx-auto font-light mb-8 md:mb-12 leading-relaxed"
+                        transition={{ duration: 1, delay: 0.8 }}
+                        className="text-gray-300 text-sm md:text-xl max-w-xl md:max-w-2xl mx-auto font-light mb-8 md:mb-12 leading-relaxed min-h-[4.5em] md:min-h-0"
                     >
-                        {t.hero.description}
-                    </motion.p>
+                        {t.hero.description.split("").map((char, index) => (
+                            <motion.span
+                                key={index}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{
+                                    duration: 0.05,
+                                    delay: 0.8 + (index * 0.02),
+                                    ease: "easeIn"
+                                }}
+                            >
+                                {char}
+                            </motion.span>
+                        ))}
+                    </motion.div>
 
                     {/* Search Bar Container - Added extra padding for mobile thumb reach */}
                     <div className="w-full max-w-5xl mx-auto px-2 md:px-0">
