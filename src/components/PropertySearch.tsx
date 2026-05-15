@@ -51,6 +51,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                         id="search-query"
                         name="q"
                         type="text"
+                        autocomplete="off"
                         placeholder={t.search.placeholder}
                         className="w-full pl-14 pr-6 py-4 md:py-3 bg-gray-50/50 md:bg-transparent border-none focus:ring-0 text-charcoal placeholder-gray-400 font-medium rounded-3xl md:rounded-full transition-all outline-none"
                         value={filters.q}
@@ -69,6 +70,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                         id="search-location"
                         name="location"
                         type="text"
+                        autocomplete="address-level2"
                         placeholder={t.search.location}
                         className="w-full pl-14 pr-6 py-4 md:py-3 bg-gray-50/50 md:bg-transparent border-none focus:ring-0 text-charcoal placeholder-gray-400 font-medium rounded-3xl md:rounded-full transition-all outline-none"
                         value={filters.location}

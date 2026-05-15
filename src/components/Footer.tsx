@@ -76,6 +76,7 @@ export const Footer = () => {
                                 id="newsletter-email"
                                 name="email"
                                 type="email"
+                                autocomplete="email"
                                 placeholder={t.footer.newsletter.placeholder}
                                 className="bg-white/10 border border-white/20 text-white placeholder-gray-500 px-4 py-3 focus:outline-none focus:border-gold-500 transition-colors"
                                 aria-label="Email address"

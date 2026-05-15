@@ -104,6 +104,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                     name="name"
                                                     type="text"
                                                     required
+                                                    autocomplete="name"
                                                     placeholder={t.booking.form.name}
                                                     className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all text-charcoal placeholder-gray-400"
                                                     value={formData.name}
@@ -122,6 +123,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                         name="email"
                                                         type="email"
                                                         required
+                                                        autocomplete="email"
                                                         placeholder={t.booking.form.email}
                                                         className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all text-charcoal placeholder-gray-400"
                                                         value={formData.email}
@@ -137,6 +139,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                         name="phone"
                                                         type="tel"
                                                         required
+                                                        autocomplete="tel"
                                                         placeholder={t.booking.form.phone}
                                                         className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-lg focus:outline-none focus:border-gold-500 focus:ring-1 focus:ring-gold-500 transition-all text-charcoal placeholder-gray-400"
                                                         value={formData.phone}
