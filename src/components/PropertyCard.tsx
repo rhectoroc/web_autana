@@ -20,12 +20,13 @@ interface PropertyCardProps {
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isPlaying, setIsPlaying] = useState<string | number | null>(null);
-    const { t, language } = useTranslation();
+    const { t } = useTranslation();
 
 
     const getTypeLabel = (type: Property['type']) => {
         switch (type) {
             case 'sale': return t.properties.tabs.sale;
+            case 'luxury': return t.properties.tabs.luxury;
             case 'rent_short': return t.properties.tabs.rent_short;
             case 'rent_long': return t.properties.tabs.rent_long;
             default: return type;
@@ -35,6 +36,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
     const getTypeColor = (type: Property['type']) => {
         switch (type) {
             case 'sale': return 'bg-gold-500';
+            case 'luxury': return 'bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.4)]';
             default: return 'bg-charcoal';
         }
     };
@@ -202,7 +204,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
 
                     <div className="relative z-10 mt-auto">
                         <button className="w-full bg-[#D4AF37] hover:bg-[#E5C158] text-black font-bold py-3 rounded-lg transition-all transform active:scale-95 flex items-center justify-center gap-2 group/btn shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-                            {language === 'en' ? 'View Details' : 'Ver Detalles'}
+                            {t.propertyCard.viewDetails}
                             <Maximize className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                         </button>
                     </div>
