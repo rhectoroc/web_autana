@@ -19,37 +19,41 @@ export const Hero = ({ onSearch }: HeroProps) => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        // Efficient Image Preloading: Only preload on desktop/tablet to save data on mobile
-        const isMobile = window.innerWidth < 768;
-        if (!isMobile) {
-            heroImages.forEach((src) => {
-                const img = new Image();
-                img.src = src;
-            });
-        }
+        // Robust Image Preloading for all devices
+        heroImages.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+        });
 
         const timer = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % heroImages.length);
-        }, 5000);
+        }, 6000); // Slightly slower for a more relaxed feel
         return () => clearInterval(timer);
     }, []);
 
     return (
-        <div className="relative h-screen h-[100dvh] w-full overflow-hidden">
+        <div className="relative h-screen h-[100dvh] w-full overflow-hidden bg-charcoal">
             {/* Background Slider */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-black/50 z-10" /> {/* Slightly darker overlay for better mobile contrast */}
-                <AnimatePresence mode='popLayout'>
-                    <motion.img
+                <div className="absolute inset-0 bg-black/40 z-10" /> 
+                <AnimatePresence initial={false}>
+                    <motion.div
                         key={currentIndex}
-                        src={heroImages[currentIndex]}
-                        initial={{ opacity: 0, scale: 1.1 }}
-                        animate={{ opacity: 1, scale: 1 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 2.5, ease: "easeOut" }}
-                        className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
-                        alt="Hero Background"
-                    />
+                        transition={{ duration: 2, ease: "easeInOut" }}
+                        className="absolute inset-0"
+                    >
+                        <motion.img
+                            src={heroImages[currentIndex]}
+                            initial={{ scale: 1.1 }}
+                            animate={{ scale: 1 }}
+                            transition={{ duration: 8, ease: "linear" }}
+                            className="w-full h-full object-cover object-[center_30%]"
+                            alt="Hero Background"
+                        />
+                    </motion.div>
                 </AnimatePresence>
             </div>
 
@@ -95,26 +99,23 @@ export const Hero = ({ onSearch }: HeroProps) => {
                         </motion.span>
                     </h1>
 
+                    {/* Optimized Typewriter with Mask Reveal (Cheaper than 150+ spans) */}
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1, delay: 0.8 }}
-                        className="text-gray-300 text-sm md:text-xl max-w-xl md:max-w-2xl mx-auto font-light mb-8 md:mb-12 leading-relaxed min-h-[4.5em] md:min-h-0"
+                        className="relative text-gray-300 text-sm md:text-xl max-w-xl md:max-w-2xl mx-auto font-light mb-8 md:mb-12 leading-relaxed"
                     >
-                        {t.hero.description.split("").map((char, index) => (
-                            <motion.span
-                                key={index}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{
-                                    duration: 0.05,
-                                    delay: 0.8 + (index * 0.02),
-                                    ease: "easeIn"
-                                }}
-                            >
-                                {char}
-                            </motion.span>
-                        ))}
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1, delay: 0.8 }}
+                        >
+                            {t.hero.description}
+                        </motion.p>
+                        <motion.div
+                            initial={{ x: '0%' }}
+                            animate={{ x: '100%' }}
+                            transition={{ duration: 2, delay: 1, ease: "easeInOut" }}
+                            className="absolute inset-0 bg-charcoal z-10 pointer-events-none mix-blend-multiply md:hidden"
+                        />
                     </motion.div>
 
                     {/* Search Bar Container - Added extra padding for mobile thumb reach */}
