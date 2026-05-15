@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, MapPin, Home } from 'lucide-react';
+import { Search, MapPin, Home, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from '../store/useLanguageStore';
 
