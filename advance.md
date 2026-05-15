@@ -14,9 +14,9 @@
     - Simplificación de animaciones de entrada para reducir el layout thrashing.
     - Suavizado del backdrop-blur en el lightbox para mejor rendimiento en dispositivos de gama media.
 
-### 🛠️ Estabilidad y Despliegue
-- Corrección de errores de tipos en la integración de componentes.
-- Ajustes en el sistema de traducción para asegurar consistencia en el término "Luxury".
+### 📁 Sincronización de Infraestructura
+- **Compatibilidad de Storage**: Preparación de las rutas de assets para el nuevo sistema jerárquico (`prop_[ID]`).
+- **Modales Administrativos**: Unificación del sistema de diálogos y confirmaciones siguiendo el patrón de diseño premium.
 
 ---
 *Documento actualizado por Antigravity AI.*
