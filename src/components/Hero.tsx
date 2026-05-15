@@ -74,7 +74,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
                         {t.hero.subtitle}
                     </motion.h2>
 
-                    <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-white mb-6 md:mb-8 tracking-tight drop-shadow-2xl">
+                    <h1 className="text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-serif text-white mb-4 md:mb-8 tracking-tight drop-shadow-2xl">
                         <motion.span
                             initial={{
                                 opacity: 0,
@@ -93,7 +93,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
                                 filter: { duration: 0.8, delay: 0.2 },
                                 backgroundPosition: { duration: 8, repeat: Infinity, ease: "linear" }
                             }}
-                            className="block text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#bf953f] bg-[length:200%_auto] leading-[1.1]"
+                            className="block text-transparent bg-clip-text bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#bf953f] bg-[length:200%_auto] leading-[1.1] pb-2"
                         >
                             {t.hero.title}
                         </motion.span>
