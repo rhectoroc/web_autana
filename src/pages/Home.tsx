@@ -36,8 +36,28 @@ export const Home = () => {
             <Hero onSearch={handleSearch} />
 
             {/* Featured Properties Section */}
-            <section id="properties" className="py-24 px-4 sm:px-6 lg:px-8 bg-off-white">
-                <PropertiesSection filters={searchFilters} />
+            <section id="properties" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0a0a0a] relative overflow-hidden">
+                {/* Elegant Divider Line */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent z-20" />
+                
+                {/* Fixed Background Image with Dark Transparency */}
+                <div className="absolute inset-0 z-0 pointer-events-none">
+                    <div 
+                        className="absolute inset-0 opacity-20"
+                        style={{
+                            backgroundImage: 'url("/Fondo AutanaGroup.svg")',
+                            backgroundAttachment: 'fixed',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundSize: 'cover'
+                        }}
+                    />
+                    {/* Dark Overlay to harmonize with Hero */}
+                    <div className="absolute inset-0 bg-[#0a0a0a]/60" />
+                </div>
+                <div className="relative z-10">
+                    <PropertiesSection filters={searchFilters} />
+                </div>
             </section>
 
             {/* About & Services Section */}

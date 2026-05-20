@@ -107,13 +107,13 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
             <div className="flex flex-col md:flex-row justify-between items-end mb-8">
                 <div>
                     <span className="text-gold-500 uppercase tracking-widest text-sm font-semibold">{t.properties.collection}</span>
-                    <h2 className="text-4xl md:text-5xl font-serif text-charcoal mt-2">
+                    <h2 className="text-4xl md:text-5xl font-serif text-white mt-2">
                         {t.properties.featured}
                     </h2>
                 </div>
 
                 {/* Filter Tabs - Desktop */}
-                <div className="hidden md:flex space-x-1 bg-gray-100 p-1 rounded-lg">
+                <div className="hidden md:flex space-x-1 bg-white/5 p-1 rounded-lg backdrop-blur-sm">
                     {tabs.map((tab) => (
                         <button
                             key={tab.id}
@@ -121,8 +121,8 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
                             className={clsx(
                                 "px-6 py-2.5 text-sm font-medium rounded-md transition-all duration-300",
                                 activeFilter === tab.id
-                                    ? "bg-white text-gold-500 shadow-sm"
-                                    : "text-gray-500 hover:text-charcoal"
+                                    ? "bg-white/20 text-gold-400 shadow-sm"
+                                    : "text-gray-400 hover:text-white"
                             )}
                         >
                             {tab.label}
@@ -142,7 +142,7 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
                                 "flex-shrink-0 px-4 py-2 text-xs font-bold uppercase tracking-widest rounded-full border transition-all duration-300",
                                 activeFilter === tab.id
                                     ? "bg-gold-500 border-gold-500 text-white"
-                                    : "bg-transparent border-gray-200 text-gray-500 hover:border-gold-500 hover:text-gold-500"
+                                    : "bg-transparent border-white/10 text-gray-400 hover:border-gold-500 hover:text-gold-500"
                             )}
                         >
                             {tab.label}

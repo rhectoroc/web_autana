@@ -56,9 +56,9 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                 transition={{ duration: 0.6, type: "spring", stiffness: 260, damping: 20 }}
             >
                 {/* FRONT FACE */}
-                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-white rounded-xl overflow-hidden shadow-lg border border-neutral-100 flex flex-col">
+                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
                     {/* Media Carousel */}
-                    <div className="relative h-64 w-full bg-gray-100">
+                    <div className="relative h-64 w-full bg-black/20">
                         <Swiper
                             modules={[Pagination, Navigation, EffectFade]}
                             effect={'fade'}
@@ -85,7 +85,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                                             />
                                             {isPlaying !== item.id && (
                                                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                                                    <div className="bg-white/80 p-3 rounded-full backdrop-blur-sm">
+                                                    <div className="bg-white/10 p-3 rounded-full backdrop-blur-sm border border-white/20">
                                                         <Play className="w-6 h-6 text-gold-500 fill-gold-500 ml-1" />
                                                     </div>
                                                 </div>
@@ -116,7 +116,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                                 e.stopPropagation();
                                 setIsFlipped(!isFlipped);
                             }}
-                            className="absolute top-4 right-4 z-30 md:hidden bg-white/20 backdrop-blur-md border border-white/30 p-2 rounded-full text-white shadow-lg active:scale-90 transition-transform"
+                            className="absolute top-4 right-4 z-30 md:hidden bg-black/40 backdrop-blur-md border border-white/20 p-2 rounded-full text-white shadow-lg active:scale-90 transition-transform"
                             aria-label="Flip Card"
                         >
                             <Maximize className="w-5 h-5 rotate-45" />
@@ -140,7 +140,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
 
                         {/* Price Overlay (Bottom Left) */}
                         <div className="absolute bottom-4 left-4 z-10">
-                            <div className="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-gold-500/30">
+                            <div className="bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-lg border border-gold-500/40">
                                 <span className="text-white font-serif text-lg font-medium">
                                     {formatCurrency(property.price)}
                                 </span>
@@ -152,36 +152,36 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                     {/* Content */}
                     <div onClick={onClick} className="block p-5 cursor-pointer flex-1">
                         <div className="flex items-start justify-between mb-2">
-                            <h3 className="font-serif text-xl text-charcoal font-medium line-clamp-1 group-hover:text-gold-500 transition-colors">
+                            <h3 className="font-serif text-xl text-white font-medium line-clamp-1 group-hover:text-gold-500 transition-colors">
                                 {displayTitle}
                             </h3>
                         </div>
 
-                        <div className="flex items-center text-gray-500 text-sm mb-4">
+                        <div className="flex items-center text-gray-400 text-sm mb-4">
                             <MapPin className="w-4 h-4 mr-1 text-gold-500" />
                             <span className="line-clamp-1">{property.location}</span>
                         </div>
 
                         {/* Divider */}
-                        <div className="h-px w-full bg-gray-100 my-4 group-hover:bg-gold-100 transition-colors" />
+                        <div className="h-px w-full bg-white/10 my-4 group-hover:bg-gold-500/20 transition-colors" />
 
                         {/* Features */}
                         <div className="grid grid-cols-4 gap-1 text-center mt-auto">
                             <div className="flex flex-col items-center justify-center">
-                                <Bed className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                                <span className="text-xs text-gray-600 truncate w-full">{property.bedrooms} {t.properties.details.beds}</span>
+                                <Bed className="w-5 h-5 text-gray-500 mb-1 group-hover:text-gold-500 transition-colors" />
+                                <span className="text-[10px] text-gray-400 truncate w-full uppercase tracking-wider">{property.bedrooms} {t.properties.details.beds}</span>
                             </div>
                             <div className="flex flex-col items-center justify-center">
                                 <Bath className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                                <span className="text-xs text-gray-600 truncate w-full">{property.bathrooms} {t.properties.details.baths}</span>
+                                <span className="text-[10px] text-gray-400 truncate w-full uppercase tracking-wider">{property.bathrooms} {t.properties.details.baths}</span>
                             </div>
                             <div className="flex flex-col items-center justify-center">
                                 <Maximize className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                                <span className="text-xs text-gray-600 truncate w-full">{formatArea(property.area_sqm)}</span>
+                                <span className="text-[10px] text-gray-400 truncate w-full uppercase tracking-wider">{formatArea(property.area_sqm)}</span>
                             </div>
                             <div className="flex flex-col items-center justify-center">
                                 <Car className="w-5 h-5 text-gray-400 mb-1 group-hover:text-gold-500 transition-colors" />
-                                <span className="text-xs text-gray-600 truncate w-full">{property.parking_spots || 0} {t.properties.details.parking}</span>
+                                <span className="text-[10px] text-gray-400 truncate w-full uppercase tracking-wider">{property.parking_spots || 0} {t.properties.details.parking}</span>
                             </div>
                         </div>
                     </div>

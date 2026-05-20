@@ -30,9 +30,22 @@ export const AboutSection = () => {
         }
     ];
     return (
-        <section id="about" className="py-24 bg-white relative overflow-hidden">
-            {/* Background Decor */}
-            <div className="absolute top-0 right-0 w-1/3 h-full bg-gray-50 skew-x-12 transform origin-top translate-x-32 z-0" />
+        <section id="about" className="py-24 relative overflow-hidden bg-[#0a0a0a]">
+            {/* Fixed Background Image with Dark Transparency */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <div 
+                    className="absolute inset-0 opacity-20"
+                    style={{
+                        backgroundImage: 'url("/Fondo AutanaGroup.svg")',
+                        backgroundAttachment: 'fixed',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover'
+                    }}
+                />
+                {/* Dark Overlay to harmonize with Hero */}
+                <div className="absolute inset-0 bg-[#0a0a0a]/60" />
+            </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start mb-16">
@@ -157,7 +170,7 @@ export const AboutSection = () => {
                         </div>
 
                         {/* Decorative Dot Grid */}
-                        <div className="absolute -bottom-12 -right-12 text-gold-200">
+                        <div className="absolute -bottom-12 -right-12 text-gold-200/20">
                             <svg width="100" height="100" viewBox="0 0 100 100" fill="currentColor">
                                 <pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
                                     <circle cx="2" cy="2" r="2" />
@@ -176,18 +189,18 @@ export const AboutSection = () => {
                             transition={{ duration: 0.8, delay: 0.2 }}
                         >
                             <span className="text-gold-500 uppercase tracking-widest text-sm font-bold mb-4 block">{t.about.label}</span>
-                            <h2 className="text-4xl md:text-5xl font-serif text-charcoal mb-8 leading-tight">
+                            <h2 className="text-4xl md:text-5xl font-serif text-white mb-8 leading-tight">
                                 Autana Group <span className="text-gold-500 italic">{t.about.title}</span>
                             </h2>
 
-                            <div className="space-y-6 text-gray-600 leading-relaxed text-lg">
+                            <div className="space-y-6 text-gray-300 leading-relaxed text-lg">
                                 <p>
                                     {t.about.p1}
                                 </p>
                                 <p>
                                     {t.about.p2}
                                 </p>
-                                <p className="font-medium text-charcoal border-l-2 border-gold-500 pl-4 italic">
+                                <p className="font-medium text-white border-l-2 border-gold-500 pl-4 italic">
                                     {t.about.p3}
                                 </p>
                             </div>
@@ -204,13 +217,13 @@ export const AboutSection = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.4 + (index * 0.1) }}
-                            className="bg-gray-50 p-6 rounded-xl hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gold-100 group text-center lg:text-left"
+                            className="bg-white/5 p-6 rounded-xl hover:bg-white/10 hover:shadow-2xl transition-all duration-300 border border-white/10 hover:border-gold-500/30 group text-center lg:text-left backdrop-blur-sm"
                         >
-                            <div className="bg-white p-3 rounded-full w-fit shadow-sm mb-4 mx-auto lg:mx-0 group-hover:bg-gold-500 transition-colors duration-300">
+                            <div className="bg-white/10 p-3 rounded-full w-fit shadow-sm mb-4 mx-auto lg:mx-0 group-hover:bg-gold-500 transition-colors duration-300">
                                 <service.icon className="w-6 h-6 text-gold-500 group-hover:text-white transition-colors duration-300" />
                             </div>
-                            <h3 className="font-serif text-charcoal text-lg font-bold mb-2 group-hover:text-gold-500 transition-colors">{service.title}</h3>
-                            <p className="text-sm text-gray-500 leading-relaxed">{service.description}</p>
+                            <h3 className="font-serif text-white text-lg font-bold mb-2 group-hover:text-gold-500 transition-colors">{service.title}</h3>
+                            <p className="text-sm text-gray-400 leading-relaxed">{service.description}</p>
                         </motion.div>
                     ))}
                 </div>
