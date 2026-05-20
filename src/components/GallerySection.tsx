@@ -55,24 +55,25 @@ export const GallerySection = () => {
                             layoutId={`card-${index}`}
                             key={index}
                             className={`relative group overflow-hidden rounded-xl cursor-pointer ${item.span}`}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.05 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.6, delay: index * 0.05, ease: "easeOut" }}
                             onClick={() => setSelectedId(index.toString())}
                         >
                             <motion.img
                                 src={item.src}
                                 alt={item.alt}
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
+                                loading="lazy"
                             />
 
                             {/* Hover Overlay */}
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                 <motion.div
-                                    initial={{ scale: 0.5, opacity: 0 }}
+                                    initial={{ scale: 0.8, opacity: 0 }}
                                     whileHover={{ scale: 1.1 }}
-                                    className="bg-white/10 p-4 rounded-full border border-white/30 backdrop-blur-md"
+                                    className="bg-white/10 p-4 rounded-full border border-white/30 backdrop-blur-sm"
                                 >
                                     <ZoomIn className="w-6 h-6 text-white" />
                                 </motion.div>
@@ -94,7 +95,7 @@ export const GallerySection = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 md:p-10"
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 md:p-10"
                         onClick={() => setSelectedId(null)}
                     >
                         <motion.button
@@ -108,6 +109,7 @@ export const GallerySection = () => {
                         <motion.div
                             layoutId={`card-${selectedId}`}
                             className="relative max-w-7xl max-h-[90vh] rounded-lg overflow-hidden shadow-2xl"
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
                             onClick={(e) => e.stopPropagation()}
                         >
                             <img
