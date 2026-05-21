@@ -21,10 +21,24 @@ export const GallerySection = () => {
     ];
 
     return (
-        <section id="gallery" className="py-24 bg-charcoal text-white relative overflow-hidden">
-            {/* Background Texture */}
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
-            <div className="absolute inset-0 bg-gradient-to-b from-charcoal via-transparent to-charcoal z-10 pointer-events-none" />
+        <section id="gallery" className="py-24 bg-[#0a0a0a]/85 backdrop-blur-md text-white relative overflow-hidden">
+            {/* Fixed Background Image with Dark Transparency */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <div 
+                    className="absolute inset-0 opacity-20"
+                    style={{
+                        backgroundImage: 'url("/Fondo AutanaGroup.svg")',
+                        backgroundAttachment: 'fixed',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover'
+                    }}
+                />
+                {/* Dark Overlay to harmonize with Hero */}
+                <div className="absolute inset-0 bg-[#0a0a0a]/40" />
+            </div>
+
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent z-10" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
                 {/* Header */}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { PropertyCard } from './PropertyCard';
@@ -183,11 +184,12 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
             )}
 
 
-            {selectedProperty && (
+            {selectedProperty && createPortal(
                 <PropertyDetailsModal
                     property={selectedProperty}
                     onClose={() => setSelectedProperty(null)}
-                />
+                />,
+                document.body
             )}
         </div>
     );

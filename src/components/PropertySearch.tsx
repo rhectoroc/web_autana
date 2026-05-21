@@ -36,15 +36,24 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.4 }}
-            className="w-full max-w-6xl mx-auto mt-6 md:mt-12 px-4"
+            className="w-full max-w-5xl mx-auto mt-6 md:mt-12 px-4"
         >
-            <form 
-                onSubmit={handleSubmit} 
-                className="bg-white/20 md:bg-white/90 backdrop-blur-md md:backdrop-blur-xl p-1 md:p-2 rounded-2xl md:rounded-full shadow-xl md:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 md:border-white/20 flex flex-col md:flex-row items-center gap-1 md:gap-2 transition-all duration-500 hover:shadow-2xl"
+            <form
+                onSubmit={handleSubmit}
+                style={{
+                    boxShadow: [
+                        "0 0 0 1px rgba(212, 175, 55, 0.35)",
+                        "inset 0 1px 0 rgba(212, 175, 55, 0.20)",
+                        "inset 0 -1px 0 rgba(0, 0, 0, 0.40)",
+                        "0 25px 60px rgba(0, 0, 0, 0.50)",
+                        "0 0 40px rgba(212, 175, 55, 0.06)"
+                    ].join(", ")
+                }}
+                className="bg-[#0a0a0a]/70 backdrop-blur-xl p-1.5 rounded-full border border-[#D4AF37]/25 flex flex-col md:flex-row items-center gap-1 md:gap-0 transition-all duration-500 hover:border-[#D4AF37]/50"
             >
                 {/* Search Input */}
-                <div className="flex-[1.5] w-full relative group p-0">
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gold-500 z-10">
+                <div className="flex-[1.5] w-full relative group">
+                    <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gold-500 z-10">
                         <Search className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
                     <input
@@ -53,17 +62,18 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                         type="text"
                         autoComplete="off"
                         placeholder={t.search.placeholder}
-                        className="w-full pl-12 pr-4 py-3 md:py-3 bg-transparent border-none focus:ring-0 text-white md:text-charcoal placeholder-white/60 md:placeholder-gray-400 font-medium rounded-xl md:rounded-full transition-all outline-none text-sm md:text-base"
+                        className="w-full pl-12 pr-4 py-3.5 bg-transparent border-none focus:ring-0 text-white placeholder-white/40 font-medium rounded-full transition-all outline-none text-sm md:text-base"
                         value={filters.q}
                         onChange={(e) => setFilters(prev => ({ ...prev, q: e.target.value }))}
                     />
                 </div>
 
-                <div className="hidden md:block h-8 w-px bg-gray-200" />
+                {/* Divider */}
+                <div className="hidden md:block h-6 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent flex-shrink-0" />
 
                 {/* Location Input */}
-                <div className="flex-1 w-full relative group p-0">
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gold-500 z-10">
+                <div className="flex-1 w-full relative group">
+                    <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gold-500 z-10">
                         <MapPin className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
                     <input
@@ -72,42 +82,43 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                         type="text"
                         autoComplete="address-level2"
                         placeholder={t.search.location}
-                        className="w-full pl-12 pr-4 py-3 md:py-3 bg-transparent border-none focus:ring-0 text-white md:text-charcoal placeholder-white/60 md:placeholder-gray-400 font-medium rounded-xl md:rounded-full transition-all outline-none text-sm md:text-base"
+                        className="w-full pl-12 pr-4 py-3.5 bg-transparent border-none focus:ring-0 text-white placeholder-white/40 font-medium rounded-full transition-all outline-none text-sm md:text-base"
                         value={filters.location}
                         onChange={(e) => setFilters(prev => ({ ...prev, location: e.target.value }))}
                     />
                 </div>
 
-                <div className="hidden md:block h-8 w-px bg-gray-200" />
+                {/* Divider */}
+                <div className="hidden md:block h-6 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/30 to-transparent flex-shrink-0" />
 
                 {/* Type Select */}
-                <div className="flex-1 w-full relative group p-0">
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gold-500 z-10">
+                <div className="flex-1 w-full relative group">
+                    <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gold-500 z-10">
                         <Home className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
                     <select
                         id="search-type"
                         name="type"
-                        className="w-full pl-12 pr-10 py-3 md:py-3 bg-transparent border-none focus:ring-0 text-white md:text-charcoal font-semibold appearance-none cursor-pointer rounded-xl md:rounded-full transition-all outline-none text-sm md:text-base"
+                        className="w-full pl-12 pr-10 py-3.5 bg-transparent border-none focus:ring-0 text-white/80 font-semibold appearance-none cursor-pointer rounded-full transition-all outline-none text-sm md:text-base"
                         value={filters.type}
                         onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value as any }))}
                     >
-                        <option value="all" className="text-black">{t.search.types.all}</option>
-                        <option value="sale" className="text-black">{t.search.types.sale}</option>
-                        <option value="luxury" className="text-black">{t.search.types.luxury}</option>
-                        <option value="rent_long" className="text-black">{t.search.types.rent_long}</option>
-                        <option value="rent_short" className="text-black">{t.search.types.rent_short}</option>
+                        <option value="all" className="bg-[#111111] text-white">{t.search.types.all}</option>
+                        <option value="sale" className="bg-[#111111] text-white">{t.search.types.sale}</option>
+                        <option value="luxury" className="bg-[#111111] text-white">{t.search.types.luxury}</option>
+                        <option value="rent_long" className="bg-[#111111] text-white">{t.search.types.rent_long}</option>
+                        <option value="rent_short" className="bg-[#111111] text-white">{t.search.types.rent_short}</option>
                     </select>
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/60 md:text-gray-400">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#D4AF37]/60">
                         <ChevronDown className="w-4 h-4" />
                     </div>
                 </div>
 
                 {/* Search Button */}
-                <div className="w-full md:w-auto p-0">
+                <div className="w-full md:w-auto flex-shrink-0 p-0.5">
                     <button
                         type="submit"
-                        className="w-full md:w-auto bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white px-8 py-3 rounded-xl md:rounded-full font-bold uppercase tracking-[0.15em] text-[10px] md:text-xs transition-all duration-300 shadow-xl hover:shadow-gold-500/40"
+                        className="w-full md:w-auto bg-gradient-to-r from-[#D4AF37] to-[#B8960C] hover:from-[#E5C158] hover:to-[#D4AF37] text-black px-8 py-3.5 rounded-full font-bold uppercase tracking-[0.18em] text-[10px] md:text-xs transition-all duration-300 shadow-lg hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] active:scale-95"
                     >
                         {t.search.searchButton}
                     </button>
