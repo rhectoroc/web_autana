@@ -56,7 +56,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                 transition={{ duration: 0.6, type: "spring", stiffness: 260, damping: 20 }}
             >
                 {/* FRONT FACE */}
-                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-[#1a1a1a] rounded-xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
+                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-[#050505] rounded-xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
                     {/* Media Carousel */}
                     <div className="relative h-64 w-full bg-black/20">
                         <Swiper
@@ -150,7 +150,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                     </div>
 
                     {/* Content */}
-                    <div onClick={onClick} className="block p-5 cursor-pointer flex-1">
+                    <div onClick={onClick} className="block p-5 cursor-pointer flex-1 bg-gradient-to-b from-[#D4AF37]/25 via-[#121212] to-[#050505]">
                         <div className="flex items-start justify-between mb-2">
                             <h3 className="font-serif text-xl text-white font-medium line-clamp-1 group-hover:text-gold-500 transition-colors">
                                 {displayTitle}
@@ -163,7 +163,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                         </div>
 
                         {/* Divider */}
-                        <div className="h-px w-full bg-white/10 my-4 group-hover:bg-gold-500/20 transition-colors" />
+                        <div className="h-px w-full bg-gradient-to-r from-transparent via-gold-500/25 to-transparent my-4 group-hover:via-gold-500/50 transition-all duration-300" />
 
                         {/* Features */}
                         <div className="grid grid-cols-4 gap-1 text-center mt-auto">

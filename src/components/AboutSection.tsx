@@ -30,7 +30,7 @@ export const AboutSection = () => {
         }
     ];
     return (
-        <section id="about" className="py-24 relative overflow-hidden bg-[#0a0a0a]">
+        <section id="about" className="py-24 relative overflow-hidden bg-[#0a0a0a]/85 backdrop-blur-md">
             {/* Fixed Background Image with Dark Transparency */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div 
@@ -44,7 +44,7 @@ export const AboutSection = () => {
                     }}
                 />
                 {/* Dark Overlay to harmonize with Hero */}
-                <div className="absolute inset-0 bg-[#0a0a0a]/60" />
+                <div className="absolute inset-0 bg-[#0a0a0a]/40" />
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

@@ -47,10 +47,19 @@ const ServiceCard = ({ service, index }: { service: any, index: number }) => {
                 rotateX,
                 rotateY,
                 transformStyle: "preserve-3d",
+                boxShadow: [
+                    "0 0 0 1px rgba(212, 175, 55, 0.45)",
+                    "inset 0 1px 0 rgba(212, 175, 55, 0.35)",
+                    "inset 1px 0 0 rgba(212, 175, 55, 0.20)",
+                    "inset 0 -1px 0 rgba(0, 0, 0, 0.60)",
+                    "inset -1px 0 0 rgba(0, 0, 0, 0.40)",
+                    "0 25px 60px rgba(0, 0, 0, 0.50)",
+                    "0 0 30px rgba(212, 175, 55, 0.08)"
+                ].join(", ")
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="feature-card relative w-full h-full min-h-[500px] bg-charcoal rounded-2xl p-8 border border-white/10 shadow-2xl group cursor-pointer overflow-hidden"
+            className="feature-card relative w-full h-full min-h-[500px] bg-charcoal rounded-2xl p-8 border border-[#D4AF37]/30 shadow-2xl group cursor-pointer overflow-hidden"
         >
             {/* Background Gradient Effect */}
             <div
@@ -133,10 +142,24 @@ export const ServicesSection = () => {
     ];
 
     return (
-        <section id="services" className="py-24 bg-charcoal-dark relative overflow-hidden">
-            {/* Background Texture */}
-            <div className="absolute inset-0 bg-[#0F1115]" />
-            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent" />
+        <section id="services" className="py-24 bg-[#0a0a0a]/85 backdrop-blur-md relative overflow-hidden">
+            {/* Fixed Background Image with Dark Transparency */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <div 
+                    className="absolute inset-0 opacity-20"
+                    style={{
+                        backgroundImage: 'url("/Fondo AutanaGroup.svg")',
+                        backgroundAttachment: 'fixed',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover'
+                    }}
+                />
+                {/* Dark Overlay to harmonize with Hero */}
+                <div className="absolute inset-0 bg-[#0a0a0a]/40" />
+            </div>
+            
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent z-20" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 

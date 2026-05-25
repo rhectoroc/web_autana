@@ -36,7 +36,7 @@ export const Home = () => {
             <Hero onSearch={handleSearch} />
 
             {/* Featured Properties Section */}
-            <section id="properties" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0a0a0a] relative overflow-hidden">
+            <section id="properties" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0a0a0a]/85 backdrop-blur-md relative overflow-hidden">
                 {/* Elegant Divider Line */}
                 <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent z-20" />
                 
@@ -53,7 +53,7 @@ export const Home = () => {
                         }}
                     />
                     {/* Dark Overlay to harmonize with Hero */}
-                    <div className="absolute inset-0 bg-[#0a0a0a]/60" />
+                    <div className="absolute inset-0 bg-[#0a0a0a]/40" />
                 </div>
                 <div className="relative z-10">
                     <PropertiesSection filters={searchFilters} />

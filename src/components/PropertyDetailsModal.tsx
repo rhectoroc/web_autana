@@ -52,7 +52,7 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
 
     return (
         <AnimatePresence>
-            <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6">
+            <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-6 lg:p-8">
                 {/* Backdrop */}
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -67,7 +67,7 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                    className="relative w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+                    className="relative w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] lg:h-[92vh]"
                 >
                     {/* Close Button */}
                     <button
@@ -80,13 +80,13 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                     </button>
 
                     {/* Scrollable Content */}
-                    <div className="overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+                    <div className="flex-1 min-h-0 overflow-y-auto lg:overflow-hidden">
 
                         {/* Split Layout: Media (Left/Top) & Details (Right/Bottom) */}
-                        <div className="flex flex-col lg:flex-row">
+                        <div className="flex flex-col lg:flex-row lg:h-full">
 
                             {/* Visuals Column */}
-                            <div className="lg:w-3/5 bg-gray-100 flex flex-col relative h-[400px] lg:h-[500px]">
+                            <div className="lg:w-3/5 bg-gray-100 flex flex-col relative h-[280px] sm:h-[360px] lg:h-full flex-shrink-0">
                                 <Swiper
                                     modules={[Pagination, Navigation]}
                                     onSwiper={setSwiperInstance}
@@ -162,7 +162,7 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                             </div>
 
                             {/* Details Column */}
-                            <div className="lg:w-2/5 p-6 lg:p-8 bg-white overflow-y-auto max-h-[90vh]">
+                            <div className="lg:w-2/5 p-6 lg:p-8 bg-white overflow-y-auto flex-shrink-0 lg:flex-1 min-h-0 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
                                 <div className="flex justify-between items-start mb-2">
                                     <h2 className="text-2xl md:text-3xl font-serif text-charcoal leading-tight">
                                         {displayTitle}
