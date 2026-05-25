@@ -36,7 +36,7 @@ export const AboutSection = () => {
                 <div 
                     className="absolute inset-0 opacity-20"
                     style={{
-                        backgroundImage: 'url("/Fondo AutanaGroup.svg")',
+                        backgroundImage: 'url("/Fondo AutanaGroup.webp")',
                         backgroundAttachment: 'fixed',
                         backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat',

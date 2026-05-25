@@ -1,7 +1,8 @@
 import { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
-import { FloatingChatbot } from './components/FloatingChatbot';
+// import { FloatingChatbot } from './components/FloatingChatbot';
+
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/Home').then(module => ({ default: module.Home })));
@@ -24,7 +25,9 @@ function App() {
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsOfService />} />
       </Routes>
-      <FloatingChatbot />
+      {/* Hiding FloatingChatbot temporarily during development */}
+      {/* <FloatingChatbot /> */}
+
     </Suspense>
   );
 }
