@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite --open",
-    "build": "tsc -b && vite build && npm run build:server",
+    "build": "tsc -b && vite build",
     "build:server": "tsc -p tsconfig.server.json",
     "start": "node dist-server/server/index.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "tsx server/index.ts"
   },
+
   "dependencies": {
     "@types/react-helmet-async": "^1.0.1",
     "@types/sharp": "^0.31.1",

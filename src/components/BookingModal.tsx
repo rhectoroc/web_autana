@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, User, Mail, Phone, Home, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from '../store/useLanguageStore';
+import api from '../services/api';
+
 
 interface BookingModalProps {
     isOpen: boolean;
@@ -24,13 +26,15 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
         e.preventDefault();
         setIsLoading(true);
 
-        // Simulate API delay
-        setTimeout(() => {
+        try {
+            await api.post('/bookings', formData);
             setIsLoading(false);
             setIsSuccess(true);
-            // Here you would typically send the data to your backend
-            console.log('Booking request sent:', formData, 'to Ll.es.servicios@gmail.com');
-        }, 1500);
+        } catch (err: any) {
+            setIsLoading(false);
+            console.error('Failed to submit booking:', err);
+            alert(err.response?.data?.message || 'Hubo un error al enviar tu solicitud. Por favor intenta de nuevo.');
+        }
     };
 
     const handleClose = () => {
@@ -43,6 +47,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
         }
         onClose();
     };
+
 
     return (
         <AnimatePresence>
