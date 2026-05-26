@@ -15,24 +15,31 @@ export const ReCAPTCHA: React.FC<ReCAPTCHAProps> = ({ sitekey, onChange }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<number | null>(null);
     const [loadError, setLoadError] = useState(false);
+    
+    // Keep onChange callback reference fresh without triggering effect re-execution
+    const onChangeRef = useRef(onChange);
+    useEffect(() => {
+        onChangeRef.current = onChange;
+    }, [onChange]);
 
     useEffect(() => {
         console.log('reCAPTCHA Initializing with Site Key:', sitekey);
 
         const renderWidget = () => {
-            if (containerRef.current && window.grecaptcha && window.grecaptcha.render) {
+            // Only render if container exists, grecaptcha is available, and we haven't rendered yet
+            if (containerRef.current && window.grecaptcha && window.grecaptcha.render && widgetIdRef.current === null) {
                 try {
                     containerRef.current.innerHTML = '';
                     const widgetId = window.grecaptcha.render(containerRef.current, {
                         sitekey: sitekey,
                         callback: (token: string) => {
-                            onChange(token);
+                            onChangeRef.current(token);
                         },
                         'expired-callback': () => {
-                            onChange(null);
+                            onChangeRef.current(null);
                         },
                         'error-callback': () => {
-                            onChange(null);
+                            onChangeRef.current(null);
                         }
                     });
                     widgetIdRef.current = widgetId;
@@ -84,7 +91,7 @@ export const ReCAPTCHA: React.FC<ReCAPTCHAProps> = ({ sitekey, onChange }) => {
                 }
             }
         };
-    }, [sitekey, onChange]);
+    }, [sitekey]);
 
     if (loadError) {
         return (

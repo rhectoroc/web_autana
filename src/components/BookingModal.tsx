@@ -210,7 +210,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
 
                                             <ReCAPTCHA
                                                 sitekey={RECAPTCHA_SITE_KEY}
-                                                onChange={(token) => setRecaptchaToken(token)}
+                                                onChange={setRecaptchaToken}
                                             />
  
                                             <button
