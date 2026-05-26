@@ -9,15 +9,15 @@ export const GallerySection = () => {
     const { t } = useTranslation();
 
     const galleryImages = [
-        { src: '/gallery/beach.jpg', alt: t.gallery.images.beach, span: 'md:col-span-2 md:row-span-1' },
-        { src: '/gallery/comunes01.jpg', alt: t.gallery.images.common, span: 'md:col-span-1 md:row-span-1' },
-        { src: '/gallery/beach01.jpg', alt: t.gallery.images.coastal, span: 'md:col-span-1 md:row-span-1' },
-        { src: '/gallery/tenis.jpg', alt: t.gallery.images.sports, span: 'md:col-span-1 md:row-span-2' },
-        { src: '/gallery/after03.jpg', alt: t.gallery.images.sunset, span: 'md:col-span-1 md:row-span-1' },
-        { src: '/gallery/fauna.jpg', alt: t.gallery.images.wildlife, span: 'md:col-span-1 md:row-span-1' },
-        { src: '/gallery/beach02.jpg', alt: t.gallery.images.ocean, span: 'md:col-span-1 md:row-span-1' },
-        { src: '/gallery/imagen01.jpg', alt: t.gallery.images.arch, span: 'md:col-span-2 md:row-span-1' },
-        { src: '/gallery/muelle01.jpg', alt: t.gallery.images.pier, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/beach.webp', alt: t.gallery.images.beach, span: 'md:col-span-2 md:row-span-1' },
+        { src: '/gallery/comunes01.webp', alt: t.gallery.images.common, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/beach01.webp', alt: t.gallery.images.coastal, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/tenis.webp', alt: t.gallery.images.sports, span: 'md:col-span-1 md:row-span-2' },
+        { src: '/gallery/after03.webp', alt: t.gallery.images.sunset, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/fauna.webp', alt: t.gallery.images.wildlife, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/beach02.webp', alt: t.gallery.images.ocean, span: 'md:col-span-1 md:row-span-1' },
+        { src: '/gallery/imagen01.webp', alt: t.gallery.images.arch, span: 'md:col-span-2 md:row-span-1' },
+        { src: '/gallery/muelle01.webp', alt: t.gallery.images.pier, span: 'md:col-span-1 md:row-span-1' },
     ];
 
     return (

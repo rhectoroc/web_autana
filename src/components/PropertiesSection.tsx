@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { PropertyCard } from './PropertyCard';
-import { PropertyDetailsModal } from './PropertyDetailsModal';
+const PropertyDetailsModal = lazy(() => import('./PropertyDetailsModal').then(module => ({ default: module.PropertyDetailsModal })));
 import clsx from 'clsx';
 import api from '../services/api';
 import { useTranslation } from '../store/useLanguageStore';
@@ -185,10 +185,16 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
 
 
             {selectedProperty && createPortal(
-                <PropertyDetailsModal
-                    property={selectedProperty}
-                    onClose={() => setSelectedProperty(null)}
-                />,
+                <Suspense fallback={
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                        <Loader2 className="w-8 h-8 animate-spin text-gold-500" />
+                    </div>
+                }>
+                    <PropertyDetailsModal
+                        property={selectedProperty}
+                        onClose={() => setSelectedProperty(null)}
+                    />
+                </Suspense>,
                 document.body
             )}
         </div>

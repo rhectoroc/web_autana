@@ -198,6 +198,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                             setIsFlipped(false);
                         }}
                         className="absolute top-4 right-4 z-30 md:hidden bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-full text-white active:scale-90 transition-transform"
+                        aria-label={language === 'en' ? 'Flip card back' : 'Volver al frente'}
                     >
                         <Maximize className="w-5 h-5 rotate-[-135deg]" />
                     </button>

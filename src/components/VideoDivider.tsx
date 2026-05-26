@@ -35,7 +35,7 @@ export const VideoDivider = () => {
                     muted
                     loop
                     playsInline
-                    poster="/gallery/beach.jpg" // Using an existing image as poster
+                    poster="/gallery/beach.webp" // Using an existing image as poster
                 >
                     <source src="/Manta.mp4" type="video/mp4" />
                     Your browser does not support the video tag.

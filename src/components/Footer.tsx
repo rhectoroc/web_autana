@@ -21,13 +21,13 @@ export const Footer = () => {
                             {t.footer.about}
                         </p>
                         <div className="flex space-x-4">
-                            <a href="https://www.instagram.com/autana.group/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors">
+                            <a href="https://www.instagram.com/autana.group/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors" aria-label="Instagram">
                                 <Instagram className="w-5 h-5" />
                             </a>
-                            <a href="https://www.facebook.com/AutanaGroup" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors">
+                            <a href="https://www.facebook.com/AutanaGroup" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors" aria-label="Facebook">
                                 <Facebook className="w-5 h-5" />
                             </a>
-                            <a href="https://api.whatsapp.com/send?phone=18293515702&text=Saludos%2C%20necesito%20m%C3%A1s%20informaci%C3%B3n%20sobre%20una%20propiedad." target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors">
+                            <a href="https://api.whatsapp.com/send?phone=18293515702&text=Saludos%2C%20necesito%20m%C3%A1s%20informaci%C3%B3n%20sobre%20una%20propiedad." target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-500 transition-colors" aria-label="WhatsApp">
                                 <MessageCircle className="w-5 h-5" />
                             </a>
                         </div>

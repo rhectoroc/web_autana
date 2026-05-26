@@ -11,7 +11,7 @@ interface BookingModalProps {
 }
 
 export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -76,6 +76,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                         <button
                             onClick={handleClose}
                             className="absolute top-4 right-4 p-2 text-gray-400 hover:text-charcoal transition-colors z-10"
+                            aria-label={language === 'en' ? 'Close visit scheduler' : 'Cerrar agendador de visita'}
                         >
                             <X className="w-5 h-5" />
                         </button>
@@ -104,6 +105,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold-500 transition-colors">
                                                     <User className="w-5 h-5" />
                                                 </div>
+                                                <label htmlFor="booking-name" className="sr-only">{t.booking.form.name}</label>
                                                 <input
                                                     id="booking-name"
                                                     name="name"
@@ -123,6 +125,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold-500 transition-colors">
                                                         <Mail className="w-5 h-5" />
                                                     </div>
+                                                    <label htmlFor="booking-email" className="sr-only">{t.booking.form.email}</label>
                                                     <input
                                                         id="booking-email"
                                                         name="email"
@@ -139,6 +142,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold-500 transition-colors">
                                                         <Phone className="w-5 h-5" />
                                                     </div>
+                                                    <label htmlFor="booking-phone" className="sr-only">{t.booking.form.phone}</label>
                                                     <input
                                                         id="booking-phone"
                                                         name="phone"
@@ -158,6 +162,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold-500 transition-colors">
                                                     <Home className="w-5 h-5" />
                                                 </div>
+                                                <label htmlFor="booking-property" className="sr-only">{t.booking.form.property}</label>
                                                 <input
                                                     id="booking-property"
                                                     name="property"
@@ -175,6 +180,7 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-gold-500 transition-colors">
                                                     <Calendar className="w-5 h-5" />
                                                 </div>
+                                                <label htmlFor="booking-date" className="sr-only">{t.booking.form.property}</label>
                                                 <input
                                                     id="booking-date"
                                                     name="date"

@@ -18,7 +18,7 @@ export const SEO: React.FC<SEOProps> = ({
     type = 'website'
 }) => {
     const { pathname } = useLocation();
-    const siteUrl = 'https://autanagroup.com'; // Replace with actual domain
+    const siteUrl = 'https://autanagrouprd.com'; // Correct production domain
     const fullUrl = `${siteUrl}${pathname}`;
     const fullTitle = title.includes('Autana Group') ? title : `${title} | Autana Group`;
 

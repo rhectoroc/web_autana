@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Menu, X } from 'lucide-react';
 
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookingModal } from './BookingModal';
+
+const BookingModal = lazy(() => import('./BookingModal').then(module => ({ default: module.BookingModal })));
 import { useTranslation } from '../store/useLanguageStore';
 import { Globe } from 'lucide-react';
 
@@ -76,6 +77,7 @@ export const Navbar = () => {
                                     "flex items-center gap-1 text-xs font-bold uppercase tracking-widest transition-colors duration-300 p-2",
                                     isScrolled ? "text-charcoal hover:text-gold-500" : "text-white hover:text-gold-400"
                                 )}
+                                aria-label={language === 'en' ? 'Switch to Spanish' : 'Cambiar a Inglés'}
                             >
                                 <Globe className="w-4 h-4" />
                                 <span>{language === 'en' ? 'ES' : 'EN'}</span>
@@ -97,6 +99,8 @@ export const Navbar = () => {
                                     "p-2 rounded-md transition-colors",
                                     isScrolled ? "text-charcoal" : "text-white"
                                 )}
+                                aria-label={isMobileMenuOpen ? (language === 'en' ? 'Close menu' : 'Cerrar menú') : (language === 'en' ? 'Open menu' : 'Abrir menú')}
+                                aria-expanded={isMobileMenuOpen}
                             >
                                 {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                             </button>
@@ -166,6 +170,7 @@ export const Navbar = () => {
                             <button 
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className="absolute top-6 right-6 p-2 text-white/50 hover:text-white transition-colors"
+                                aria-label={language === 'en' ? 'Close menu' : 'Cerrar menú'}
                             >
                                 <X className="w-10 h-10" />
                             </button>
@@ -174,7 +179,9 @@ export const Navbar = () => {
                 </AnimatePresence>
             </nav >
 
-            <BookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
+            <Suspense fallback={null}>
+                <BookingModal isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
+            </Suspense>
         </>
     );
 };

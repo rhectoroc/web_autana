@@ -56,6 +56,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                     <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gold-500 z-10">
                         <Search className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
+                    <label htmlFor="search-query" className="sr-only">{t.search.placeholder}</label>
                     <input
                         id="search-query"
                         name="q"
@@ -76,6 +77,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                     <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gold-500 z-10">
                         <MapPin className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
+                    <label htmlFor="search-location" className="sr-only">{t.search.location}</label>
                     <input
                         id="search-location"
                         name="location"
@@ -96,6 +98,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                     <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gold-500 z-10">
                         <Home className="w-4 h-4 md:w-5 md:h-5" />
                     </div>
+                    <label htmlFor="search-type" className="sr-only">{t.search.types.all}</label>
                     <select
                         id="search-type"
                         name="type"

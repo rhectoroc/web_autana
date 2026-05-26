@@ -75,6 +75,7 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                         className="absolute top-4 right-4 z-50 p-2 rounded-full transition-all duration-300 shadow-sm
                                  bg-black/50 text-white hover:bg-black/70
                                  lg:bg-gray-100 lg:text-charcoal lg:hover:bg-gray-200 lg:hover:text-gold-500"
+                        aria-label={language === 'en' ? 'Close details' : 'Cerrar detalles'}
                     >
                         <X className="w-6 h-6" />
                     </button>
@@ -250,6 +251,7 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                                         onClick={handleShare}
                                         className={`p-4 border rounded-sm transition-all duration-300 ${copied ? 'border-green-500 text-green-500 bg-green-50' : 'border-gray-200 hover:border-gold-500 hover:text-gold-500 hover:bg-gold-50'}`}
                                         title={copied ? "Copied!" : "Share Property"}
+                                        aria-label={copied ? (language === 'en' ? 'Link copied' : 'Enlace copiado') : (language === 'en' ? 'Share property' : 'Compartir propiedad')}
                                     >
                                         {copied ? <CheckCheck className="w-5 h-5" /> : <Share2 className="w-5 h-5" />}
                                     </button>

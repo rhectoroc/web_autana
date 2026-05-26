@@ -5,9 +5,9 @@ import { PropertySearch } from './PropertySearch';
 import { useTranslation } from '../store/useLanguageStore';
 
 const heroImages = [
-    '/hero/20240618_065649.jpg',
-    '/hero/20240619_064841.jpg',
-    '/hero/20250514_064439.jpg'
+    '/hero/20240618_065649.webp',
+    '/hero/20240619_064841.webp',
+    '/hero/20250514_064439.webp'
 ];
 
 interface HeroProps {

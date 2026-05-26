@@ -65,7 +65,7 @@ export const AboutSection = () => {
                         >
                             {/* Image */}
                             <motion.img
-                                src="/AboutUsNew.svg"
+                                src="/AboutUsNew.webp"
                                 alt="Autana Group Team"
                                 className="w-full h-auto object-cover"
                                 animate={{ scale: isHovered ? 1.07 : 1 }}
