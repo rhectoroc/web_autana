@@ -11,7 +11,12 @@ interface BookingModalProps {
     onClose: () => void;
 }
 
-const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+const RECAPTCHA_SITE_KEY = (
+    import.meta.env.VITE_RECAPTCHA_SITE_KEY && 
+    import.meta.env.VITE_RECAPTCHA_SITE_KEY !== 'undefined' && 
+    import.meta.env.VITE_RECAPTCHA_SITE_KEY !== 'null' && 
+    import.meta.env.VITE_RECAPTCHA_SITE_KEY !== ''
+) ? import.meta.env.VITE_RECAPTCHA_SITE_KEY : '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
 export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
     const { t, language } = useTranslation();
