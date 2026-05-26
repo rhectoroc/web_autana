@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -31,6 +32,17 @@ export const GallerySection = () => {
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [selectedIndex]);
+
+    useEffect(() => {
+        if (selectedIndex !== null) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
     }, [selectedIndex]);
 
     const galleryImages = [
@@ -127,78 +139,81 @@ export const GallerySection = () => {
             </div>
 
             {/* Lightbox Modal */}
-            <AnimatePresence>
-                {selectedIndex !== null && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-10"
-                        onClick={() => setSelectedIndex(null)}
-                    >
-                        {/* Close Button */}
-                        <button
-                            className="absolute top-6 right-6 z-[60] text-white/60 hover:text-white transition-all p-2.5 bg-white/10 hover:bg-white/20 active:scale-90 rounded-full shadow-lg"
-                            onClick={() => setSelectedIndex(null)}
-                            aria-label="Close gallery"
-                        >
-                            <X className="w-6 h-6 md:w-8 md:h-8" />
-                        </button>
-
-                        {/* Navigation Chevrons */}
-                        <button
-                            onClick={handlePrev}
-                            className="absolute left-4 md:left-8 z-[60] bg-black/50 hover:bg-gold-500/80 text-white p-3 rounded-full border border-white/10 hover:border-gold-500 transition-all shadow-lg active:scale-95"
-                            aria-label="Previous image"
-                        >
-                            <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
-                        </button>
-
-                        <button
-                            onClick={handleNext}
-                            className="absolute right-4 md:right-8 z-[60] bg-black/50 hover:bg-gold-500/80 text-white p-3 rounded-full border border-white/10 hover:border-gold-500 transition-all shadow-lg active:scale-95"
-                            aria-label="Next image"
-                        >
-                            <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
-                        </button>
-
-                        {/* Centered Lightbox Container */}
+            {createPortal(
+                <AnimatePresence>
+                    {selectedIndex !== null && (
                         <motion.div
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.9, opacity: 0 }}
-                            transition={{ type: "spring", damping: 28, stiffness: 220 }}
-                            className="relative max-w-5xl max-h-[80vh] w-full mx-auto rounded-xl overflow-hidden shadow-2xl flex flex-col items-center justify-center"
-                            onClick={(e) => e.stopPropagation()}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-10"
+                            onClick={() => setSelectedIndex(null)}
                         >
-                            <div className="relative flex items-center justify-center w-full">
-                                <AnimatePresence mode="wait">
-                                    <motion.img
-                                        key={selectedIndex}
-                                        src={galleryImages[selectedIndex].src}
-                                        alt={galleryImages[selectedIndex].alt}
-                                        initial={{ opacity: 0, x: 15 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -15 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="max-w-full max-h-[70vh] md:max-h-[75vh] object-contain rounded-md select-none pointer-events-none"
-                                    />
-                                </AnimatePresence>
-                            </div>
+                            {/* Close Button */}
+                            <button
+                                className="absolute top-6 right-6 z-[110] text-white/60 hover:text-white transition-all p-2.5 bg-white/10 hover:bg-white/20 active:scale-90 rounded-full shadow-lg"
+                                onClick={() => setSelectedIndex(null)}
+                                aria-label="Close gallery"
+                            >
+                                <X className="w-6 h-6 md:w-8 md:h-8" />
+                            </button>
 
-                            {/* Label */}
-                            <div className="mt-4 text-center px-4">
-                                <h3 className="text-white font-serif text-xl md:text-2xl drop-shadow-md">
-                                    {galleryImages[selectedIndex].alt}
-                                </h3>
-                                <p className="text-gray-400 text-xs md:text-sm mt-1 uppercase tracking-wider">
-                                    {selectedIndex + 1} / {galleryImages.length}
-                                </p>
-                            </div>
+                            {/* Navigation Chevrons */}
+                            <button
+                                onClick={handlePrev}
+                                className="absolute left-4 md:left-8 z-[110] bg-black/50 hover:bg-gold-500/80 text-white p-3 rounded-full border border-white/10 hover:border-gold-500 transition-all shadow-lg active:scale-95"
+                                aria-label="Previous image"
+                            >
+                                <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+                            </button>
+
+                            <button
+                                onClick={handleNext}
+                                className="absolute right-4 md:right-8 z-[110] bg-black/50 hover:bg-gold-500/80 text-white p-3 rounded-full border border-white/10 hover:border-gold-500 transition-all shadow-lg active:scale-95"
+                                aria-label="Next image"
+                            >
+                                <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+                            </button>
+
+                            {/* Centered Lightbox Container */}
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.9, opacity: 0 }}
+                                transition={{ type: "spring", damping: 28, stiffness: 220 }}
+                                className="relative max-w-5xl max-h-[80vh] w-full mx-auto rounded-xl overflow-hidden shadow-2xl flex flex-col items-center justify-center"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <div className="relative flex items-center justify-center w-full">
+                                    <AnimatePresence mode="wait">
+                                        <motion.img
+                                            key={selectedIndex}
+                                            src={galleryImages[selectedIndex].src}
+                                            alt={galleryImages[selectedIndex].alt}
+                                            initial={{ opacity: 0, x: 15 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: -15 }}
+                                            transition={{ duration: 0.2 }}
+                                            className="max-w-full max-h-[70vh] md:max-h-[75vh] object-contain rounded-md select-none pointer-events-none"
+                                        />
+                                    </AnimatePresence>
+                                </div>
+
+                                {/* Label */}
+                                <div className="mt-4 text-center px-4">
+                                    <h3 className="text-white font-serif text-xl md:text-2xl drop-shadow-md">
+                                        {galleryImages[selectedIndex].alt}
+                                    </h3>
+                                    <p className="text-gray-400 text-xs md:text-sm mt-1 uppercase tracking-wider">
+                                        {selectedIndex + 1} / {galleryImages.length}
+                                    </p>
+                                </div>
+                            </motion.div>
                         </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    )}
+                </AnimatePresence>,
+                document.body
+            )}
         </section>
     );
 };
