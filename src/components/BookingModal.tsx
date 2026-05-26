@@ -16,7 +16,7 @@ const RECAPTCHA_SITE_KEY = (
     import.meta.env.VITE_RECAPTCHA_SITE_KEY !== 'undefined' && 
     import.meta.env.VITE_RECAPTCHA_SITE_KEY !== 'null' && 
     import.meta.env.VITE_RECAPTCHA_SITE_KEY !== ''
-) ? import.meta.env.VITE_RECAPTCHA_SITE_KEY : '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+) ? import.meta.env.VITE_RECAPTCHA_SITE_KEY : '6Legwv0sAAAAAG8pFd7VdMrPvIJodmLZ4wY2O_LK';
 
 export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
     const { t, language } = useTranslation();
