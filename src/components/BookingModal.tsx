@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, User, Mail, Phone, Home, CheckCircle2 } from 'lucide-react';
 import { useTranslation } from '../store/useLanguageStore';
 import api from '../services/api';
+import { ReCAPTCHA } from './ReCAPTCHA';
 
 
 interface BookingModalProps {
@@ -10,10 +11,13 @@ interface BookingModalProps {
     onClose: () => void;
 }
 
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+
 export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
     const { t, language } = useTranslation();
     const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -24,10 +28,14 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!recaptchaToken) {
+            alert(language === 'en' ? 'Please complete the reCAPTCHA security check.' : 'Por favor completa la verificación de seguridad reCAPTCHA.');
+            return;
+        }
         setIsLoading(true);
 
         try {
-            await api.post('/bookings', formData);
+            await api.post('/bookings', { ...formData, recaptchaToken });
             setIsLoading(false);
             setIsSuccess(true);
         } catch (err: any) {
@@ -43,7 +51,10 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
             setTimeout(() => {
                 setIsSuccess(false);
                 setFormData({ name: '', email: '', phone: '', property: '', date: '' });
+                setRecaptchaToken(null);
             }, 500);
+        } else {
+            setRecaptchaToken(null);
         }
         onClose();
     };
@@ -192,10 +203,15 @@ export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
                                                 />
                                             </div>
 
+                                            <ReCAPTCHA
+                                                sitekey={RECAPTCHA_SITE_KEY}
+                                                onChange={(token) => setRecaptchaToken(token)}
+                                            />
+ 
                                             <button
                                                 type="submit"
-                                                disabled={isLoading}
-                                                className="w-full bg-charcoal hover:bg-gold-500 hover:text-white text-white font-bold uppercase tracking-widest py-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group/btn mt-4"
+                                                disabled={isLoading || !recaptchaToken}
+                                                className="w-full bg-charcoal hover:bg-gold-500 hover:text-white text-white font-bold uppercase tracking-widest py-4 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group/btn mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 {isLoading ? (
                                                     <motion.div
