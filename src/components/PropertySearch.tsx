@@ -49,7 +49,7 @@ export const PropertySearch = ({ onSearch }: PropertySearchProps) => {
                         "0 0 40px rgba(212, 175, 55, 0.06)"
                     ].join(", ")
                 }}
-                className="bg-[#0a0a0a]/70 backdrop-blur-xl p-1.5 rounded-full border border-[#D4AF37]/25 flex flex-col md:flex-row items-center gap-1 md:gap-0 transition-all duration-500 hover:border-[#D4AF37]/50"
+                className="bg-[#0a0a0a]/70 backdrop-blur-xl p-4 md:p-1.5 rounded-2xl md:rounded-full border border-[#D4AF37]/25 flex flex-col md:flex-row items-center gap-3 md:gap-0 transition-all duration-500 hover:border-[#D4AF37]/50"
             >
                 {/* Search Input */}
                 <div className="flex-[1.5] w-full relative group">

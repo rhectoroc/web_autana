@@ -123,7 +123,8 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                                 </Swiper>
 
                                 {/* Thumbnails Gallery (The empty space) */}
-                                <div className="bg-white p-4 border-t border-gray-100 overflow-x-auto scrollbar-hide">
+                                <div className="relative">
+                                    <div className="bg-white p-4 border-t border-gray-100 overflow-x-auto scrollbar-hide">
                                     <div className="flex gap-2 min-w-max">
                                         {property.media.map((item, idx) => (
                                             <button
@@ -152,6 +153,9 @@ export const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({ prop
                                         ))}
                                     </div>
                                 </div>
+                                {/* Scroll Indicator Gradient overlay for mobile/tablet screens */}
+                                <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none z-10 lg:hidden" />
+                            </div>
 
                                 <div className="absolute top-6 left-6 z-10">
                                     <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-sm shadow-md text-white ${property.status === 'sold' ? 'bg-red-600' :

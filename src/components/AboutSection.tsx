@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Home, Calendar, Sun, Building2 } from 'lucide-react';
 import { useTranslation } from '../store/useLanguageStore';
@@ -6,6 +6,13 @@ import { useTranslation } from '../store/useLanguageStore';
 export const AboutSection = () => {
     const { t } = useTranslation();
     const [isHovered, setIsHovered] = useState(false);
+    const [hasHover, setHasHover] = useState(true);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setHasHover(window.matchMedia('(hover: hover)').matches);
+        }
+    }, []);
 
     const services = [
         {
@@ -60,8 +67,8 @@ export const AboutSection = () => {
                     >
                         <div
                             className="relative rounded-2xl overflow-hidden shadow-2xl cursor-pointer"
-                            onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)}
+                            onMouseEnter={() => hasHover && setIsHovered(true)}
+                            onMouseLeave={() => hasHover && setIsHovered(false)}
                         >
                             {/* Image */}
                             <motion.img
@@ -188,6 +195,14 @@ export const AboutSection = () => {
                             viewport={{ once: true }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         >
+                            {/* Mobile-only static badge to display experience on touch screens */}
+                            {!hasHover && (
+                                <div className="lg:hidden mb-8 bg-white/5 border border-white/10 rounded-2xl p-6 flex items-center gap-4 backdrop-blur-md">
+                                    <span className="text-4xl font-serif font-bold text-gold-500 leading-none">{t.about.overlay.number}</span>
+                                    <span className="text-xs tracking-[0.2em] font-medium text-gray-300 uppercase leading-relaxed">{t.about.overlay.tagline}</span>
+                                </div>
+                            )}
+
                             <span className="text-gold-500 uppercase tracking-widest text-sm font-bold mb-4 block">{t.about.label}</span>
                             <h2 className="text-4xl md:text-5xl font-serif text-white mb-8 leading-tight">
                                 Autana Group <span className="text-gold-500 italic">{t.about.title}</span>

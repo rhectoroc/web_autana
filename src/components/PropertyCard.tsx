@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation, EffectFade } from 'swiper/modules';
+import React, { useState, useEffect } from 'react';
 import { Bed, Bath, Car, Maximize, MapPin, Play } from 'lucide-react';
 import type { Property } from '../types/property';
 import { formatCurrency, formatArea, getMediaUrl } from '../utils/format';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-fade';
 import { useTranslation } from '../store/useLanguageStore';
 
 interface PropertyCardProps {
@@ -19,11 +13,24 @@ interface PropertyCardProps {
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick }) => {
     const [isFlipped, setIsFlipped] = useState(false);
-    const [isPlaying, setIsPlaying] = useState<string | number | null>(null);
+    const [hasHover, setHasHover] = useState(true);
     const { t, language } = useTranslation();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setHasHover(window.matchMedia('(hover: hover)').matches);
+        }
+    }, []);
 
     const displayTitle = (language === 'en' && property.title_en) ? property.title_en : property.title;
     const displayDescription = (language === 'en' && property.description_en) ? property.description_en : property.description;
+
+    const coverImage = property.media.find(m => m.type === 'image');
+    const firstMedia = property.media[0];
+    const coverImageUrl = coverImage 
+        ? getMediaUrl(coverImage.url) 
+        : (firstMedia ? getMediaUrl(firstMedia.url) : 'https://placehold.co/600x400/1a1a1a/D4AF37?text=Autana+Group');
+    const hasVideo = property.media.some(m => m.type === 'video');
 
 
     const getTypeLabel = (type: Property['type']) => {
@@ -47,8 +54,8 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
     return (
         <div 
             className="group relative h-[450px] w-full [perspective:1000px]"
-            onMouseEnter={() => setIsFlipped(true)}
-            onMouseLeave={() => setIsFlipped(false)}
+            onMouseEnter={() => hasHover && setIsFlipped(true)}
+            onMouseLeave={() => hasHover && setIsFlipped(false)}
         >
             <motion.div
                 className="relative w-full h-full transition-all duration-500 [transform-style:preserve-3d]"
@@ -57,58 +64,26 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
             >
                 {/* FRONT FACE */}
                 <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-[#050505] rounded-xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
-                    {/* Media Carousel */}
-                    <div className="relative h-64 w-full bg-black/20">
-                        <Swiper
-                            modules={[Pagination, Navigation, EffectFade]}
-                            effect={'fade'}
-                            fadeEffect={{ crossFade: true }}
-                            speed={600}
-                            pagination={{ clickable: true, dynamicBullets: true }}
-                            navigation={{
-                                nextEl: '.swiper-button-next',
-                                prevEl: '.swiper-button-prev',
+                    {/* Cover Image */}
+                    <div onClick={onClick} className="relative h-64 w-full bg-black/20 overflow-hidden cursor-pointer">
+                        <img
+                            src={coverImageUrl}
+                            alt={property.title}
+                            loading="lazy"
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.onerror = null; // Prevent loop
+                                target.src = 'https://placehold.co/600x400/1a1a1a/D4AF37?text=Autana+Group';
                             }}
-                            className="h-full w-full"
-                        >
-                            {property.media.map((item, index) => (
-                                <SwiperSlide key={item.id || index}>
-                                    {item.type === 'video' ? (
-                                        <div className="relative h-full w-full">
-                                            <video
-                                                src={getMediaUrl(item.url)}
-                                                className="h-full w-full object-cover"
-                                                controls={isPlaying === item.id}
-                                                poster={getMediaUrl(property.media.find(m => m.type === 'image')?.url || '')}
-                                                onPlay={() => setIsPlaying(item.id)}
-                                                onPause={() => setIsPlaying(null)}
-                                            />
-                                            {isPlaying !== item.id && (
-                                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                                                    <div className="bg-white/10 p-3 rounded-full backdrop-blur-sm border border-white/20">
-                                                        <Play className="w-6 h-6 text-gold-500 fill-gold-500 ml-1" />
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ) : (
-                                        <div onClick={onClick} className="block h-full w-full cursor-pointer">
-                                            <img
-                                                src={getMediaUrl(item.url)}
-                                                alt={property.title}
-                                                loading="lazy"
-                                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                                onError={(e) => {
-                                                    const target = e.target as HTMLImageElement;
-                                                    target.onerror = null; // Prevent loop
-                                                    target.src = 'https://placehold.co/600x400/1a1a1a/D4AF37?text=Autana+Group';
-                                                }}
-                                            />
-                                        </div>
-                                    )}
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
+                        />
+                        {hasVideo && (
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
+                                <div className="bg-white/10 p-3 rounded-full backdrop-blur-sm border border-white/20">
+                                    <Play className="w-6 h-6 text-gold-500 fill-gold-500 ml-1" />
+                                </div>
+                            </div>
+                        )}
 
                         {/* Mobile Flip Button - Only visible on touch/mobile */}
                         <button

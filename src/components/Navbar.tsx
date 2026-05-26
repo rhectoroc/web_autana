@@ -46,7 +46,7 @@ export const Navbar = () => {
                                 <img
                                     src="/logo/logoOriginal.png"
                                     alt="Autana Group"
-                                    className="h-14 w-auto object-contain transition-all duration-300"
+                                    className="h-10 sm:h-14 w-auto object-contain transition-all duration-300"
                                 />
                             </a>
                         </div>
