@@ -63,7 +63,7 @@ export const ReCAPTCHA: React.FC<ReCAPTCHAProps> = ({ sitekey, onChange }) => {
                 if (window.grecaptcha && window.grecaptcha.render) {
                     clearInterval(checkInterval);
                     renderWidget();
-                } else if (attempts > 50) { // 5 seconds timeout
+                } else if (attempts > 150) { // 15 seconds timeout
                     clearInterval(checkInterval);
                     console.warn('reCAPTCHA failed to load. Ad-blocker might be blocking it.');
                     setLoadError(true);
