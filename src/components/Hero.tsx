@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { PropertySearch } from './PropertySearch';
 import { useTranslation } from '../store/useLanguageStore';
@@ -36,25 +36,26 @@ export const Hero = ({ onSearch }: HeroProps) => {
             {/* Background Slider */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-black/40 z-10" /> 
-                <AnimatePresence initial={false}>
+                {heroImages.map((src, index) => (
                     <motion.div
-                        key={currentIndex}
+                        key={src}
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        animate={{ opacity: index === currentIndex ? 1 : 0 }}
                         transition={{ duration: 2, ease: "easeInOut" }}
-                        className="absolute inset-0"
+                        className="absolute inset-0 pointer-events-none"
                     >
                         <motion.img
-                            src={heroImages[currentIndex]}
+                            src={src}
                             initial={{ scale: 1.1 }}
-                            animate={{ scale: 1 }}
-                            transition={{ duration: 8, ease: "linear" }}
+                            animate={{ scale: index === currentIndex ? 1 : 1.1 }}
+                            transition={{ 
+                                scale: { duration: index === currentIndex ? 8 : 2, ease: index === currentIndex ? "linear" : "easeInOut" } 
+                            }}
                             className="w-full h-full object-cover object-[center_30%]"
-                            alt="Hero Background"
+                            alt={`Hero Background ${index + 1}`}
                         />
                     </motion.div>
-                </AnimatePresence>
+                ))}
             </div>
 
             {/* Content */}

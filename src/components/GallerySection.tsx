@@ -1,12 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ZoomIn } from 'lucide-react';
+import { X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
 
 import { useTranslation } from '../store/useLanguageStore';
 
 export const GallerySection = () => {
-    const [selectedId, setSelectedId] = useState<string | null>(null);
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const { t } = useTranslation();
+
+    const handlePrev = (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        if (selectedIndex !== null) {
+            setSelectedIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev! - 1));
+        }
+    };
+
+    const handleNext = (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        if (selectedIndex !== null) {
+            setSelectedIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev! + 1));
+        }
+    };
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (selectedIndex === null) return;
+            if (e.key === 'ArrowRight') handleNext();
+            if (e.key === 'ArrowLeft') handlePrev();
+            if (e.key === 'Escape') setSelectedIndex(null);
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [selectedIndex]);
 
     const galleryImages = [
         { src: '/gallery/beach.webp', alt: t.gallery.images.beach, span: 'md:col-span-2 md:row-span-1' },
@@ -66,14 +91,13 @@ export const GallerySection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[250px]">
                     {galleryImages.map((item, index) => (
                         <motion.div
-                            layoutId={`card-${index}`}
                             key={index}
                             className={`relative group overflow-hidden rounded-xl cursor-pointer ${item.span}`}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.6, delay: index * 0.05, ease: "easeOut" }}
-                            onClick={() => setSelectedId(index.toString())}
+                            onClick={() => setSelectedIndex(index)}
                         >
                             <motion.img
                                 src={item.src}
@@ -104,37 +128,72 @@ export const GallerySection = () => {
 
             {/* Lightbox Modal */}
             <AnimatePresence>
-                {selectedId !== null && (
+                {selectedIndex !== null && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 md:p-10"
-                        onClick={() => setSelectedId(null)}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-10"
+                        onClick={() => setSelectedIndex(null)}
                     >
-                        <motion.button
-                            className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors p-2 bg-white/10 rounded-full"
-                            onClick={() => setSelectedId(null)}
-                            whileHover={{ scale: 1.1, rotate: 90 }}
+                        {/* Close Button */}
+                        <button
+                            className="absolute top-6 right-6 z-[60] text-white/60 hover:text-white transition-all p-2.5 bg-white/10 hover:bg-white/20 active:scale-90 rounded-full shadow-lg"
+                            onClick={() => setSelectedIndex(null)}
+                            aria-label="Close gallery"
                         >
-                            <X className="w-8 h-8" />
-                        </motion.button>
+                            <X className="w-6 h-6 md:w-8 md:h-8" />
+                        </button>
 
+                        {/* Navigation Chevrons */}
+                        <button
+                            onClick={handlePrev}
+                            className="absolute left-4 md:left-8 z-[60] bg-black/50 hover:bg-gold-500/80 text-white p-3 rounded-full border border-white/10 hover:border-gold-500 transition-all shadow-lg active:scale-95"
+                            aria-label="Previous image"
+                        >
+                            <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+                        </button>
+
+                        <button
+                            onClick={handleNext}
+                            className="absolute right-4 md:right-8 z-[60] bg-black/50 hover:bg-gold-500/80 text-white p-3 rounded-full border border-white/10 hover:border-gold-500 transition-all shadow-lg active:scale-95"
+                            aria-label="Next image"
+                        >
+                            <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+                        </button>
+
+                        {/* Centered Lightbox Container */}
                         <motion.div
-                            layoutId={`card-${selectedId}`}
-                            className="relative max-w-7xl max-h-[90vh] rounded-lg overflow-hidden shadow-2xl"
-                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: "spring", damping: 28, stiffness: 220 }}
+                            className="relative max-w-5xl max-h-[80vh] w-full mx-auto rounded-xl overflow-hidden shadow-2xl flex flex-col items-center justify-center"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <img
-                                src={galleryImages[parseInt(selectedId)].src}
-                                alt={galleryImages[parseInt(selectedId)].alt}
-                                className="w-full h-full object-contain max-h-[85vh] rounded-md"
-                            />
-                            <div className="absolute bottom-4 left-0 right-0 text-center">
-                                <h3 className="text-white font-serif text-2xl drop-shadow-lg">
-                                    {galleryImages[parseInt(selectedId)].alt}
+                            <div className="relative flex items-center justify-center w-full">
+                                <AnimatePresence mode="wait">
+                                    <motion.img
+                                        key={selectedIndex}
+                                        src={galleryImages[selectedIndex].src}
+                                        alt={galleryImages[selectedIndex].alt}
+                                        initial={{ opacity: 0, x: 15 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -15 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="max-w-full max-h-[70vh] md:max-h-[75vh] object-contain rounded-md select-none pointer-events-none"
+                                    />
+                                </AnimatePresence>
+                            </div>
+
+                            {/* Label */}
+                            <div className="mt-4 text-center px-4">
+                                <h3 className="text-white font-serif text-xl md:text-2xl drop-shadow-md">
+                                    {galleryImages[selectedIndex].alt}
                                 </h3>
+                                <p className="text-gray-400 text-xs md:text-sm mt-1 uppercase tracking-wider">
+                                    {selectedIndex + 1} / {galleryImages.length}
+                                </p>
                             </div>
                         </motion.div>
                     </motion.div>
