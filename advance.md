@@ -1,5 +1,17 @@
 # Autana Luxury Web - Registro de Avances
 
+## Fecha: 26 de Mayo, 2026
+
+### 🛡️ Integración Definitiva de reCAPTCHA
+- **Solución a Bloqueos de CSP (Content Security Policy)**:
+    - Se actualizaron las cabeceras de Content Security Policy en `nginx.conf` para permitir la carga y ejecución segura de scripts, marcos iframe y conexiones desde los dominios oficiales de Google reCAPTCHA (`https://www.google.com`, `https://www.gstatic.com`, `https://recaptcha.google.com`).
+- **Corrección de Error de Doble Renderizado**:
+    - Se corrigió el error en consola *"reCAPTCHA has already been rendered in this element"* que bloqueaba el formulario. Se logró estabilizando la referencia de la callback `onChange` utilizando `useRef` dentro del componente `ReCAPTCHA.tsx` y previniendo la reinicialización involuntaria del widget al re-renderizar el modal.
+- **Clave Pública de Producción por Defecto**:
+    - Se configuró la clave pública de producción real (`6Legwv0sAAAAAG8pFd7VdMrPvIJodmLZ4wY2O_LK`) como valor de respaldo (fallback) en `BookingModal.tsx`. Esto evita depender de la inyección de variables de entorno `VITE_` durante el paso de compilación Docker en Easypanel, eliminando de forma definitiva el aviso rojo de pruebas de Google.
+
+---
+
 ## Fecha: 25 de Mayo, 2026
 
 ### 🚀 Optimización de Rendimiento y Carga Rápida
