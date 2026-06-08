@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { PropertySearch } from './PropertySearch';
 import { useTranslation } from '../store/useLanguageStore';
@@ -19,16 +19,21 @@ export const Hero = ({ onSearch }: HeroProps) => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        // Robust Image Preloading for all devices
-        heroImages.forEach((src) => {
-            const img = new Image();
-            img.src = src;
-        });
+        // Defer preloading of second and third hero images to avoid network contention during initial load
+        const preloadTimer = setTimeout(() => {
+            heroImages.slice(1).forEach((src) => {
+                const img = new Image();
+                img.src = src;
+            });
+        }, 3500); // 3.5s delay is plenty for FCP/LCP to stabilize
 
         const timer = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % heroImages.length);
         }, 6000); // Slightly slower for a more relaxed feel
-        return () => clearInterval(timer);
+        return () => {
+            clearTimeout(preloadTimer);
+            clearInterval(timer);
+        };
     }, []);
 
     return (
@@ -36,26 +41,27 @@ export const Hero = ({ onSearch }: HeroProps) => {
             {/* Background Slider */}
             <div className="absolute inset-0 z-0">
                 <div className="absolute inset-0 bg-black/40 z-10" /> 
-                {heroImages.map((src, index) => (
+                <AnimatePresence initial={false}>
                     <motion.div
-                        key={src}
+                        key={currentIndex}
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: index === currentIndex ? 1 : 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 2, ease: "easeInOut" }}
                         className="absolute inset-0 pointer-events-none"
                     >
                         <motion.img
-                            src={src}
+                            src={heroImages[currentIndex]}
                             initial={{ scale: 1.1 }}
-                            animate={{ scale: index === currentIndex ? 1 : 1.1 }}
+                            animate={{ scale: 1 }}
                             transition={{ 
-                                scale: { duration: index === currentIndex ? 8 : 2, ease: index === currentIndex ? "linear" : "easeInOut" } 
+                                scale: { duration: 8, ease: "linear" } 
                             }}
                             className="w-full h-full object-cover object-[center_30%]"
-                            alt={`Hero Background ${index + 1}`}
+                            alt={`Hero Background ${currentIndex + 1}`}
                         />
                     </motion.div>
-                ))}
+                </AnimatePresence>
             </div>
 
             {/* Content */}
