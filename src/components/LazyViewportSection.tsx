@@ -29,7 +29,7 @@ export const LazyViewportSection: React.FC<LazyViewportSectionProps> = ({
                 }
             },
             {
-                rootMargin: '200px 0px', // Starts loading when 200px away from the viewport
+                rootMargin: '0px 0px -50px 0px', // Contract the bottom boundary to prevent trigger on page load
             }
         );
 

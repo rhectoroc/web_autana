@@ -21,7 +21,8 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
     const [selectedProperty, setSelectedProperty] = useState<any | null>(null);
     const [properties, setProperties] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const { t } = useTranslation();
+    const [visibleCount, setVisibleCount] = useState(6);
+    const { t, language } = useTranslation();
 
     // Sync activeFilter with prop filters if present
     useEffect(() => {
@@ -29,6 +30,11 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
             setActiveFilter(filters.type);
         }
     }, [filters]);
+
+    // Reset visible count when active filter or search terms change
+    useEffect(() => {
+        setVisibleCount(6);
+    }, [activeFilter, filters]);
 
     useEffect(() => {
         const fetchProperties = async () => {
@@ -158,7 +164,7 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[500px]"
             >
                 <AnimatePresence mode="popLayout">
-                    {filteredProperties.map((property) => (
+                    {filteredProperties.slice(0, visibleCount).map((property) => (
                         <motion.div
                             key={property.id}
                             layout
@@ -175,6 +181,17 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
                     ))}
                 </AnimatePresence>
             </motion.div>
+
+            {filteredProperties.length > visibleCount && (
+                <div className="mt-12 flex justify-center">
+                    <button
+                        onClick={() => setVisibleCount(prev => prev + 6)}
+                        className="bg-transparent hover:bg-gold-500 text-gold-500 hover:text-black border border-gold-500 px-8 py-3.5 rounded-sm font-bold transition-all uppercase tracking-widest text-xs cursor-pointer hover:shadow-lg hover:shadow-gold-500/20 active:scale-95 duration-300"
+                    >
+                        {language === 'en' ? 'Load More Properties' : 'Cargar más propiedades'}
+                    </button>
+                </div>
+            )}
 
             {filteredProperties.length === 0 && (
                 <div className="py-20 text-center">
