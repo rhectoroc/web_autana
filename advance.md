@@ -1,5 +1,16 @@
 # Autana Luxury Web - Registro de Avances
 
+## Fecha: 8 de Junio, 2026
+
+### 🚀 Optimización de Rendimiento de Carga (Segunda Fase - PageSpeed)
+- **Carga Asíncrona de Fuentes (index.html)**: Reemplazo del enlace bloqueante de Google Fonts por un patrón asíncrono no bloqueante (`preload` y fallback `<noscript>`), reduciendo el tiempo de primer pintado (FCP).
+- **Slider del Hero con Carga Secuencial (Hero.tsx)**: Implementación de `AnimatePresence` para renderizar únicamente la imagen activa del slider en el DOM. Además, se configuró un retraso de 3.5 segundos antes de precargar las imágenes secundarias del slider, eliminando la concurrencia de red y acelerando la carga de la primera imagen (LCP).
+- **Carga Modulada en Scroll (LazyViewportSection.tsx & Home.tsx)**: Creación de un wrapper utilizando `IntersectionObserver` con un margen inferior negativo de `-50px`. Esto evita que las secciones ubicadas justo debajo de los `100vh` de la pantalla móvil (como la de propiedades o la de video con sus 6.7 MB) se monten o descarguen inmediatamente al cargar la página.
+- **Límite de Portada de Tarjetas (PropertiesSection.tsx)**: Limitación del grid principal de propiedades a 6 elementos por defecto, agregando un botón elegante de "Cargar más propiedades" / "Load More Properties". Esto previene la descarga simultánea de múltiples imágenes de tarjetas en la primera carga móvil.
+- **Compresión de Imágenes Estáticas**: Optimización masiva de todas las imágenes de la galería (ancho máx. 1200px) y el slider (ancho máx. 1600px) con la librería `sharp`, comprimiéndolas en WebP al 80% de calidad. Esto redujo el peso en disco entre un **40% y 47%** en promedio (ej. `fauna.webp` bajó de 995 KB a 657 KB) sin pérdida visual perceptible.
+
+---
+
 ## Fecha: 26 de Mayo, 2026
 
 ### 🛡️ Integración Definitiva de reCAPTCHA
