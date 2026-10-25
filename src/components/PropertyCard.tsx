@@ -66,23 +66,28 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                 <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-[#050505] rounded-xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
                     {/* Cover Image */}
                     <div onClick={onClick} className="relative h-64 w-full bg-black/20 overflow-hidden cursor-pointer">
-                        <img
-                            src={coverImageUrl}
-                            alt={property.title}
-                            loading="lazy"
-                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.onerror = null; // Prevent loop
-                                target.src = 'https://placehold.co/600x400/1a1a1a/D4AF37?text=Autana+Group';
-                            }}
-                        />
-                        {hasVideo && (
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                                <div className="bg-white/10 p-3 rounded-full backdrop-blur-sm border border-white/20">
-                                    <Play className="w-6 h-6 text-gold-500 fill-gold-500 ml-1" />
-                                </div>
-                            </div>
+                        {hasVideo && property.media.find(m => m.type === 'video') ? (
+                            <video
+                                src={getMediaUrl(property.media.find(m => m.type === 'video')!.url)}
+                                poster={coverImageUrl}
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
+                        ) : (
+                            <img
+                                src={coverImageUrl}
+                                alt={property.title}
+                                loading="lazy"
+                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.onerror = null; // Prevent loop
+                                    target.src = 'https://placehold.co/600x400/1a1a1a/D4AF37?text=Autana+Group';
+                                }}
+                            />
                         )}
 
                         {/* Mobile Flip Button - Only visible on touch/mobile */}
