@@ -9,11 +9,14 @@ import { useTranslation } from '../store/useLanguageStore';
 interface PropertyCardProps {
     property: Property;
     onClick?: () => void;
+    priority?: boolean;
 }
 
-export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick }) => {
+export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick, priority = false }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [hasHover, setHasHover] = useState(true);
+    const [isInView, setIsInView] = useState(false);
+    const cardRef = React.useRef<HTMLDivElement>(null);
     const { t, language } = useTranslation();
 
     useEffect(() => {
@@ -22,16 +25,32 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
         }
     }, []);
 
+    // IntersectionObserver to only load/play video when card enters viewport
+    useEffect(() => {
+        if (!cardRef.current) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsInView(entry.isIntersecting);
+            },
+            { rootMargin: '150px' } // Pre-load slightly before scrolling into view
+        );
+        observer.observe(cardRef.current);
+        return () => observer.disconnect();
+    }, []);
+
     const displayTitle = (language === 'en' && property.title_en) ? property.title_en : property.title;
     const displayDescription = (language === 'en' && property.description_en) ? property.description_en : property.description;
 
-    const coverImage = property.media.find(m => m.type === 'image');
+    // Prioritize image marked as main, or fallback to first image or media
+    const mainCover = property.media.find(m => m.type === 'image' && m.is_main);
+    const firstImage = property.media.find(m => m.type === 'image');
     const firstMedia = property.media[0];
+    const coverImage = mainCover || firstImage || firstMedia;
     const coverImageUrl = coverImage 
         ? getMediaUrl(coverImage.url) 
-        : (firstMedia ? getMediaUrl(firstMedia.url) : 'https://placehold.co/600x400/1a1a1a/D4AF37?text=Autana+Group');
-    const hasVideo = property.media.some(m => m.type === 'video');
-
+        : 'https://placehold.co/600x400/1a1a1a/D4AF37?text=Autana+Group';
+    const videoMedia = property.media.find(m => m.type === 'video');
+    const hasVideo = !!videoMedia;
 
     const getTypeLabel = (type: Property['type']) => {
         switch (type) {
@@ -53,6 +72,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
 
     return (
         <div 
+            ref={cardRef}
             className="group relative h-[450px] w-full [perspective:1000px]"
             onMouseEnter={() => hasHover && setIsFlipped(true)}
             onMouseLeave={() => hasHover && setIsFlipped(false)}
@@ -64,17 +84,18 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
             >
                 {/* FRONT FACE */}
                 <div className="absolute inset-0 w-full h-full [backface-visibility:hidden] bg-[#050505] rounded-xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
-                    {/* Cover Image */}
-                    <div onClick={onClick} className="relative h-64 w-full bg-black/20 overflow-hidden cursor-pointer">
-                        {hasVideo && property.media.find(m => m.type === 'video') ? (
+                    {/* Media Container (16:9 fixed ratio for 0 CLS) */}
+                    <div onClick={onClick} className="relative h-64 w-full bg-black/40 overflow-hidden cursor-pointer select-none">
+                        {hasVideo && videoMedia && isInView ? (
                             <div className="relative h-full w-full select-none">
                                 <video
-                                    src={getMediaUrl(property.media.find(m => m.type === 'video')!.url)}
+                                    src={getMediaUrl(videoMedia.url)}
                                     poster={coverImageUrl}
                                     autoPlay
                                     muted
                                     loop
                                     playsInline
+                                    preload="metadata"
                                     controls={false}
                                     controlsList="nodownload nofullscreen noremoteplayback"
                                     disablePictureInPicture
@@ -92,7 +113,11 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                             <img
                                 src={coverImageUrl}
                                 alt={property.title}
-                                loading="lazy"
+                                loading={priority ? "eager" : "lazy"}
+                                fetchPriority={priority ? "high" : "auto"}
+                                decoding="async"
+                                width="400"
+                                height="256"
                                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 onError={(e) => {
                                     const target = e.target as HTMLImageElement;

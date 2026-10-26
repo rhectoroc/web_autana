@@ -164,7 +164,7 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[500px]"
             >
                 <AnimatePresence mode="popLayout">
-                    {filteredProperties.slice(0, visibleCount).map((property) => (
+                    {filteredProperties.slice(0, visibleCount).map((property, index) => (
                         <motion.div
                             key={property.id}
                             layout
@@ -175,6 +175,7 @@ export const PropertiesSection = ({ filters }: PropertiesSectionProps) => {
                         >
                             <PropertyCard
                                 property={property}
+                                priority={index < 3}
                                 onClick={() => setSelectedProperty(property)}
                             />
                         </motion.div>
