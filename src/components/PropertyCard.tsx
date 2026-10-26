@@ -67,15 +67,27 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property, onClick })
                     {/* Cover Image */}
                     <div onClick={onClick} className="relative h-64 w-full bg-black/20 overflow-hidden cursor-pointer">
                         {hasVideo && property.media.find(m => m.type === 'video') ? (
-                            <video
-                                src={getMediaUrl(property.media.find(m => m.type === 'video')!.url)}
-                                poster={coverImageUrl}
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            />
+                            <div className="relative h-full w-full select-none">
+                                <video
+                                    src={getMediaUrl(property.media.find(m => m.type === 'video')!.url)}
+                                    poster={coverImageUrl}
+                                    autoPlay
+                                    muted
+                                    loop
+                                    playsInline
+                                    controls={false}
+                                    controlsList="nodownload nofullscreen noremoteplayback"
+                                    disablePictureInPicture
+                                    onContextMenu={(e) => e.preventDefault()}
+                                    className="h-full w-full object-cover pointer-events-none transition-transform duration-700 group-hover:scale-105"
+                                />
+                                {/* Overlay protection to prevent right-click save */}
+                                <div 
+                                    className="absolute inset-0 z-10" 
+                                    onContextMenu={(e) => e.preventDefault()}
+                                    onClick={onClick}
+                                />
+                            </div>
                         ) : (
                             <img
                                 src={coverImageUrl}
