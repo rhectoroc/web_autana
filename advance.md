@@ -1,5 +1,35 @@
 # Autana Luxury Web - Registro de Avances
 
+## Fecha: 25 de Octubre, 2026 (Sesión de Optimización y Rendimiento)
+
+### 🚀 Optimización Extrema de Carga de Tarjetas de Propiedades (`PropertyCard.tsx` y `PropertiesSection.tsx`)
+- **Carga de Video Inteligente con `IntersectionObserver`**:
+  - Eliminación de la descarga concurrente masiva de videos. El elemento `<video>` de la portada de la tarjeta solo se monta y reproduce cuando la tarjeta entra al campo visual del usuario (`rootMargin: '150px'`), evitando saturar el ancho de banda del cliente.
+  - Implementación de `preload="metadata"` y modo silencioso para reproducción fluida e inmediata.
+- **Priorización de Carga LCP (*Largest Contentful Paint*)**:
+  - Las primeras 3 tarjetas de propiedades (*above-the-fold*) reciben automáticamente `priority={true}` con atributos nativos `loading="eager"`, `fetchPriority="high"` y `decoding="async"`.
+  - Las tarjetas subsiguientes conservan `loading="lazy"`.
+- **Eliminación Total de Salto de Contenido (CLS = 0)**:
+  - Adición de dimensiones explícitas (`width="400" height="256"`) con contenedor en proporción de aspecto 16:9 fija, eliminando recálculos de reflujo (*reflow*) en el navegador.
+- **Selección Precisa de Portada**:
+  - Lógica para priorizar la imagen explícitamente marcada como `is_main: true` antes de hacer fallback a la primera imagen o medio disponible.
+
+### 🖼️ Corrección y Aceleración de Video en Modal de Detalles (`PropertyDetailsModal.tsx`)
+- **Resolución de Miniatura Rota de Video**:
+  - Se corrigió la ruta de la miniatura del video en el carrusel de galería inferior, envolviéndola con `getMediaUrl()`. Anteriormente, buscaba rutas relativas `/uploads/...` en el dominio de frontend provocando el ícono de imagen rota (`Thumb 10`).
+  - Fallback elegante con `onError` e insignia dorada de reproducción de video en la miniatura.
+- **Reproducción y Precarga Instantánea del Video**:
+  - Asignación de la imagen de portada de la propiedad como `poster` del `<video>` en el modal, eliminando la pantalla negra y el spinner de carga inicial mientras se almacena el búfer.
+  - Configuración de `preload="auto"` y atributos de protección anticopia (`controlsList="nodownload nofullscreen noremoteplayback"`).
+
+### 🐳 Despliegue y Corrección de Compilación en Docker (Easypanel)
+- **Habilitación de Builds Nativos de PNPM**:
+  - Inclusión de `pnpm-workspace.yaml` en el paso `COPY` de `Dockerfile` para permitir la compilación nativa de `sharp` y `esbuild` sin el error `ERR_PNPM_IGNORED_BUILDS`.
+- **Limpieza de Tipado TypeScript**:
+  - Eliminación del import no utilizado `Play` en `PropertyCard.tsx` (`error TS6133`), garantizando compilaciones limpias con código de salida 0 en producción.
+
+---
+
 ## Fecha: 8 de Junio, 2026
 
 ### 🚀 Optimización de Rendimiento de Carga (Segunda Fase - PageSpeed)
