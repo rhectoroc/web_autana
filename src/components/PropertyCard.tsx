@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bed, Bath, Car, Maximize, MapPin, Play } from 'lucide-react';
+import { Bed, Bath, Car, Maximize, MapPin } from 'lucide-react';
 import type { Property } from '../types/property';
 import { formatCurrency, formatArea, getMediaUrl } from '../utils/format';
 import { motion } from 'framer-motion';
