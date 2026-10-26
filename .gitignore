@@ -14,6 +14,9 @@ dist-ssr
 *.local
 .env
 .env.*
+advance.md
+skills.md
+build_log.txt
 
 
 # Editor directories and files
